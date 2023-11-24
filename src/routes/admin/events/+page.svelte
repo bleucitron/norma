@@ -12,7 +12,6 @@
 </script>
 
 <svelte:head>
-	<link rel="stylesheet" href="../node_modules/svelte-material-ui/bare.css" />
 </svelte:head>
 
 <h1>Vos événements</h1>
