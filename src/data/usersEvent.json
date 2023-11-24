@@ -1,0 +1,88 @@
+{
+    "users": [
+        {
+            "lastname": "Doe",
+            "firstname": "John",
+            "role": "Leader",
+            "state": "Inscrit"
+        },
+        {
+            "lastname": "Smith",
+            "firstname": "Jane",
+            "role": "Suiveur",
+            "state": "Inscrit"
+        },
+        {
+            "lastname": "Johnson",
+            "firstname": "Robert",
+            "role": "Leader",
+            "state": "Inscrit"
+        },
+        {
+            "lastname": "Brown",
+            "firstname": "Emily",
+            "role": "Suiveur",
+            "state": "En attente"
+        },
+        {
+            "lastname": "Davis",
+            "firstname": "Michael",
+            "role": "Leader",
+            "state": "Inscrit"
+        },
+        {
+            "lastname": "Wilson",
+            "firstname": "Jennifer",
+            "role": "Suiveur",
+            "state": "En attente"
+        },
+        {
+            "lastname": "Martinez",
+            "firstname": "William",
+            "role": "Leader",
+            "state": "Inscrit"
+        },
+        {
+            "lastname": "Anderson",
+            "firstname": "Sarah",
+            "role": "Suiveur",
+            "state": "En attente"
+        },
+        {
+            "lastname": "Garcia",
+            "firstname": "James",
+            "role": "Leader",
+            "state": "Inscrit"
+        },
+        {
+            "lastname": "Taylor",
+            "firstname": "Linda",
+            "role": "Suiveur",
+            "state": "En attente"
+        },
+        {
+            "lastname": "Hernandez",
+            "firstname": "Daniel",
+            "role": "Leader",
+            "state": "Inscrit"
+        },
+        {
+            "lastname": "White",
+            "firstname": "Mary",
+            "role": "Suiveur",
+            "state": "En attente"
+        },
+        {
+            "lastname": "Jackson",
+            "firstname": "Christopher",
+            "role": "Leader",
+            "state": "Inscrit"
+        },
+        {
+            "lastname": "Thomas",
+            "firstname": "Patricia",
+            "role": "Suiveur",
+            "state": "En attente"
+        }
+    ]
+}
