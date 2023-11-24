@@ -8,14 +8,14 @@
 			tincidunt magna. Quam vel nunc ultrices sagittis sit pharetra.
 		</p>
 
-		<button class="HaAuthorizeButton">
+		<a href="/admin/events" class="HaAuthorizeButton">
 			<img
 				src="https://api.helloasso.com/v5/DocAssets/logo-ha.svg"
 				alt="Logo HelloAsso"
 				class="HaAuthorizeButtonLogo"
 			/>
 			<span class="HaAuthorizeButtonTitle">Connecter à HelloAsso</span>
-		</button>
+		</a>
 	</div>
 </main>
 
