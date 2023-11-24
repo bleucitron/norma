@@ -27,7 +27,9 @@
 				</Content>
 				<Actions>
 					<ActionButtons>
-						<Button variant="raised">Voir les participants</Button>
+						<Button href="/admin/events/{event.id}/users" variant="raised"
+							>Voir les participants</Button
+						>
 						<Button variant="raised">Gérer</Button>
 					</ActionButtons>
 				</Actions>
