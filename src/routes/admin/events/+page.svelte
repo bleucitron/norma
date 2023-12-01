@@ -1,6 +1,6 @@
 <script>
-	import Button, { Label } from '@smui/button';
-	import Card, { Content, PrimaryAction, Actions, ActionButtons, ActionIcons } from '@smui/card';
+	import Button from '@smui/button';
+	import Card, { Content, Actions, ActionButtons } from '@smui/card';
 
 	let data = [
 		{
