@@ -3,7 +3,6 @@
 	import Card, { Content, Actions, ActionButtons } from '@smui/card';
 
 	export let data;
-	console.log(data);
 </script>
 
 <header>
@@ -13,7 +12,7 @@
 <h1>Norma</h1>
 
 <ul class="events-list">
-	{#each data as event}
+	{#each data.data as event}
 		<li class="event">
 			<Card>
 				<Content>
