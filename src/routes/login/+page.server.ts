@@ -16,36 +16,37 @@ export const actions = {
 			});
 		}
 
-    const { data, error } = await supabase.auth.signInWithPassword({
-			email: email as string,
-			password: password as string,
-		});
+	const { data, error } = await supabase.auth.signInWithPassword({
+		email: email as string,
+		password: password as string,
+	});
 
-		if (error || !data.session) {
-			if (error && error.message === 'Invalid login credentials') {
-				return fail(400, {
-					error: 'Identifiants incorrects',
-					email,
-					password,
-				});
-			}
-
+	if (error || !data.session) {
+		if (error && error.message === 'Invalid login credentials') {
 			return fail(400, {
-				error: 'Une erreur est survenue',
+				error: 'Identifiants incorrects',
 				email,
 				password,
 			});
 		}
 
-		const { access_token, refresh_token, provider_token, provider_refresh_token } =
-			data.session as AuthSession;
+		return fail(400, {
+			error: 'Une erreur est survenue',
+			email,
+			password,
+		});
+	}
 
-		cookies.set(
-			'supabase-auth-token',
-			JSON.stringify([access_token, refresh_token, provider_token, provider_refresh_token]),
-		);
+	const { access_token, refresh_token, provider_token, provider_refresh_token } =
+		data.session as AuthSession;
 
-		throw redirect(302, '/?notification=auth:success');
+	cookies.set(
+		'supabase-auth-token',
+		JSON.stringify([access_token, refresh_token, provider_token, provider_refresh_token]),
+	);
+
+    //TODO: Implémenter la modal de succés
+	throw redirect(302, '/?notification=auth:success');
 
   },
 }
