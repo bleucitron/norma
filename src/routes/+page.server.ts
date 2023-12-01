@@ -8,5 +8,5 @@ export async function load({ fetch }) {
             authorization: 'Bearer ' + get(access_token)
         }
     }).then(resp => resp.json())
-    return events
+    return events.data
 }
