@@ -6,5 +6,5 @@
 <form method="post" use:enhance>
   <input name="email" value={form?.email ?? ''} />
   <input type="password" name="password" />
-  <button>Login</button>
+  <button>Sign up</button>
 </form>
