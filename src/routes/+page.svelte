@@ -2,13 +2,16 @@
 	import Button from '@smui/button';
 	import Card, { Content, Actions, ActionButtons } from '@smui/card';
 
-	let data = [
+	let datas = [
 		{
 			id: 1,
 			name: "Nom de l'evenement",
 			img: 'https://images.musement.com/cover/0001/100/predator-v5-jpg_header-99107.jpeg'
 		}
 	];
+
+	export let data;
+	console.log(data);
 </script>
 
 <header>
@@ -18,7 +21,7 @@
 <h1>Norma</h1>
 
 <ul class="events-list">
-	{#each data as event}
+	{#each datas as event}
 		<li class="event">
 			<Card>
 				<Content>
