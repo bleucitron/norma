@@ -1,9 +1,10 @@
 import { PUBLIC_SUPABASE_URL, PUBLIC_SUPABASE_ANON_KEY } from '$env/static/public'
 import { createSupabaseServerClient } from '@supabase/auth-helpers-sveltekit'
 import type { Handle } from '@sveltejs/kit'
+import { access_token } from "$lib/server/accessToken";
 import { generateToken, refreshToken } from "$lib/server/token"
 
-let access_token = '';
+
 let refresh_token = '';
 
 export const handle: Handle = async ({ event, resolve }) => {
@@ -21,7 +22,7 @@ export const handle: Handle = async ({ event, resolve }) => {
     }
     let token = await ((!access_token || !refresh_token) ? generateToken() : refreshToken(refresh_token));
 
-    access_token = token.access_token
+    access_token.set(token.access_token)
     refresh_token = token.refresh_token
 
     return resolve(event, {

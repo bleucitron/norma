@@ -11,7 +11,7 @@
 	];
 
 	export let data;
-	console.log(data);
+	console.log(data.data);
 </script>
 
 <header>
@@ -21,12 +21,12 @@
 <h1>Norma</h1>
 
 <ul class="events-list">
-	{#each datas as event}
+	{#each data.data as event}
 		<li class="event">
 			<Card>
 				<Content>
-					<img src={event.img} alt={event.name} class="event-img" />
-					<h2>{event.name}</h2>
+					<img src={event.widgetVignetteHorizontalUrl} alt={event.title} class="event-img" />
+					<h2>{event.title}</h2>
 				</Content>
 				<Actions>
 					<ActionButtons>
