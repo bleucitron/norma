@@ -24,6 +24,39 @@ export interface Database {
         }
         Relationships: []
       }
+      dancers: {
+        Row: {
+          created_at: string
+          email: string
+          firstname: string
+          id: number
+          lastname: string
+          password: string | null
+          role: string | null
+          state: string | null
+        }
+        Insert: {
+          created_at?: string
+          email: string
+          firstname?: string
+          id?: number
+          lastname?: string
+          password?: string | null
+          role?: string | null
+          state?: string | null
+        }
+        Update: {
+          created_at?: string
+          email?: string
+          firstname?: string
+          id?: number
+          lastname?: string
+          password?: string | null
+          role?: string | null
+          state?: string | null
+        }
+        Relationships: []
+      }
       profiles: {
         Row: {
           avatar_url: string | null
