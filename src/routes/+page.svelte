@@ -1,13 +1,8 @@
 <script>
 	import Button from '@smui/button';
 	import Card, { Content, Actions, ActionButtons } from '@smui/card';
-
 	export let data;
 </script>
-
-<header>
-	<a href="/admin/login">Administration</a>
-</header>
 
 <h1>Norma</h1>
 
@@ -16,7 +11,7 @@
 		<li class="event">
 			<Card>
 				<Content>
-					<img src={event.widgetVignetteHorizontalUrl} alt={event.title} class="event-img" />
+					<!-- <img src={event.widgetVignetteHorizontalUrl} alt={event.title} class="event-img" /> -->
 					<h2>{event.title}</h2>
 				</Content>
 				<Actions>
