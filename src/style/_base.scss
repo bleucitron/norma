@@ -23,3 +23,12 @@ ul {
     list-style-type: none;
     padding: 0;
 }
+
+a {
+    text-decoration: none;
+}
+
+a,
+a:visited {
+    color: $color1;
+}

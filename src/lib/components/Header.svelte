@@ -12,8 +12,10 @@
 </script>
 
 <header>
-	{#if user}
-		<p>{user.email}</p>
-		<Button on:click={logout}>Déconnexion</Button>
-	{/if}
+	<div class="container">
+		<a href="/" class="header__logo">Norma</a>
+		{#if user}
+			<Button on:click={logout}>Déconnexion</Button>
+		{/if}
+	</div>
 </header>
