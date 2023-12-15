@@ -9,7 +9,7 @@
 	$: ({ supabase } = data);
 	$: user = data.user;
 
-	onMount(async () => {
+	onMount(() => {
 		const {
 			data: { subscription }
 		} = supabase.auth.onAuthStateChange((event, _session) => {
