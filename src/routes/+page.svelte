@@ -1,13 +1,8 @@
 <script>
 	import Button from '@smui/button';
 	import Card, { Content, Actions, ActionButtons } from '@smui/card';
-
 	export let data;
 </script>
-
-<header>
-	<a href="/admin/login">Administration</a>
-</header>
 
 <h1>Norma</h1>
 
