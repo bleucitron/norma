@@ -8,7 +8,9 @@
 <Card>
 	<Content>
 		<h1>{data.title}</h1>
-		<img src={data.logo.publicUrl} alt={`Logo de ${data.title}`} />
+		{#if data.logo}
+			<img src={data.logo.publicUrl} alt={`Logo de ${data.title}`} />
+		{/if}
 		<p>Type de l'événement : {data.activityType}</p>
 		<p>{data.description}</p>
 		<h2>Prix :</h2>
