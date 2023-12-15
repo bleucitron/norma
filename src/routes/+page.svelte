@@ -11,12 +11,16 @@
 		<li class="event">
 			<Card>
 				<Content>
-					<!-- <img src={event.widgetVignetteHorizontalUrl} alt={event.title} class="event-img" /> -->
+					{#if event.logo}<img
+							src={event.logo.publicUrl}
+							alt={event.title}
+							class="event-img"
+						/>{/if}
 					<h2>{event.title}</h2>
 				</Content>
 				<Actions>
 					<ActionButtons>
-						<Button href="/events/{event.id}" variant="raised">Voir</Button>
+						<Button href="/events/{event.formSlug}" variant="raised">Voir</Button>
 					</ActionButtons>
 				</Actions>
 			</Card>
