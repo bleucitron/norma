@@ -1,28 +1,24 @@
 <script>
 	import Button from '@smui/button';
 	import Card, { Content, Actions, ActionButtons } from '@smui/card';
-
-	let data = [
-		{
-			id: 1,
-			name: "Nom de l'evenement",
-			img: 'https://images.musement.com/cover/0001/100/predator-v5-jpg_header-99107.jpeg'
-		}
-	];
+	export let data;
 </script>
 
-<svelte:head>
-</svelte:head>
+<svelte:head></svelte:head>
 
 <h1>Vos événements</h1>
 
 <ul class="events-list">
-	{#each data as event}
+	{#each data.data as event}
 		<li class="event">
 			<Card>
-				<Content>
-					<img src={event.img} alt={event.name} class="event-img" />
-					<h2>{event.name}</h2>
+				<Content
+					>{#if event.logo}<img
+							src={event.logo.publicUrl}
+							alt={event.title}
+							class="event-img"
+						/>{/if}
+					<h2>{event.title}</h2>
 				</Content>
 				<Actions>
 					<ActionButtons>
