@@ -1,0 +1,25 @@
+body,
+html {
+    font-size: 62.5%;
+    scroll-behavior: smooth;
+    width: 100%;
+    overflow-x: hidden;
+    margin: 0;
+}
+
+body {
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+}
+
+*,
+:after,
+:before {
+    box-sizing: border-box;
+    margin: 0;
+}
+
+ul {
+    list-style-type: none;
+    padding: 0;
+}
