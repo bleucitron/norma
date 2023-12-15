@@ -16,7 +16,11 @@
 		<li class="event">
 			<Card>
 				<Content>
-					<img src={event.widgetVignetteHorizontalUrl} alt={event.title} class="event-img" />
+					{#if event.logo}<img
+							src={event.logo.publicUrl}
+							alt={event.title}
+							class="event-img"
+						/>{/if}
 					<h2>{event.title}</h2>
 				</Content>
 				<Actions>
