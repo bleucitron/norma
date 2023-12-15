@@ -21,7 +21,7 @@
 				</Content>
 				<Actions>
 					<ActionButtons>
-						<Button href="/events/{event.id}" variant="raised">Voir</Button>
+						<Button href="/events/{event.formSlug}" variant="raised">Voir</Button>
 					</ActionButtons>
 				</Actions>
 			</Card>
