@@ -1,0 +1,23 @@
+// = Colors
+// -----------------------------
+$black: #000;
+$color1: #ff3e00;
+
+
+// = Container
+// -----------------------------
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+// = Container
+// -----------------------------
+button.mdc-button.mdc-ripple-upgraded {
+    font-size: 1.6rem;
+}

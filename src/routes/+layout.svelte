@@ -1,4 +1,5 @@
 <script lang="ts">
+	import '../style/global.scss';
 	import { onMount } from 'svelte';
 	import { invalidate } from '$app/navigation';
 	import Header from '$lib/components/Header.svelte';
