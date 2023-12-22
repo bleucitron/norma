@@ -1,7 +1,4 @@
-<script>
-  import Textfield from '@smui/textfield';
-  import HelperText from '@smui/textfield/helper-text';
-  import Checkbox from '@smui/checkbox'; 
+<!-- <script>
   let checked = false;
 
   let valueA = '';
@@ -102,4 +99,4 @@
 
 
     
-</style>
+</style> -->

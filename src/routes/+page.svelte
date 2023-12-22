@@ -1,6 +1,4 @@
 <script>
-	import Button from '@smui/button';
-	import Card, { Content, Actions, ActionButtons } from '@smui/card';
 	export let data;
 </script>
 
@@ -9,21 +7,21 @@
 <ul class="events-list">
 	{#each data.data as event}
 		<li class="event">
-			<Card>
-				<Content>
+			<div class="card">
+				<div class="card__img">
 					{#if event.logo}<img
 							src={event.logo.publicUrl}
 							alt={event.title}
 							class="event-img"
 						/>{/if}
+				</div>
+				<div class="card__content">
 					<h2>{event.title}</h2>
-				</Content>
-				<Actions>
-					<ActionButtons>
-						<Button href="/events/{event.formSlug}" variant="raised">Voir</Button>
-					</ActionButtons>
-				</Actions>
-			</Card>
+				</div>
+				<div class="card__actions">
+					<a href="/events/{event.formSlug}" class="btn">Voir</a>
+				</div>
+			</div>
 		</li>
 	{/each}
 </ul>

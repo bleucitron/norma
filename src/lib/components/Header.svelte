@@ -1,7 +1,6 @@
 <script lang="ts">
 	import { page } from '$app/stores';
 	import { invalidate, goto } from '$app/navigation';
-	import Button from '@smui/button';
 	import { toast } from '@zerodevx/svelte-toast'
 
 
@@ -19,7 +18,7 @@
 	<div class="container">
 		<a href="/" class="header__logo">Norma</a>
 		{#if user}
-			<Button on:click={logout}>Déconnexion</Button>
+			<button on:click={logout}>Déconnexion</button>
 		{/if}
 	</div>
 </header>

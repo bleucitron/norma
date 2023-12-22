@@ -1,16 +1,16 @@
 <script>
-	import Button from '@smui/button';
-	import Card, { Content, Actions, ActionButtons } from '@smui/card';
 	export let data;
 	console.log(data);
 </script>
 
 <section class="event__container">
-	<Card>
-		<Content>
+	<div class="card">
+		<div class="card__img">
 			{#if data.logo}
 				<img src={data.logo.publicUrl} alt={`Logo de ${data.title}`} />
 			{/if}
+		</div>
+		<div class="card__content">
 			<h1>{data.title}</h1>
 			<p>Type de l'événement : {data.activityType}</p>
 			<p>{data.description}</p>
@@ -20,21 +20,11 @@
 					<li>{price.label} : {(price.price / 100).toFixed(2).replace('.', ',')} €</li>
 				{/each}
 			</ul>
-			<iframe
-				id="haWidget"
-				allowtransparency="true"
-				scrolling="auto"
-				src={data.url + '/widget'}
-				style="width: 100%; height: 750px; border: none;"
-				title={data.title}
-			></iframe>
-		</Content>
-		<!-- <Actions>
-		<ActionButtons>
-			<Button href="/user/register" variant="raised">S'inscrire</Button>
-		</ActionButtons>
-	</Actions> -->
-	</Card>
+		</div>
+		<div class="card__actions">
+			<a href="/user/register" class="btn">S'inscrire</a>
+		</div>
+	</div>
 </section>
 
 <style lang="scss">
