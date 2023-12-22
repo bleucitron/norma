@@ -4,13 +4,13 @@
 </script>
 
 <section class="event__container">
-	<div class="card">
-		<div class="card__img">
+	<div>
+		<div>
 			{#if data.logo}
 				<img src={data.logo.publicUrl} alt={`Logo de ${data.title}`} />
 			{/if}
 		</div>
-		<div class="card__content">
+		<div>
 			<h1>{data.title}</h1>
 			<p>Type de l'événement : {data.activityType}</p>
 			<p>{data.description}</p>
@@ -21,7 +21,7 @@
 				{/each}
 			</ul>
 		</div>
-		<div class="card__actions">
+		<div class="btn__container">
 			<a href="/user/register" class="btn">S'inscrire</a>
 		</div>
 	</div>
@@ -34,7 +34,8 @@
 		img {
 			width: 100%;
 		}
-		iframe {
+		iframe,
+		h2 {
 			margin: 2rem 0;
 		}
 	}

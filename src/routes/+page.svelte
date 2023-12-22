@@ -7,8 +7,8 @@
 <ul class="events-list">
 	{#each data.data as event}
 		<li class="event">
-			<div class="card">
-				<div class="card__img">
+			<div class="event__item">
+				<div>
 					{#if event.logo}<img
 							src={event.logo.publicUrl}
 							alt={event.title}
@@ -17,27 +17,24 @@
 				</div>
 				<div class="card__content">
 					<h2>{event.title}</h2>
-				</div>
-				<div class="card__actions">
-					<a href="/events/{event.formSlug}" class="btn">Voir</a>
+					<p>{event.description}</p>
+					<div class="btn__container">
+						<a href="/events/{event.formSlug}" class="btn">Voir</a>
+					</div>
 				</div>
 			</div>
 		</li>
 	{/each}
 </ul>
 
-<style>
-	h1 {
-		font-size: 4rem;
-		line-height: calc(4rem * 1.4);
-		margin: 4rem 0 2rem 0;
-		font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode',
-			Geneva, Verdana, sans-serif;
-	}
+<style lang="scss">
 	.event-img {
 		width: 100%;
-		height: 120px;
+		height: 240px;
 		object-fit: cover;
+	}
+	.event__item {
+		box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
 	}
 	.events-list {
 		padding-left: 0;
@@ -49,15 +46,19 @@
 	.events-list .event {
 		list-style: none;
 	}
-	:global(.mdc-card__action-buttons) {
+	.card__content {
+		padding: 2rem;
+		gap: 1rem;
 		display: flex;
 		flex-direction: column;
-		align-items: stretch;
-		gap: 0.5rem;
-		width: 100%;
-	}
-	:global(.mdc-card__action--button) {
-		margin-right: 0;
+
+		p {
+			overflow: hidden;
+			text-overflow: ellipsis;
+			display: -webkit-box;
+			-webkit-line-clamp: 3;
+			-webkit-box-orient: vertical;
+		}
 	}
 	@media (max-width: 768px) {
 		h1 {
