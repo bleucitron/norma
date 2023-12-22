@@ -4,6 +4,8 @@
 </script>
 
 <section class="event__container">
+	<div class="wrapper">
+		<div class="card__img">
 	<div>
 		<div>
 			{#if data.logo}

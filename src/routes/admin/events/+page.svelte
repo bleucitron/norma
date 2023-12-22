@@ -30,6 +30,8 @@
 	{/each}
 </ul>
 
+<style>
+	:global(.mdc-card__action-buttons) {
 <style lang="scss">
 	.event-img {
 		width: 100%;

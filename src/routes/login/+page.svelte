@@ -3,6 +3,7 @@
 	export let form;
 </script>
 
+  <h1>Connexion</h1>
 <form method="post" use:enhance>
 	<div class="form-group">
 		<label for="email">Email Address</label>
@@ -31,6 +32,8 @@
 	</div>
 	<button type="submit" class="btn">Login</button>
 </form>
+  <a href="/register">Créer un compte</a>
+</div>
 
 <style lang="scss">
 	.form-group {

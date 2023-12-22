@@ -7,6 +7,8 @@
 <ul class="events-list">
 	{#each data.data as event}
 		<li class="event">
+			<a href="/events/{event.formSlug}" class="card">
+				<div class="card__img">
 			<div class="event__item">
 				<div>
 					{#if event.logo}<img
@@ -22,11 +24,13 @@
 						<a href="/events/{event.formSlug}" class="btn">Voir</a>
 					</div>
 				</div>
-			</div>
+			</a>
 		</li>
 	{/each}
 </ul>
 
+<style>
+	:global(.mdc-card__action-buttons) {
 <style lang="scss">
 	.event-img {
 		width: 100%;
@@ -58,15 +62,6 @@
 			display: -webkit-box;
 			-webkit-line-clamp: 3;
 			-webkit-box-orient: vertical;
-		}
-	}
-	@media (max-width: 768px) {
-		h1 {
-			font-size: 3rem;
-			line-height: calc(3rem * 1.4);
-		}
-		.events-list {
-			grid-template-columns: repeat(1, 1fr);
 		}
 	}
 </style>
