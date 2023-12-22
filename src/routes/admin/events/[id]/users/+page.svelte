@@ -1,6 +1,5 @@
 <script>
 	import { users } from '../../../../../data/usersEvent.json';
-	import Button, { Label } from '@smui/button';
 
 	let filteredUser = users;
 
@@ -53,7 +52,7 @@
 					<td>{user.firstname} {user.lastname}</td>
 					<td>{user.role}</td>
 					<td>{user.state}</td>
-					<td><Button href="/admin/events/1/users/{user.id}" variant="raised">Gérer</Button></td>
+					<td><a href="/admin/events/1/users/{user.id}">Gérer</a></td>
 				</tr>
 			{/each}
 		</tbody>
