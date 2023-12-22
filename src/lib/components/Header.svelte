@@ -1,8 +1,7 @@
 <script lang="ts">
 	import { page } from '$app/stores';
 	import { invalidate, goto } from '$app/navigation';
-	import { toast } from '@zerodevx/svelte-toast'
-
+	import { toast } from '@zerodevx/svelte-toast';
 
 	export let user: any;
 
@@ -16,9 +15,12 @@
 
 <header>
 	<div class="container">
-		<a href="/" class="header__logo">Norma</a>
+		<a href="/" class="header__logo"><img src="/assets/norma-logo.png" /></a>
 		{#if user}
-			<button on:click={logout}>Déconnexion</button>
+			<div class="btn__container">
+				<a class="btn" href="/admin">Accueil</a>
+				<button class="btn" on:click={logout}>Déconnexion</button>
+			</div>
 		{/if}
 	</div>
 </header>
