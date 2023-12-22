@@ -1,6 +1,7 @@
 import type { AuthSession } from '@supabase/supabase-js';
 import { fail, redirect } from '@sveltejs/kit';
 
+
 export const actions = {
   default: async ({ cookies, request, locals: { supabase } }:any) => {
     const formData = await request.formData();
@@ -46,8 +47,7 @@ export const actions = {
 	);
 
     //TODO: Implémenter la modal de succés
-	throw redirect(302, '/?notification=auth:success');
-
+	throw redirect(302, '/');
   },
 }
 

@@ -28,36 +28,54 @@ export interface Database {
         Row: {
           created_at: string
           email: string
-          event: string
           firstname: string
           id: number
           lastname: string
-          order_id: number | null
           password: string
+        }
+        Insert: {
+          created_at?: string
+          email: string
+          firstname?: string
+          id?: number
+          lastname?: string
+          password: string
+        }
+        Update: {
+          created_at?: string
+          email?: string
+          firstname?: string
+          id?: number
+          lastname?: string
+          password?: string
+        }
+        Relationships: []
+      }
+      event_dancers: {
+        Row: {
+          created_at: string
+          dancer_id: number
+          event: string
+          id: number
+          order_id: string | null
           role: string | null
           state: string | null
         }
         Insert: {
           created_at?: string
-          email: string
+          dancer_id: number
           event: string
-          firstname?: string
           id?: number
-          lastname?: string
-          order_id?: number | null
-          password: string
+          order_id?: string | null
           role?: string | null
           state?: string | null
         }
         Update: {
           created_at?: string
-          email?: string
+          dancer_id?: number
           event?: string
-          firstname?: string
           id?: number
-          lastname?: string
-          order_id?: number | null
-          password?: string
+          order_id?: string | null
           role?: string | null
           state?: string | null
         }
