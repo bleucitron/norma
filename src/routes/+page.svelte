@@ -29,17 +29,19 @@
 	{/each}
 </ul>
 
-<style>
-	:global(.mdc-card__action-buttons) {
 <style lang="scss">
+	:global(.mdc-card__action-buttons) {
+
 	.event-img {
 		width: 100%;
 		height: 240px;
 		object-fit: cover;
 	}
+
 	.event__item {
 		box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
 	}
+
 	.events-list {
 		padding-left: 0;
 		display: grid;
@@ -50,6 +52,7 @@
 	.events-list .event {
 		list-style: none;
 	}
+
 	.card__content {
 		padding: 2rem;
 		gap: 1rem;
@@ -64,4 +67,5 @@
 			-webkit-box-orient: vertical;
 		}
 	}
+}
 </style>
