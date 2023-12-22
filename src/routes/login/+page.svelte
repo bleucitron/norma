@@ -3,6 +3,7 @@
 	export let form;
 </script>
 
+<div id="login__page">
   <h1>Connexion</h1>
 <form method="post" use:enhance>
 	<div class="form-group">

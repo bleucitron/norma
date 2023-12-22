@@ -30,9 +30,8 @@
 	{/each}
 </ul>
 
-<style>
-	:global(.mdc-card__action-buttons) {
 <style lang="scss">
+	:global(.mdc-card__action-buttons) {
 	.event-img {
 		width: 100%;
 		height: 240px;
@@ -74,4 +73,5 @@
 			grid-template-columns: repeat(1, 1fr);
 		}
 	}
+}
 </style>
