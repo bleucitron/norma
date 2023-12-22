@@ -28,6 +28,10 @@
 
 <Header {user} />
 <SvelteToast/>
-<main>
+
+<main class="container-column">
 	<slot />
 </main>
+
+<style lang="scss">
+</style>
