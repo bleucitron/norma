@@ -39,6 +39,7 @@
 	},
 	"type": "module",
 	"dependencies": {
+		"@emailjs/browser": "^3.11.0",
 		"@supabase/auth-helpers-sveltekit": "^0.10.7",
 		"@supabase/supabase-js": "^2.39.0"
 	}
