@@ -57,6 +57,7 @@ export interface Database {
           dancer_id: number
           event: string
           id: number
+          level: string | null
           order_id: string | null
           role: string | null
           state: string | null
@@ -66,6 +67,7 @@ export interface Database {
           dancer_id: number
           event: string
           id?: number
+          level?: string | null
           order_id?: string | null
           role?: string | null
           state?: string | null
@@ -75,6 +77,7 @@ export interface Database {
           dancer_id?: number
           event?: string
           id?: number
+          level?: string | null
           order_id?: string | null
           role?: string | null
           state?: string | null
