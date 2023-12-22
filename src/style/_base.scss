@@ -32,3 +32,37 @@ a,
 a:visited {
     color: $color1;
 }
+
+h1 {
+    font-size: 4rem;
+    line-height: calc(4rem * 1.4);
+    margin: 4rem 0 2rem 0;
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode',
+        Geneva, Verdana, sans-serif;
+}
+
+h2 {
+    font-size: 3rem;
+    line-height: calc(3rem * 1.4);
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode',
+        Geneva, Verdana, sans-serif;
+}
+
+p,
+li,
+a {
+    font-size: 1.8rem;
+    line-height: calc(1.8rem * 1.4);
+}
+
+@media (max-width: 768px) {
+    h1 {
+        font-size: 3rem;
+        line-height: calc(3rem * 1.4);
+    }
+
+    h2 {
+        font-size: 2rem;
+        line-height: calc(2rem * 1.4);
+    }
+}

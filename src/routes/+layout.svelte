@@ -25,6 +25,9 @@
 </script>
 
 <Header {user} />
-<main>
+<main class="container-column">
 	<slot />
 </main>
+
+<style lang="scss">
+</style>
