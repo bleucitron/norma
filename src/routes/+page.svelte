@@ -4,7 +4,7 @@
 	export let data;
 </script>
 
-<h1>Norma</h1>
+<h1>Les événements actuels</h1>
 
 <ul class="events-list">
 	{#each data.data as event}
@@ -29,6 +29,13 @@
 </ul>
 
 <style>
+	h1 {
+		font-size: 4rem;
+		line-height: calc(4rem * 1.4);
+		margin: 4rem 0 2rem 0;
+		font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode',
+			Geneva, Verdana, sans-serif;
+	}
 	.event-img {
 		width: 100%;
 		height: 120px;
@@ -36,6 +43,10 @@
 	}
 	.events-list {
 		padding-left: 0;
+		display: grid;
+		grid-template-columns: repeat(2, 1fr);
+		gap: 4rem;
+		margin-bottom: 2rem;
 	}
 	.events-list .event {
 		list-style: none;
@@ -49,5 +60,14 @@
 	}
 	:global(.mdc-card__action--button) {
 		margin-right: 0;
+	}
+	@media (max-width: 768px) {
+		h1 {
+			font-size: 3rem;
+			line-height: calc(3rem * 1.4);
+		}
+		.events-list {
+			grid-template-columns: repeat(1, 1fr);
+		}
 	}
 </style>
