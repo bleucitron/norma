@@ -22,7 +22,7 @@
 			</ul>
 		</div>
 		<div class="card__actions">
-			<a href="/user/register" class="btn">S'inscrire</a>
+			<a href="{data.formSlug}/register" class="btn">S'inscrire</a>
 		</div>
 	</div>
 </section>
