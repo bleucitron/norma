@@ -3,6 +3,8 @@
 	import { onMount } from 'svelte';
 	import { invalidate } from '$app/navigation';
 	import Header from '$lib/components/Header.svelte';
+	import { SvelteToast } from '@zerodevx/svelte-toast'
+
 
 	export let data;
 
@@ -25,6 +27,8 @@
 </script>
 
 <Header {user} />
+<SvelteToast/>
+
 <main class="container-column">
 	<slot />
 </main>

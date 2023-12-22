@@ -1,0 +1,10 @@
+._toastItem {
+    font-size: 1.2rem;
+}
+
+._toastContainer {
+    top: var(--toastContainerTop, 1.5rem);
+    right: var(--toastContainerRight, 2rem);
+    bottom: var(--toastContainerBottom, auto);
+    left: var(--toastContainerLeft, auto);
+}
