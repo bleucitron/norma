@@ -10,7 +10,16 @@
 		await $page.data.supabase.auth.signOut();
 		invalidate('supabase:auth');
 		setTimeout(() => goto('/'), 0);
-		toast.push('Déconnexion réussie');
+		toast.push('Déconnexion réussie', {
+			theme: {
+                    '--toastBackground': '#4caf50',
+                    '--toastProgressBackground': '#81c784',
+                    '--toastProgressAfterBackground': '#a5d6a7',
+                    '--toastColor': '#fff',
+                    '--toastProgressColor': '#fff',
+                    '--toastProgressAfterColor': '#fff',
+                },						
+		});
 	};
 </script>
 
@@ -18,7 +27,7 @@
 	<div class="container">
 		<a href="/" class="header__logo">Norma</a>
 		{#if user}
-			<button on:click={logout}>Déconnexion</button>
+			<button class="disconnect__btn" on:click={logout}>Déconnexion</button>
 		{/if}
 	</div>
 </header>

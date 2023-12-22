@@ -30,17 +30,6 @@
 </ul>
 
 <style>
-	.event-img {
-		width: 100%;
-		height: 120px;
-		object-fit: cover;
-	}
-	.events-list {
-		padding-left: 0;
-	}
-	.events-list .event {
-		list-style: none;
-	}
 	:global(.mdc-card__action-buttons) {
 		display: flex;
 		flex-direction: column;

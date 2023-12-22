@@ -4,7 +4,7 @@
 </script>
 
 <section class="event__container">
-	<div class="card">
+	<div class="wrapper">
 		<div class="card__img">
 			{#if data.logo}
 				<img src={data.logo.publicUrl} alt={`Logo de ${data.title}`} />
