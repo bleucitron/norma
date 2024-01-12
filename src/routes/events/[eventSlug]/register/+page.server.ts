@@ -1,5 +1,7 @@
 import type { AuthSession } from '@supabase/supabase-js';
 import { fail, redirect } from '@sveltejs/kit';
+import { access_token } from '$lib/server/accessToken'
+import { get } from 'svelte/store';
 
 
 export const actions = {
@@ -42,5 +44,15 @@ export const actions = {
         //TODO: Implémenter la modal de succés
         throw redirect(302, '/');
     },
-}
+};
 
+
+export async function load({ params, fetch }) {
+    const event = await fetch("https://api.helloasso.com/v5/organizations/norma-ecv/forms/event/" + params.eventSlug + "/public", {
+        method: "GET",
+        headers: {
+            authorization: 'Bearer ' + get(access_token)
+        }
+    }).then(resp => resp.json())
+    return event
+}
