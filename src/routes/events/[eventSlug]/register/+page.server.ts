@@ -3,7 +3,7 @@ import { fail, redirect } from '@sveltejs/kit';
 
 
 export const actions = {
-    default: async ({ request, locals: { supabase } }: any) => {
+    default: async ({ params, request, locals: { supabase } }: any) => {
         const formData = await request.formData();
         const firstname = formData.get('firstname')?.toString();
         const lastname = formData.get('lastname')?.toString();
@@ -40,7 +40,7 @@ export const actions = {
 
 
         //TODO: Implémenter la modal de succés
-        throw redirect(302, '/');
+        throw redirect(302, '/events/' + params.eventSlug + '/dancer-info');
     },
 }
 
