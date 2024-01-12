@@ -35,28 +35,3 @@
 </form>
   <a class="create__account" href="/register">Créer un compte</a>
 </div>
-
-<style lang="scss">
-	.form-group {
-		margin-bottom: 15px;
-		width: 100%;
-	}
-
-	.form-group label {
-		display: block;
-		margin-bottom: 5px;
-	}
-
-	.form-control {
-		width: 100%;
-		padding: 10px;
-		border: 1px solid #ddd;
-		border-radius: 4px;
-		box-sizing: border-box;
-	}
-
-	.form-control:focus {
-		border-color: #0056b3;
-		outline: none;
-	}
-</style>
