@@ -1,8 +1,16 @@
 // = Colors
 // -----------------------------
 $black: #000;
-$color1: #ff3e00;
+$white: #fff;
+$color1: #FFB500;
 
+
+main {
+    padding: 15rem 0 0 0;
+    min-height: 100vh;
+}
+
+$primary-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
 
 // = Container
 // -----------------------------
@@ -25,8 +33,28 @@ $color1: #ff3e00;
     flex-direction: column;
 }
 
-// = Container
+// = Buttons
 // -----------------------------
-button.mdc-button.mdc-ripple-upgraded {
-    font-size: 1.6rem;
+.btn__container {
+    margin-top: 4rem;
+    display: flex;
+    gap: 1rem;
+}
+
+.btn {
+    background-color: $color1;
+    border: none;
+    padding: 12px 24px;
+    border-radius: 20px;
+    color: $white;
+    cursor: pointer;
+    min-width: 120px;
+    font-size: 1.4rem;
+    line-height: calc(1.4rem * 1.4);
+    font-family: $primary-family;
+    text-align: center;
+
+    &:hover {
+        background-color: $black;
+    }
 }
