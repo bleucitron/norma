@@ -1,10 +1,20 @@
 <script>
+	let checked = false;
+	let valueA = '';
+	let valueB = '';
+	let valueC = '';
+	let valueD = '';
+	let valueE = '';
+	let valueF = '';
+	let valueG = '';
+	let valueH = '';
+	let valueI = '';
+	let clicked = 0;
 </script>
 
 <svelte:head>
 	<title>Register</title>
 </svelte:head>
-
 <main>
 	<h1>Inscription à SwingArt</h1>
 	<div class="form-group">
@@ -43,22 +53,25 @@
 		max-width: 500px;
 		margin: 2rem auto;
 	}
+
 	h1 {
 		text-align: center;
 		color: #333;
-		font-family: ‘Arial’, sans-serif;
+		font-family: 'Arial', sans-serif;
 	}
+
 	.form-group {
 		background-color: white;
 		padding: 2rem;
 		border-radius: 8px;
 	}
+
 	label {
-		font-size: 1.5rem;
 		display: block;
 		margin-bottom: 0.5rem;
 		color: #555;
 	}
+
 	input[type='text'],
 	input[type='email'],
 	input[type='password'] {
@@ -69,12 +82,14 @@
 		border-radius: 4px;
 		box-sizing: border-box;
 	}
+
 	input[type='text']:focus,
 	input[type='email']:focus,
 	input[type='password']:focus {
 		border-color: #ff3e00;
 		outline: none;
 	}
+
 	button[type='submit'] {
 		width: 100%;
 		padding: 1rem;
@@ -86,7 +101,8 @@
 		cursor: pointer;
 		transition: background-color 0.3s;
 	}
+
 	button[type='submit']:hover {
-		background-color: #922703;
+		background-color: #c73403;
 	}
 </style>
