@@ -111,6 +111,10 @@
 		margin-bottom: 34px;
 	}
 
+	.header-container .btn__container a {
+		min-width: 220px;
+	}
+
 	.header-container h1 {
 		margin: 0;
 	}
