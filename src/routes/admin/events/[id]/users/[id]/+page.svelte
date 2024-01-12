@@ -1,9 +1,9 @@
 <script>
-	import { users } from '../../../../../../data/usersEvent.json';
 	export let data;
 </script>
 
 <h1>{data.user.firstname} {data.user.lastname}</h1>
-<button class="btn">Désincrire</button>
-<button class="btn">Envoi du mail de finalisation d'inscription</button>
-
+<div class="btn__container">
+	<button class="btn">Désincrire</button>
+	<button class="btn">Envoi du mail de finalisation d'inscription</button>
+</div>

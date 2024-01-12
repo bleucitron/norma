@@ -1,16 +1,18 @@
 <script>
 	export let data;
-	console.log(data);
+	// console.log(data);
 </script>
 
 <section class="event__container">
-	<div class="card">
+	<div class="wrapper">
 		<div class="card__img">
+	<div>
+		<div>
 			{#if data.logo}
 				<img src={data.logo.publicUrl} alt={`Logo de ${data.title}`} />
 			{/if}
 		</div>
-		<div class="card__content">
+		<div>
 			<h1>{data.title}</h1>
 			<p>Type de l'événement : {data.activityType}</p>
 			<p>{data.description}</p>
@@ -34,7 +36,8 @@
 		img {
 			width: 100%;
 		}
-		iframe {
+		iframe,
+		h2 {
 			margin: 2rem 0;
 		}
 	}
