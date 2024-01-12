@@ -5,7 +5,7 @@ import { get } from 'svelte/store';
 
 
 export const actions = {
-    default: async ({ request, locals: { supabase } }: any) => {
+    default: async ({ params, cookies, request, locals: { supabase } }: any) => {
         const formData = await request.formData();
         const firstname = formData.get('firstname')?.toString();
         const lastname = formData.get('lastname')?.toString();
@@ -39,10 +39,20 @@ export const actions = {
                 error: 'Une erreur est survenue',
             });
         }
+        const { data: dancer, error: loginError } = await supabase
+            .from('dancers')
+            .select()
+            .eq('email', email)
+            .eq('password', password)
+        if (loginError || !dancer.length) {
+            return fail(400, {
+                error: 'Votre identifiant ou votre mot de passe est incorrect',
+            });
+        }
+        //TODO: Mettre le danceur en session
+        cookies.set('dancer', btoa(JSON.stringify(dancer[0])))
+        throw redirect(302, '/events/' + params.eventSlug + '/dancer-info');
 
-
-        //TODO: Implémenter la modal de succés
-        throw redirect(302, '/');
     },
 };
 
