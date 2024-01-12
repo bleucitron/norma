@@ -1,13 +1,14 @@
 <script>
 	export let data;
-	// console.log(data);
+	const event = data.event;
+	const dancer = data.dancer;
 
 	function getEventRegisterRedirect() {
-		if (data.user) {
+		if (dancer) {
 			// a modifier quand on aura le systeme de connexion danceur
-			return `/events/${data.formSlug}/dancer-info`;
+			return `/events/${event.formSlug}/dancer-info`;
 		}
-		return `/events/${data.formSlug}/login`;
+		return `/events/${event.formSlug}/login`;
 	}
 </script>
 
@@ -16,17 +17,17 @@
 		<div class="card__img">
 			<div>
 				<div>
-					{#if data.logo}
-						<img src={data.logo.publicUrl} alt={`Logo de ${data.title}`} />
+					{#if event.logo}
+						<img src={event.logo.publicUrl} alt={`Logo de ${event.title}`} />
 					{/if}
 				</div>
 				<div>
-					<h1>{data.title}</h1>
-					<p>Type de l'événement : {data.activityType}</p>
-					<p>{data.description}</p>
+					<h1>{event.title}</h1>
+					<p>Type de l'événement : {event.activityType}</p>
+					<p>{event.description}</p>
 					<h2>Prix :</h2>
 					<ul>
-						{#each data.tiers as price}
+						{#each event.tiers as price}
 							<li>{price.label} : {(price.price / 100).toFixed(2).replace('.', ',')} €</li>
 						{/each}
 					</ul>
