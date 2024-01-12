@@ -13,6 +13,7 @@
 
 <section class="event__container">
 	<div class="wrapper">
+		<section class="card__img">
 		<div class="card__img">
 			<div>
 				<div>
@@ -30,6 +31,20 @@
 							<li>{price.label} : {(price.price / 100).toFixed(2).replace('.', ',')} €</li>
 						{/each}
 					</ul>
+					<iframe
+						id="haWidget"
+						allowtransparency="true"
+						scrolling="auto"
+						src={data.url + '/widget'}
+						style="width: 100%; height: 750px; border: none;"
+						title={data.title}
+					></iframe>
+				</div>
+				<div class="btn__container">
+					<a class="btn" href="{data.formSlug}/register">S'inscrire</a>
+				</div>
+			</div>
+		</section>
 				</div>
 				<div class="btn__container">
 					<a class="btn" href={getEventRegisterRedirect()}>S'inscrire</a>
