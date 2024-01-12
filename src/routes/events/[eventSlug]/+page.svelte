@@ -23,22 +23,21 @@
 				{/each}
 			</ul>
 		</div>
-		<div class="card__actions">
-			<a href="{data.formSlug}/register" class="btn">S'inscrire</a>
+		<div class="btn__container">
+			<a class="btn" href="{data.formSlug}/register">S'inscrire</a>
 		</div>
 	</div>
 </section>
 
 <style lang="scss">
 	.event__container {
-		margin: 4rem 0;
-
 		img {
 			width: 100%;
 		}
 		iframe,
-		h2 {
-			margin: 2rem 0;
+		h1, h2 {
+			margin-top: 1rem;
+			margin-bottom: 1rem;
 		}
 	}
 </style>
