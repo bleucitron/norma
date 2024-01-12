@@ -9,7 +9,7 @@
 <main>
 	<h1>Renseignez-nous !</h1>
 	<div class="form-group">
-		<form action="register" method="post">
+		<form action="dancer-info" method="post">
 			<label for="role-select">Votre rôle :</label>
 			<select name="role" id="role-select" required>
 				<option value="">--Please choose an option--</option>

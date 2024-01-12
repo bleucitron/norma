@@ -6,7 +6,7 @@ export async function load({ params, fetch }) {
 }
 
 export const actions = {
-    default: async ({ params, request, locals: { supabase } }: any) => {
+    default: async ({ params, cookies, request, locals: { supabase } }: any) => {
         const formData = await request.formData();
         const email = formData.get('email')?.toString();
         const password = formData.get('password')?.toString();
@@ -26,12 +26,10 @@ export const actions = {
             return fail(400, {
                 error: 'Votre identifiant ou votre mot de passe est incorrect',
             });
-        } else {
-            //TODO: Mettre le danceur en session
-            throw redirect(302, '/events/' + params.eventSlug + '/dancer-info');
         }
 
-
-
+        //TODO: Mettre le danceur en session
+        cookies.set('dancer', btoa(JSON.stringify(dancer[0])))
+        throw redirect(302, '/events/' + params.eventSlug + '/dancer-info');
     },
 }
