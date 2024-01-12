@@ -3,11 +3,11 @@
 	export let form;
 </script>
 
-<div id="login__page">
-  <h1>Connexion</h1>
+<div id="login__page" class="form__tpl">
+<h1>Connexion</h1>
 <form method="post" use:enhance>
 	<div class="form-group">
-		<label for="email">Email Address</label>
+		<label for="email">Email</label>
 		<input
 			type="email"
 			name="email"
@@ -20,7 +20,7 @@
 		/>
 	</div>
 	<div class="form-group">
-		<label for="password">Password</label>
+		<label for="password">Mot de passe</label>
 		<input
 			type="password"
 			name="password"
@@ -31,9 +31,9 @@
 			class="form-control"
 		/>
 	</div>
-	<button type="submit" class="btn">Login</button>
+	<button type="submit" class="btn">Connexion</button>
 </form>
-  <a href="/register">Créer un compte</a>
+  <a class="create__account" href="/register">Créer un compte</a>
 </div>
 
 <style lang="scss">

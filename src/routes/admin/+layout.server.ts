@@ -15,6 +15,6 @@ interface LoadContext {
     depends('app:users');
   
     if (!userId) {
-      throw redirect(307, '/');
+      throw redirect(307, '/login');
     }
   };

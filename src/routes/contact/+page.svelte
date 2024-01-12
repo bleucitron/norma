@@ -31,12 +31,14 @@
         });
     }
   </script>
-  
+  <div class=form__tpl>
+   <h1>Contact</h1>
   <form id="contact__form" on:submit|preventDefault={sendEmail}>
     <label 
         for="username"
         aria-label="Votre nom"
-    ></label>
+
+    >Nom</label>
     <input 
         name="username"
         type="text" 
@@ -48,7 +50,7 @@
     <label 
     for="email"
     aria-label="Votre email"
-    ></label>
+    >Prénom</label>
     <input 
         name="email"
         placeholder="Votre email"
@@ -59,7 +61,7 @@
     <label 
         for="message"
         aria-label="Votre message"
-    ></label>
+    >Message</label>
     <textarea 
         name="message"
         placeholder="Votre message"
@@ -67,5 +69,6 @@
         minlength="10"
         title="Merci d'entrer un message valide"
     ></textarea>
-    <input type="submit" value="Send">
+    <input class="submit__btn" type="submit" value="Envoyer">
   </form>
+    </div>
