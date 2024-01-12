@@ -10,6 +10,7 @@ form {
     padding: 2rem;
     label {
         width: 100%;
+        margin-bottom: 1rem;
     }
     
     input, button, textarea {
@@ -17,6 +18,7 @@ form {
         height: 50px;
         border-radius: 5px;
         border: 1px solid #ccc;
+        margin-top: 0.5rem;
         &:hover {
             transition: 0.3s ease-in-out;
         }
@@ -107,8 +109,22 @@ a, input, button, textarea {
 }
 
 .form__tpl {
+    max-width: 800px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    img {
+        padding: 2rem 2rem 0rem 2rem;
+    }
     h1 {
         text-align: center;
         margin: auto;
+    }
+
+    .form__group {
+        width: 100%;
     }
 }
