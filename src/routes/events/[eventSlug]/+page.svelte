@@ -23,8 +23,8 @@
 				{/each}
 			</ul>
 		</div>
-		<div class="btn__container">
-			<a href="/user/register" class="btn">S'inscrire</a>
+		<div class="card__actions">
+			<a href="{data.formSlug}/register" class="btn">S'inscrire</a>
 		</div>
 	</div>
 </section>
