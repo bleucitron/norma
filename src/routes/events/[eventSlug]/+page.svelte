@@ -1,14 +1,6 @@
 <script>
 	export let data;
 	const event = data.event;
-	const dancer = data.dancer;
-	function getEventRegisterRedirect() {
-		if (dancer) {
-			// a modifier quand on aura le systeme de connexion danceur
-			return `/events/${event.formSlug}/dancer-info`;
-		}
-		return `/events/${event.formSlug}/login`;
-	}
 </script>
 
 <section class="event__container">
@@ -32,7 +24,7 @@
 					</ul>
 				</div>
 				<div class="btn__container">
-					<a class="btn" href={getEventRegisterRedirect()}>S'inscrire</a>
+					<a class="btn" href="/events/{event.formSlug}/register">S'inscrire</a>
 				</div>
 			</div>
 		</div>

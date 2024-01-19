@@ -7,7 +7,7 @@
 </div>
 
 <ul class="events-list">
-	{#each data.data as event}
+	{#each data.events as event}
 		<li class="event">
 			<a href="/events/{event.formSlug}" class="card">
 				<div class="card__img">
