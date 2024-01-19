@@ -14,7 +14,8 @@
 		"test:integration": "playwright test",
 		"test:unit": "vitest",
 		"supa-type": "supabase gen types typescript --project-id akfxuetbjtbkfnaskeyf --schema public > src/types/supabase.ts",
-		"predev": "npm run supa-type"
+		"predev": "npm run supa-type",
+		"prepare": "husky install"
 	},
 	"devDependencies": {
 		"@playwright/test": "^1.28.1",
@@ -27,6 +28,8 @@
 		"eslint": "^8.28.0",
 		"eslint-config-prettier": "^9.0.0",
 		"eslint-plugin-svelte": "^2.30.0",
+		"husky": "^8.0.3",
+		"lint-staged": "^15.2.0",
 		"prettier": "^3.0.0",
 		"prettier-plugin-svelte": "^3.0.0",
 		"sass": "^1.69.5",
