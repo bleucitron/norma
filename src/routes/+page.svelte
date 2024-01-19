@@ -1,5 +1,7 @@
 <script>
 	export let data;
+
+	console.log('test husky');
 </script>
 
 <div class="header-container">
