@@ -30,6 +30,6 @@ export const actions = {
 
 
         //TODO: Implémenter la modal de succés
-        redirect(302, '/events/' + params.slug);
+        throw redirect(302, '/events/' + params.slug);
     },
 }

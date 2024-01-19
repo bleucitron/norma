@@ -9,6 +9,6 @@ export const load = async ({ parent, depends, url }) => {
   depends('app:users');
 
   if (!userId && url.pathname !== '/admin/login') {
-    redirect(307, '/admin/login');
+    throw redirect(307, '/admin/login');
   }
 };
