@@ -69,7 +69,7 @@
 			font-size: 1.4rem;
 			line-height: 1.96rem;
 			font-family: 'Lucida Sans', sans-serif;
-			padding: 0.6rem;
+			padding: 0.5rem;
 		}
 		a {
 			font-weight: bold;
