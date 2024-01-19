@@ -36,5 +36,5 @@
 		</div>
 		<button type="submit" class="btn">Connexion</button>
 	</form>
-	  <a class="create__account" href="/register">Créer un compte</a>
-	</div>
+	<a class="create__account" href="/events/{data.eventSlug}/register">Créer un compte</a>
+</div>
