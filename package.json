@@ -18,8 +18,8 @@
 	},
 	"devDependencies": {
 		"@playwright/test": "^1.28.1",
-		"@sveltejs/adapter-auto": "^3.0.0",
-		"@sveltejs/kit": "^2.0.0",
+		"@sveltejs/adapter-auto": "^3.1.0",
+		"@sveltejs/kit": "^2.4.0",
 		"@sveltejs/vite-plugin-svelte": "^3.0.0",
 		"@typescript-eslint/eslint-plugin": "^6.0.0",
 		"@typescript-eslint/parser": "^6.0.0",
@@ -41,7 +41,7 @@
 	"type": "module",
 	"dependencies": {
 		"@emailjs/browser": "^3.11.0",
-		"@supabase/auth-helpers-sveltekit": "^0.10.7",
+		"@supabase/auth-helpers-sveltekit": "^0.11.0",
 		"@supabase/supabase-js": "^2.39.0"
 	}
 }
