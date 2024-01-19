@@ -3,12 +3,12 @@ import { fail, redirect } from '@sveltejs/kit';
 
 
 export const actions = {
-  default: async ({ cookies, request, locals: { supabase } }:any) => {
-    const formData = await request.formData();
+	default: async ({ cookies, request, locals: { supabase } }: any) => {
+		const formData = await request.formData();
 		const email = formData.get('email')?.toString();
 		const password = formData.get('password')?.toString();
 
-    if (!email || !password) {
+		if (!email || !password) {
 			return fail(400, {
 				email_error: !email ? 'Veuillez renseigner votre adresse email' : null,
 				password_error: !password ? 'Veuillez renseigner votre mot de passe' : null,
@@ -17,37 +17,37 @@ export const actions = {
 			});
 		}
 
-	const { data, error } = await supabase.auth.signInWithPassword({
-		email: email as string,
-		password: password as string,
-	});
+		const { data, error } = await supabase.auth.signInWithPassword({
+			email: email as string,
+			password: password as string,
+		});
 
-	if (error || !data.session) {
-		if (error && error.message === 'Invalid login credentials') {
+		if (error || !data.session) {
+			if (error && error.message === 'Invalid login credentials') {
+				return fail(400, {
+					error: 'Identifiants incorrects',
+					email,
+					password,
+				});
+			}
+
 			return fail(400, {
-				error: 'Identifiants incorrects',
+				error: 'Une erreur est survenue',
 				email,
 				password,
 			});
 		}
 
-		return fail(400, {
-			error: 'Une erreur est survenue',
-			email,
-			password,
-		});
-	}
+		const { access_token, refresh_token, provider_token, provider_refresh_token } =
+			data.session as AuthSession;
 
-	const { access_token, refresh_token, provider_token, provider_refresh_token } =
-		data.session as AuthSession;
+		cookies.set(
+			'supabase-auth-token',
+			JSON.stringify([access_token, refresh_token, provider_token, provider_refresh_token]),
+		);
 
-	/* @migration task: add path argument */ cookies.set(
-        		'supabase-auth-token',
-        		JSON.stringify([access_token, refresh_token, provider_token, provider_refresh_token]),
-        	);
-
-    //TODO: Implémenter la modal de succés
-	redirect(302, '/admin');
-  },
+		//TODO: Implémenter la modal de succés
+		redirect(302, '/admin');
+	},
 }
 
