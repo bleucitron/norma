@@ -7,9 +7,7 @@ export async function load({ params, cookies, fetch }) {
             authorization: 'Bearer ' + get(access_token)
         }
     }).then(resp => resp.json())
-    let dancer = cookies.get('dancer') ? JSON.parse(atob(cookies.get('dancer'))) : false
     return {
-        dancer: dancer,
         event: event
     }
 }

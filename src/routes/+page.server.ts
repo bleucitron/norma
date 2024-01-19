@@ -8,7 +8,9 @@ export async function load({ fetch }: any) {
             authorization: 'Bearer ' + get(access_token)
         }
     }).then((resp: { json: () => any; }) => resp.json())
-    return events
+    return {
+        events: events.data
+    }
 }
 
 export const actions = {

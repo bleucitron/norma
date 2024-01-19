@@ -1,53 +1,35 @@
-import type { AuthSession } from '@supabase/supabase-js';
+import { access_token } from '$lib/server/accessToken'
+import { get } from 'svelte/store';
 import { fail, redirect } from '@sveltejs/kit';
-
-
-export const actions = {
-	default: async ({ cookies, request, locals: { supabase } }: any) => {
-		const formData = await request.formData();
-		const email = formData.get('email')?.toString();
-		const password = formData.get('password')?.toString();
-
-		if (!email || !password) {
-			return fail(400, {
-				email_error: !email ? 'Veuillez renseigner votre adresse email' : null,
-				password_error: !password ? 'Veuillez renseigner votre mot de passe' : null,
-				email,
-				password,
-			});
-		}
-
-		const { data, error } = await supabase.auth.signInWithPassword({
-			email: email as string,
-			password: password as string,
-		});
-
-		if (error || !data.session) {
-			if (error && error.message === 'Invalid login credentials') {
-				return fail(400, {
-					error: 'Identifiants incorrects',
-					email,
-					password,
-				});
-			}
-
-			return fail(400, {
-				error: 'Une erreur est survenue',
-				email,
-				password,
-			});
-		}
-
-		const { access_token, refresh_token, provider_token, provider_refresh_token } =
-			data.session as AuthSession;
-
-		cookies.set(
-			'supabase-auth-token',
-			JSON.stringify([access_token, refresh_token, provider_token, provider_refresh_token]),
-		);
-
-		//TODO: Implémenter la modal de succés
-		redirect(302, '/admin');
-	},
+export async function load({ params, fetch }) {
+    return params
 }
 
+export const actions = {
+    default: async ({ params, cookies, request, locals: { supabase } }: any) => {
+        const formData = await request.formData();
+        const email = formData.get('email')?.toString();
+        const password = formData.get('password')?.toString();
+        if (!(email && password)) {
+            console.log('champs non valide')
+            return fail(400, {
+                error: 'champs non valide',
+            });
+        }
+
+        const { data: dancer, error: loginError } = await supabase
+            .from('dancers')
+            .select()
+            .eq('email', email)
+            .eq('password', password)
+        if (loginError || !dancer.length) {
+            return fail(400, {
+                error: 'Votre identifiant ou votre mot de passe est incorrect',
+            });
+        }
+
+        //TODO: Mettre le danceur en session
+        cookies.set('dancer', btoa(JSON.stringify(dancer[0])))
+        redirect(302, '/events/' + params.eventSlug + '/dancer-info');
+    },
+}

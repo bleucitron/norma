@@ -1,20 +1,14 @@
 import { error, redirect } from '@sveltejs/kit';
 
-interface LoadContext {
-    parent: () => Promise<{ 
-        session: { user: { id: string } } | null;
-        supabase: any;
-    }>;
-    depends: (key: string) => void;
+
+
+export const load = async ({ parent, depends, url }) => {
+  const { session, supabase } = await parent();
+  const userId = session?.user?.id;
+
+  depends('app:users');
+
+  if (!userId && url.pathname !== '/admin/login') {
+    redirect(307, '/admin/login');
   }
-  
-  export const load = async ({ parent, depends }: LoadContext) => {
-    const { session, supabase } = await parent();
-    const userId = session?.user?.id;
-  
-    depends('app:users');
-  
-    if (!userId) {
-      redirect(307, '/login');
-    }
-  };
+};
