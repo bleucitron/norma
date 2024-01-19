@@ -1,9 +1,8 @@
 import type { AuthSession } from '@supabase/supabase-js';
 import { fail, redirect } from '@sveltejs/kit';
 
-
 export const actions = {
-	default: async ({ cookies, request, locals: { supabase } }: any) => {
+	default: async ({ cookies, request, locals: { supabase } }) => {
 		const formData = await request.formData();
 		const email = formData.get('email')?.toString();
 		const password = formData.get('password')?.toString();
@@ -13,13 +12,13 @@ export const actions = {
 				email_error: !email ? 'Veuillez renseigner votre adresse email' : null,
 				password_error: !password ? 'Veuillez renseigner votre mot de passe' : null,
 				email,
-				password,
+				password
 			});
 		}
 
 		const { data, error } = await supabase.auth.signInWithPassword({
 			email: email as string,
-			password: password as string,
+			password: password as string
 		});
 
 		if (error || !data.session) {
@@ -27,14 +26,14 @@ export const actions = {
 				return fail(400, {
 					error: 'Identifiants incorrects',
 					email,
-					password,
+					password
 				});
 			}
 
 			return fail(400, {
 				error: 'Une erreur est survenue',
 				email,
-				password,
+				password
 			});
 		}
 
@@ -43,11 +42,11 @@ export const actions = {
 
 		cookies.set(
 			'supabase-auth-token',
-			JSON.stringify([access_token, refresh_token, provider_token, provider_refresh_token]),
+			JSON.stringify([access_token, refresh_token, provider_token, provider_refresh_token])
 		);
 
 		//TODO: Implémenter la modal de succés
 		throw redirect(302, '/admin');
 	},
-}
+};
 

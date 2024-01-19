@@ -1,8 +1,6 @@
-import type { AuthSession } from '@supabase/supabase-js';
+import { access_token } from '$lib/server/accessToken';
 import { fail, redirect } from '@sveltejs/kit';
-import { access_token } from '$lib/server/accessToken'
 import { get } from 'svelte/store';
-
 
 export const actions = {
     default: async ({ params, cookies, request, locals: { supabase } }: any) => {
@@ -52,17 +50,20 @@ export const actions = {
         //TODO: Mettre le danceur en session
         cookies.set('dancer', btoa(JSON.stringify(dancer[0])))
         throw redirect(302, '/events/' + params.eventSlug + '/dancer-info');
-
-    },
+	}
 };
 
-
 export async function load({ params, fetch }) {
-    const event = await fetch("https://api.helloasso.com/v5/organizations/norma-ecv/forms/event/" + params.eventSlug + "/public", {
-        method: "GET",
-        headers: {
-            authorization: 'Bearer ' + get(access_token)
-        }
-    }).then(resp => resp.json())
-    return event
+	const event = await fetch(
+		'https://api.helloasso.com/v5/organizations/norma-ecv/forms/event/' +
+			params.eventSlug +
+			'/public',
+		{
+			method: 'GET',
+			headers: {
+				authorization: 'Bearer ' + get(access_token)
+			}
+		}
+	).then((resp) => resp.json());
+	return event;
 }
