@@ -23,7 +23,7 @@
 				<option value="Confirmé">Confirmé</option>
 				<option value="Expert">Expert</option>
 			</select>
-			<button type="submit">Porsuivre l'inscription</button>
+			<button type="submit">Poursuivre l'inscription</button>
 		</form>
 	</div>
 </main>

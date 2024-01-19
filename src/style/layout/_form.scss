@@ -10,39 +10,43 @@ form {
     padding: 2rem;
 
     .form-group {
-		margin-bottom: 15px;
-		width: 100%;
-	}
+        margin-bottom: 15px;
+        width: 100%;
+    }
 
-	.form-group label {
-		display: block;
-		margin-bottom: 5px;
-	}
+    .form-group label {
+        display: block;
+        margin-bottom: 5px;
+    }
 
-	.form-control {
-		width: 100%;
-		padding: 10px;
-		border: 1px solid #ddd;
-		border-radius: 4px;
-		box-sizing: border-box;
-	}
+    .form-control {
+        width: 100%;
+        padding: 10px;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        box-sizing: border-box;
+    }
 
-	.form-control:focus {
-		border-color: #0056b3;
-		outline: none;
-	}
-    
+    .form-control:focus {
+        border-color: #0056b3;
+        outline: none;
+    }
+
     label {
         width: 100%;
         margin-bottom: 1rem;
     }
-    
-    input, button, textarea {
+
+    input,
+    button,
+    textarea,
+    select {
         width: 100%;
         height: 50px;
         border-radius: 5px;
         border: 1px solid #ccc;
         margin-top: 0.5rem;
+
         &:hover {
             transition: 0.3s ease-in-out;
         }
@@ -60,51 +64,61 @@ form {
         line-height: calc(1.4rem * 1.4);
         font-family: $primary-family;
         text-align: center;
+
         &:hover {
             background-color: $black;
         }
     }
-    
-    input, textarea {
+
+    input,
+    textarea {
         padding: 1rem 1rem;
         font-size: 1.2rem;
         font-weight: 300;
+
         &:focus {
             transition: 0.3s ease-in-out;
             outline: none;
             border-color: $color1;
         }
-    }   
-    
+    }
+
     button {
         cursor: pointer;
         transition: 0.3s ease-in-out;
+
         &:hover {
             background-color: #ccc;
         }
     }
-    
-    input::placeholder, textarea::placeholder {
+
+    input::placeholder,
+    textarea::placeholder {
         color: #ccc;
         font-weight: 300;
         font-size: 1.2rem;
     }
-    
+
     input[type="submit"] {
         cursor: pointer;
         transition: 0.3s ease-in-out;
         text-transform: uppercase;
+
         &:hover {
             background-color: $color1;
             color: #fff;
         }
+
         &:focus {
             outline: none;
         }
     }
 }
 
-a, input, button, textarea {
+a,
+input,
+button,
+textarea {
     &:hover {
         transition: 0.3s ease-in-out;
     }
@@ -140,9 +154,11 @@ a, input, button, textarea {
     align-items: center;
     justify-content: center;
     width: 100%;
+
     img {
         padding: 2rem 2rem 0rem 2rem;
     }
+
     h1 {
         text-align: center;
         margin: auto;
