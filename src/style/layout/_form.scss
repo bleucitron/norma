@@ -34,7 +34,7 @@ form {
     
     label {
         width: 100%;
-        margin-bottom: 1rem;
+        // margin-bottom: 1rem;
     }
     
     input, button, textarea {
@@ -119,6 +119,9 @@ a, input, button, textarea {
     justify-content: center;
     background-color: $color1;
     border: 0;
+    &:hover {
+       opacity: 0.8;
+    }
 }
 
 .create__account {
@@ -152,3 +155,4 @@ a, input, button, textarea {
         width: 100%;
     }
 }
+
