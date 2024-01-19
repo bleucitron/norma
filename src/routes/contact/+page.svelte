@@ -14,7 +14,8 @@
                     '--toastColor': '#fff',
                     '--toastProgressColor': '#fff',
                     '--toastProgressAfterColor': '#fff',
-                }
+                },
+                duration: 1500
             })
 
         }, (error) => {
@@ -26,7 +27,8 @@
                     '--toastColor': '#fff',
                     '--toastProgressColor': '#fff',
                     '--toastProgressAfterColor': '#fff',
-                }
+                },
+                duration: 1500
             })
         });
     }
@@ -35,12 +37,12 @@
    <h1>Contact</h1>
   <form id="contact__form" on:submit|preventDefault={sendEmail}>
     <label 
-        for="username"
+        for="lastname"
         aria-label="Votre nom"
 
     >Nom</label>
     <input 
-        name="username"
+        name="lastname"
         type="text" 
         required
         minlength="3"
@@ -48,9 +50,22 @@
         placeholder="Votre nom"
     >
     <label 
+        for="firstname"
+        aria-label="Votre prénom"
+
+    >Prénom</label>
+    <input 
+        name="firstname"
+        type="text" 
+        required
+        minlength="3"
+        title="Merci d'entrer un prénom valide"
+        placeholder="Votre prénom"
+    >
+    <label 
     for="email"
     aria-label="Votre email"
-    >Prénom</label>
+    >Email</label>
     <input 
         name="email"
         placeholder="Votre email"

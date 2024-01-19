@@ -1,6 +1,9 @@
 <script lang="ts">
 	import { enhance } from '$app/forms';
+	
 	export let form;
+
+	export let data;
 </script>
 
 <div id="login__page" class="form__tpl">
@@ -33,5 +36,4 @@
 	</div>
 	<button type="submit" class="btn">Connexion</button>
 </form>
-  <a class="create__account" href="/register">Créer un compte</a>
 </div>

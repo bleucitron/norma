@@ -17,7 +17,8 @@
 				'--toastColor': '#fff',
 				'--toastProgressColor': '#fff',
 				'--toastProgressAfterColor': '#fff'
-			}
+			},
+			duration: 1500
 		});
 	};
 </script>
