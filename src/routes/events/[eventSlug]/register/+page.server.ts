@@ -50,8 +50,8 @@ export const actions = {
             });
         }
         //TODO: Mettre le danceur en session
-        cookies.set('dancer', btoa(JSON.stringify(dancer[0])))
-        throw redirect(302, '/events/' + params.eventSlug + '/dancer-info');
+        /* @migration task: add path argument */ cookies.set('dancer', btoa(JSON.stringify(dancer[0])))
+        redirect(302, '/events/' + params.eventSlug + '/dancer-info');
 
     },
 };

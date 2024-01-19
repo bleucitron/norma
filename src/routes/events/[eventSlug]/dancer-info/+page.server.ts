@@ -3,7 +3,7 @@ import { fail, redirect } from '@sveltejs/kit';
 export async function load({ cookies, params, fetch }) {
     let dancer = JSON.parse(atob(cookies.get('dancer')))
     if (!dancer) {
-        throw redirect(302, '/events/' + params.eventSlug + '/login');
+        redirect(302, '/events/' + params.eventSlug + '/login');
     }
 }
 export const actions = {
@@ -35,6 +35,6 @@ export const actions = {
 
 
         //TODO: Implémenter la modal de succés
-        throw redirect(302, '/events/' + params.eventSlug);
+        redirect(302, '/events/' + params.eventSlug);
     },
 }

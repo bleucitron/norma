@@ -41,13 +41,13 @@ export const actions = {
 	const { access_token, refresh_token, provider_token, provider_refresh_token } =
 		data.session as AuthSession;
 
-	cookies.set(
-		'supabase-auth-token',
-		JSON.stringify([access_token, refresh_token, provider_token, provider_refresh_token]),
-	);
+	/* @migration task: add path argument */ cookies.set(
+        		'supabase-auth-token',
+        		JSON.stringify([access_token, refresh_token, provider_token, provider_refresh_token]),
+        	);
 
     //TODO: Implémenter la modal de succés
-	throw redirect(302, '/admin');
+	redirect(302, '/admin');
   },
 }
 
