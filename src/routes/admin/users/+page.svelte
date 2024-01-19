@@ -110,12 +110,3 @@
 		</tbody>
 	</table>
 </section>
-
-<style lang="scss">
-	.header-container {
-		display: flex;
-		align-items: center;
-		justify-content: space-between;
-		margin-bottom: 34px;
-	}
-</style>
