@@ -13,7 +13,7 @@
 </div>
 
 <ul class="events-list">
-	{#each data.data.slice(0, 2) as event}
+	{#each data.events.slice(0, 2) as event}
 		<li class="event">
 			<div class="event__item">
 				<div>
@@ -27,7 +27,7 @@
 					<h2>{event.title}</h2>
 					<p>{event.description}</p>
 					<div class="btn__container">
-						<a href={`/admin/events/${event.id}/users`} class="btn">Voir les participants</a>
+						<a href={`/admin/events/${event.formSlug}/users`} class="btn">Voir les participants</a>
 						<a
 							href={`https://admin.helloasso.com/${event.organizationSlug}/evenements/${event.formSlug}/edition/1`}
 							class="btn"

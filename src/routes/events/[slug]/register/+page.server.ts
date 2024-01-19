@@ -19,7 +19,7 @@ export const actions = {
                 dancer_id: dancer.id,
                 role: role,
                 level: level,
-                event: params.eventSlug
+                event: params.slug
             })
         if (insetError) {
             console.log(insetError)
@@ -30,6 +30,6 @@ export const actions = {
 
 
         //TODO: Implémenter la modal de succés
-        redirect(302, '/events/' + params.eventSlug);
+        redirect(302, '/events/' + params.slug);
     },
 }
