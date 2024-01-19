@@ -1,36 +1,29 @@
 <script>
-	export let data;
-	console.log(data);
+	//export let data;
+	// console.log(data);
 </script>
 
 <svelte:head>
-	<title>Inscription</title>
+	<title>Mes informations complémentaires</title>
 </svelte:head>
-<div class="form__tpl">
-	<h1>Inscription</h1>
-	<form action="register" method="post">
-		<div class="form__group">
-			<label for="firstname">Prénom</label>
-			<input type="text" name="firstname" />
-		</div>
-		<div class="form__group">
-			<label for="lastname">Nom</label>
-			<input type="text" name="lastname" />
-		</div>
-		<div class="form__group">
-			<label for="email">Email</label>
-			<input type="email" name="email" />
-		</div>
-		<div class="form__group">
-			<label for="password">Mot de passe</label>
-			<input type="password" name="password" />
-		</div>
-		<div class="form__group">
-			<label for="password-confirm">Confirmation de mot de passe</label>
-			<input type="password" name="password-confirm" />
-		</div>
-		<button type="submit">S'inscrire</button>
-	</form>
-	<p>Vous avez deja un compte ?</p>
-	<a class="create__account" href="/events/{data.formSlug}/login">Connectez-vous !</a>
-</div>
+<main>
+	<h1>Renseignez-nous !</h1>
+	<div class="form-group">
+		<form action="dancer-info" method="post">
+			<label for="role-select">Votre rôle :</label>
+			<select name="role" id="role-select" required>
+				<option value="">--Please choose an option--</option>
+				<option value="Leader">Leader</option>
+				<option value="Suiveur">Suiveur</option>
+			</select>
+			<label for="level-select">Votre niveau :</label>
+			<select name="level" id="level-select" required>
+				<option value="">--Please choose an option--</option>
+				<option value="Débutant">Débutant</option>
+				<option value="Confirmé">Confirmé</option>
+				<option value="Expert">Expert</option>
+			</select>
+			<button type="submit">Poursuivre l'inscription</button>
+		</form>
+	</div>
+</main>
