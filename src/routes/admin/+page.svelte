@@ -1,13 +1,18 @@
 <script>
 	export let data;
-	// const registeredDancers = data.dancers.map((registeredDancer) => {
-	// 	return registeredDancer;
-	// });
 
-	// const newRegisteredDancers = data.dancers.length;
+	const registeredDancers = data.dancers.length;
+
+	const followersDancers = data.dancers.filter((dancer) => dancer.role === 'Suiveur');
+	const numberOfFollowersDancers = followersDancers.length;
+
+	const leadersDancers = data.dancers.filter((dancer) => dancer.role === 'Leader');
+	const numberOfLeadersDancers = leadersDancers.length;
 </script>
 
-<!-- <p>Nombre total de danseurs inscrits : {newRegisteredDancers}</p> -->
+<p>Nombre total de danseurs inscrits : {registeredDancers}</p>
+<p>Nombre de leaders inscrits : {numberOfFollowersDancers}</p>
+<p>Nombre de followers inscrits : {numberOfLeadersDancers}</p>
 
 <div class="header-container">
 	<h1>Vos derniers événements</h1>
