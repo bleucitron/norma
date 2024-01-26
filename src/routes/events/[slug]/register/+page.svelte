@@ -1,6 +1,5 @@
 <script>
-	export let form;
-	console.log(form);
+	// export const form;
 </script>
 
 <svelte:head>
@@ -8,7 +7,7 @@
 </svelte:head>
 <div id="login__page" class="form__tpl">
 	<h1>Renseignez-nous !</h1>
-	<form action="dancer-info" method="post">
+	<form action="commande" method="get">
 		<div class="form-group">
 			<label for="firstname">Prénom</label>
 			<input
