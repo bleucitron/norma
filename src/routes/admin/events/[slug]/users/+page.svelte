@@ -1,5 +1,6 @@
 <script>
-	import { users } from '../../../../../data/usersEvent.json';
+	export let data;
+	let users = data.users;
 
 	let searchTerm = '';
 	let roleFilter = '';
@@ -31,8 +32,8 @@
 
 		if (column === 'created_at') {
 			sortedUsers = filteredUsers.slice().sort((a, b) => {
-				const dateA = parseFrenchDate(a.created_at);
-				const dateB = parseFrenchDate(b.created_at);
+				const dateA = formatToFrenchDate(a.created_at);
+				const dateB = formatToFrenchDate(b.created_at);
 				return sortOrder * (dateA - dateB);
 			});
 		} else {
@@ -53,9 +54,12 @@
 		sortedUsers = users.slice();
 	}
 
-	function parseFrenchDate(dateString) {
-		const [day, month, year] = dateString.split('/');
-		return new Date(`${year}-${month}-${day}`);
+	function formatToFrenchDate(dateString) {
+		const date = new Date(dateString);
+		const day = date.getDate().toString().padStart(2, '0');
+		const month = (date.getMonth() + 1).toString().padStart(2, '0');
+		const year = date.getFullYear();
+		return `${day}/${month}/${year}`;
 	}
 
 	function filterUsersByRole(e) {
@@ -136,7 +140,7 @@
 						<td>{user.firstname} {user.lastname}</td>
 						<td>{user.role}</td>
 						<td>{user.state}</td>
-						<td>{user.created_at}</td>
+						<td>{formatToFrenchDate(user.created_at)}</td>
 						<td>
 							<button>Modifier</button>
 							<button>Supprimer</button>
