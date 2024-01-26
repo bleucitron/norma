@@ -1,6 +1,13 @@
 <script>
 	export let data;
+	// const registeredDancers = data.dancers.map((registeredDancer) => {
+	// 	return registeredDancer;
+	// });
+
+	// const newRegisteredDancers = data.dancers.length;
 </script>
+
+<!-- <p>Nombre total de danseurs inscrits : {newRegisteredDancers}</p> -->
 
 <div class="header-container">
 	<h1>Vos derniers événements</h1>
