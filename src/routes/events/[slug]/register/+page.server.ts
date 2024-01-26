@@ -33,3 +33,11 @@
 //         throw redirect(302, '/events/' + params.slug);
 //     },
 // };
+
+import { redirect } from '@sveltejs/kit';
+
+export const actions = {
+	default: async ({ params }) => {
+		throw redirect(302, '/events/' + params.slug + '/checkout');
+	}
+};
