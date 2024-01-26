@@ -1,4 +1,4 @@
-import { fail, redirect } from '@sveltejs/kit';
+import { error, fail, redirect } from '@sveltejs/kit';
 import { access_token } from '$lib/server/accessToken';
 import { get } from 'svelte/store';
 
@@ -105,13 +105,24 @@ async function checkRole(event, role, level, supabase) {
 }
 
 async function registerWaiting(params, formData, supabase) {
-
-    //await register(params, formData, supabase, 'Attente') 
-
+    try {
+        await register(params, formData, supabase, 'Attente')
+    } catch (e) {
+        return fail(400, {
+            error: e
+        })
+    }
     throw redirect(302, '/events/' + params.slug + '/reservation');
+
 }
 async function registerOk(params, formData, supabase) {
-    //await register(params, formData, supabase, 'Reglement en cours')
+    try {
+        await register(params, formData, supabase, 'Reglement en cours')
+    } catch (e) {
+        return fail(400, {
+            error: e
+        })
+    }
     throw redirect(302, '/events/' + params.slug + '/commande');
 }
 

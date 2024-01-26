@@ -1,5 +1,5 @@
 <script>
-	// export const form;
+	export let form;
 </script>
 
 <svelte:head>
