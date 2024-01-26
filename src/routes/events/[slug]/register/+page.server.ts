@@ -58,6 +58,7 @@ export const actions = {
                 if (partenaire) {
                     if (partenaire.state === 'Attente') {
                         //envoi auto mail pour payer
+                        setDancerOrderWaiting(params, partnaire_email, supabase)
                     }
                 } else {
                     sendInvitationMail(partnaire_email)
@@ -154,4 +155,15 @@ async function register(params, formData, supabase, state) {
 }
 function sendInvitationMail(email) {
 
+}
+
+async function setDancerOrderWaiting(params, partnaire_email, supabase) {
+    const { error } = await supabase
+        .from('countries')
+        .update({ state: 'Reglement en cours' })
+        .eq('email', partnaire_email)
+        .eq('event', params.slug);
+    if (!error) {
+        //send mail auto pour payer
+    }
 }
