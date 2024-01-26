@@ -56,6 +56,14 @@ img {
     max-width: 100%;
 }
 
+.separator {
+    background: $black;
+    width: 100%;
+    height: 0.1rem;
+    margin: 4rem 0;
+    opacity: .2;
+}
+
 @media (max-width: 768px) {
     h1 {
         font-size: 3rem;
