@@ -1,12 +1,16 @@
 <script lang="ts">
 	export let data;
 	let todayDate = new Date();
-	let dataToDisplay: Array<any> = [];
+	let archivedEvents: Array<any> = [];
+	let events: any;
+
 	if (Array.isArray(data.events)) {
-		data.events.forEach((event) => {
+		events = data.events.filter((event) => {
 			if (new Date(event.endDate) < todayDate) {
-				dataToDisplay.push(event);
+				archivedEvents.push(event);
+				return false;
 			}
+			return true;
 		});
 	} else {
 		console.error('data.events is not an array');
@@ -18,7 +22,7 @@
 </div>
 
 <ul class="events-list">
-	{#each data.events as event}
+	{#each events as event}
 		<li class="event">
 			<a href="/events/{event.formSlug}" class="card">
 				<div class="card__img">
@@ -51,7 +55,7 @@
 </div>
 
 <ul class="events-list events-archived">
-	{#each dataToDisplay as event}
+	{#each archivedEvents as event}
 		<li class="event">
 			<a href="/archive/{event.formSlug}" class="card">
 				<div class="card__img">

@@ -5,167 +5,167 @@ export interface Database {
 		Tables: {
 			dancers: {
 				Row: {
-					created_at: string
-					email: string | null
-					event: string
-					firstname: string | null
-					id: number
-					lastname: string | null
-					level: string | null
-					order_id: string | null
-					partner_email: string | null
-					role: string | null
-					state: string | null
-				}
+					created_at: string;
+					email: string | null;
+					event: string;
+					firstname: string | null;
+					id: number;
+					lastname: string | null;
+					level: string | null;
+					order_id: string | null;
+					partner_email: string | null;
+					role: string | null;
+					state: string | null;
+				};
 				Insert: {
-					created_at?: string
-					email?: string | null
-					event: string
-					firstname?: string | null
-					id?: number
-					lastname?: string | null
-					level?: string | null
-					order_id?: string | null
-					partner_email?: string | null
-					role?: string | null
-					state?: string | null
-				}
+					created_at?: string;
+					email?: string | null;
+					event: string;
+					firstname?: string | null;
+					id?: number;
+					lastname?: string | null;
+					level?: string | null;
+					order_id?: string | null;
+					partner_email?: string | null;
+					role?: string | null;
+					state?: string | null;
+				};
 				Update: {
-					created_at?: string
-					email?: string | null
-					event?: string
-					firstname?: string | null
-					id?: number
-					lastname?: string | null
-					level?: string | null
-					order_id?: string | null
-					partner_email?: string | null
-					role?: string | null
-					state?: string | null
-				}
-				Relationships: []
-			}
+					created_at?: string;
+					email?: string | null;
+					event?: string;
+					firstname?: string | null;
+					id?: number;
+					lastname?: string | null;
+					level?: string | null;
+					order_id?: string | null;
+					partner_email?: string | null;
+					role?: string | null;
+					state?: string | null;
+				};
+				Relationships: [];
+			};
 			profiles: {
 				Row: {
-					avatar_url: string | null
-					full_name: string | null
-					id: string
-					updated_at: string | null
-					username: string | null
-					website: string | null
-				}
+					avatar_url: string | null;
+					full_name: string | null;
+					id: string;
+					updated_at: string | null;
+					username: string | null;
+					website: string | null;
+				};
 				Insert: {
-					avatar_url?: string | null
-					full_name?: string | null
-					id: string
-					updated_at?: string | null
-					username?: string | null
-					website?: string | null
-				}
+					avatar_url?: string | null;
+					full_name?: string | null;
+					id: string;
+					updated_at?: string | null;
+					username?: string | null;
+					website?: string | null;
+				};
 				Update: {
-					avatar_url?: string | null
-					full_name?: string | null
-					id?: string
-					updated_at?: string | null
-					username?: string | null
-					website?: string | null
-				}
+					avatar_url?: string | null;
+					full_name?: string | null;
+					id?: string;
+					updated_at?: string | null;
+					username?: string | null;
+					website?: string | null;
+				};
 				Relationships: [
 					{
-						foreignKeyName: "profiles_id_fkey"
-						columns: ["id"]
-						isOneToOne: true
-						referencedRelation: "users"
-						referencedColumns: ["id"]
+						foreignKeyName: 'profiles_id_fkey';
+						columns: ['id'];
+						isOneToOne: true;
+						referencedRelation: 'users';
+						referencedColumns: ['id'];
 					}
-				]
-			}
-		}
+				];
+			};
+		};
 		Views: {
-			[_ in never]: never
-		}
+			[_ in never]: never;
+		};
 		Functions: {
-			[_ in never]: never
-		}
+			[_ in never]: never;
+		};
 		Enums: {
-			[_ in never]: never
-		}
+			[_ in never]: never;
+		};
 		CompositeTypes: {
-			[_ in never]: never
-		}
-	}
+			[_ in never]: never;
+		};
+	};
 }
 
 export type Tables<
 	PublicTableNameOrOptions extends
-	| keyof (Database['public']['Tables'] & Database['public']['Views'])
-	| { schema: keyof Database },
+		| keyof (Database['public']['Tables'] & Database['public']['Views'])
+		| { schema: keyof Database },
 	TableName extends PublicTableNameOrOptions extends { schema: keyof Database }
-	? keyof (Database[PublicTableNameOrOptions['schema']]['Tables'] &
-		Database[PublicTableNameOrOptions['schema']]['Views'])
-	: never = never
+		? keyof (Database[PublicTableNameOrOptions['schema']]['Tables'] &
+				Database[PublicTableNameOrOptions['schema']]['Views'])
+		: never = never
 > = PublicTableNameOrOptions extends { schema: keyof Database }
 	? (Database[PublicTableNameOrOptions['schema']]['Tables'] &
-		Database[PublicTableNameOrOptions['schema']]['Views'])[TableName] extends {
+			Database[PublicTableNameOrOptions['schema']]['Views'])[TableName] extends {
 			Row: infer R;
 		}
-	? R
-	: never
+		? R
+		: never
 	: PublicTableNameOrOptions extends keyof (Database['public']['Tables'] &
-		Database['public']['Views'])
-	? (Database['public']['Tables'] &
-		Database['public']['Views'])[PublicTableNameOrOptions] extends {
-			Row: infer R;
-		}
-	? R
-	: never
-	: never;
+				Database['public']['Views'])
+		? (Database['public']['Tables'] &
+				Database['public']['Views'])[PublicTableNameOrOptions] extends {
+				Row: infer R;
+			}
+			? R
+			: never
+		: never;
 
 export type TablesInsert<
 	PublicTableNameOrOptions extends keyof Database['public']['Tables'] | { schema: keyof Database },
 	TableName extends PublicTableNameOrOptions extends { schema: keyof Database }
-	? keyof Database[PublicTableNameOrOptions['schema']]['Tables']
-	: never = never
+		? keyof Database[PublicTableNameOrOptions['schema']]['Tables']
+		: never = never
 > = PublicTableNameOrOptions extends { schema: keyof Database }
 	? Database[PublicTableNameOrOptions['schema']]['Tables'][TableName] extends {
-		Insert: infer I;
-	}
-	? I
-	: never
+			Insert: infer I;
+		}
+		? I
+		: never
 	: PublicTableNameOrOptions extends keyof Database['public']['Tables']
-	? Database['public']['Tables'][PublicTableNameOrOptions] extends {
-		Insert: infer I;
-	}
-	? I
-	: never
-	: never;
+		? Database['public']['Tables'][PublicTableNameOrOptions] extends {
+				Insert: infer I;
+			}
+			? I
+			: never
+		: never;
 
 export type TablesUpdate<
 	PublicTableNameOrOptions extends keyof Database['public']['Tables'] | { schema: keyof Database },
 	TableName extends PublicTableNameOrOptions extends { schema: keyof Database }
-	? keyof Database[PublicTableNameOrOptions['schema']]['Tables']
-	: never = never
+		? keyof Database[PublicTableNameOrOptions['schema']]['Tables']
+		: never = never
 > = PublicTableNameOrOptions extends { schema: keyof Database }
 	? Database[PublicTableNameOrOptions['schema']]['Tables'][TableName] extends {
-		Update: infer U;
-	}
-	? U
-	: never
+			Update: infer U;
+		}
+		? U
+		: never
 	: PublicTableNameOrOptions extends keyof Database['public']['Tables']
-	? Database['public']['Tables'][PublicTableNameOrOptions] extends {
-		Update: infer U;
-	}
-	? U
-	: never
-	: never;
+		? Database['public']['Tables'][PublicTableNameOrOptions] extends {
+				Update: infer U;
+			}
+			? U
+			: never
+		: never;
 
 export type Enums<
 	PublicEnumNameOrOptions extends keyof Database['public']['Enums'] | { schema: keyof Database },
 	EnumName extends PublicEnumNameOrOptions extends { schema: keyof Database }
-	? keyof Database[PublicEnumNameOrOptions['schema']]['Enums']
-	: never = never
+		? keyof Database[PublicEnumNameOrOptions['schema']]['Enums']
+		: never = never
 > = PublicEnumNameOrOptions extends { schema: keyof Database }
 	? Database[PublicEnumNameOrOptions['schema']]['Enums'][EnumName]
 	: PublicEnumNameOrOptions extends keyof Database['public']['Enums']
-	? Database['public']['Enums'][PublicEnumNameOrOptions]
-	: never;
+		? Database['public']['Enums'][PublicEnumNameOrOptions]
+		: never;
