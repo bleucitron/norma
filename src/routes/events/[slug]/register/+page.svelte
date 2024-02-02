@@ -1,4 +1,19 @@
 <script>
+	import { toast } from '@zerodevx/svelte-toast';
+	export let form;
+	if (form?.error) {
+		toast.push(form?.error, {
+			theme: {
+				'--toastBackground': '#cc210a',
+				'--toastProgressBackground': '#d93c27',
+				'--toastProgressAfterBackground': '#a5d6a7',
+				'--toastColor': '#fff',
+				'--toastProgressColor': '#fff',
+				'--toastProgressAfterColor': '#fff'
+			},
+			duration: 1500
+		});
+	}
 </script>
 
 <svelte:head>
@@ -7,30 +22,6 @@
 <div id="login__page" class="form__tpl">
 	<h1>Renseignez-nous !</h1>
 	<form action="register" method="post">
-		<div class="form-group">
-			<label for="firstname">Prénom</label>
-			<input
-				type="text"
-				name="firstname"
-				id="firstname"
-				required
-				aria-required="true"
-				placeholder="Votre prénom"
-				class="form-control"
-			/>
-		</div>
-		<div class="form-group">
-			<label for="lastname">Nom</label>
-			<input
-				type="text"
-				name="lastname"
-				id="lastname"
-				required
-				aria-required="true"
-				placeholder="Votre nom"
-				class="form-control"
-			/>
-		</div>
 		<div class="form-group">
 			<label for="email">Email</label>
 			<input
@@ -59,17 +50,17 @@
 			<label for="role-select">Votre rôle :</label>
 			<select name="role" id="role-select" required>
 				<option value="">--Please choose an option--</option>
-				<option value="Leader">Leader</option>
-				<option value="Suiveur">Suiveur</option>
+				<option value="0">Leader</option>
+				<option value="1">Suiveur</option>
 			</select>
 		</div>
 		<div class="form-group">
 			<label for="level-select">Votre niveau :</label>
 			<select name="level" id="level-select" required>
 				<option value="">--Please choose an option--</option>
-				<option value="Débutant">Débutant</option>
-				<option value="Confirmé">Confirmé</option>
-				<option value="Expert">Expert</option>
+				<option value="0">Débutant</option>
+				<option value="1">Confirmé</option>
+				<option value="2">Expert</option>
 			</select>
 		</div>
 		<button type="submit">Poursuivre l'inscription</button>

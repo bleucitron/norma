@@ -1,6 +1,22 @@
 <script lang="ts">
 	export let data;
 
+	let todayDate = new Date();
+	let archivedEvents: Array<any> = [];
+	let events: any;
+
+	if (Array.isArray(data.events)) {
+		events = data.events.filter((event) => {
+			if (new Date(event.endDate) < todayDate) {
+				archivedEvents.push(event);
+				return false;
+			}
+			return true;
+		});
+	} else {
+		console.error('data.events is not an array');
+	}
+
 	// Utilisateur non inscrit = 0
 	// Utilisateur en attente = 1
 	// Utilisateur inscrit = 2
@@ -78,12 +94,37 @@
 	<div class="btn__container">
 		<a href={`/admin/events`} class="btn">Voir tous les évenements</a>
 	</div>
-	<div class="btn__container">
-		<a href={`/admin/users`} class="btn">Voir tous les utilisateurs</a>
-	</div>
 </div>
 
 <p>Nombre total d'inscrits aux compétitions : {registeredDancers.length}</p>
+
+<ul class="events-list">
+	{#each events.slice(0, 2) as event}
+		<li class="event">
+			<div class="event__item">
+				<div>
+					{#if event.logo}
+						<div class="event-image-container">
+							<img src={event.logo.publicUrl} alt={event.title} class="event-img" />
+						</div>
+					{/if}
+				</div>
+				<div class="card__content">
+					<h2>{event.title}</h2>
+					<p>{event.description}</p>
+					<div class="btn__container">
+						<a href={`/admin/events/${event.formSlug}/users`} class="btn">Voir les participants</a>
+						<a
+							href={`https://admin.helloasso.com/${event.organizationSlug}/evenements/${event.formSlug}/edition/1`}
+							class="btn"
+							target="_blank">Gérer</a
+						>
+					</div>
+				</div>
+			</div>
+		</li>
+	{/each}
+</ul>
 
 <ul class="events-list">
 	{#each data.events as event}
