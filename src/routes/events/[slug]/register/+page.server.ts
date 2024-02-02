@@ -9,12 +9,10 @@ export const actions = {
     default: async ({ params, request, locals: { supabase } }) => {
         const formData = await request.formData();
         const email = formData.get('email')?.toString();
-        const firstname = formData.get('firstname')?.toString();
-        const lastname = formData.get('lastname')?.toString();
         const level = formData.get('level')?.toString();
         const role = formData.get('role')?.toString();
         const partnaire_email = formData.get('partnaire_email')?.toString();
-        if (!(email && firstname && lastname && level && role)) {
+        if (!(email && level && role)) {
             return fail(400, {
                 error: 'champs non valide'
             });
@@ -139,8 +137,6 @@ async function registerOk(params, formData, supabase) {
 
 async function register(params, formData, supabase, state) {
     const email = formData.get('email')?.toString();
-    const firstname = formData.get('firstname')?.toString();
-    const lastname = formData.get('lastname')?.toString();
     const level = formData.get('level')?.toString();
     const role = formData.get('role')?.toString();
     const partnaire_email = formData.get('partnaire_email')?.toString();
@@ -153,13 +149,18 @@ async function register(params, formData, supabase, state) {
 
     if (alreadyExist[0]) {
         const alreadyExistUser = alreadyExist[0]
+        console.log(alreadyExistUser.state)
+        console.log(params.slug)
         switch (alreadyExistUser.state) {
             case 'Reglement en cours':
                 throw redirect(302, '/events/' + params.slug + '/commande');
+                break;
             case 'Inscrit':
                 throw redirect(302, '/events/' + params.slug + '/confirmation');
+                break;
             case 'Attente':
                 throw redirect(302, '/events/' + params.slug + '/reservation');
+                break;
             default:
                 return fail(400, {
                     error: 'Erreur'
@@ -171,8 +172,6 @@ async function register(params, formData, supabase, state) {
         .from('dancers')
         .insert({
             email: email,
-            firstname: firstname,
-            lastname: lastname,
             state: state,
             role: role,
             level: level,

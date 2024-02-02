@@ -1,4 +1,19 @@
 <script>
+	import { toast } from '@zerodevx/svelte-toast';
+	export let form;
+	if (form?.error) {
+		toast.push(form?.error, {
+			theme: {
+				'--toastBackground': '#cc210a',
+				'--toastProgressBackground': '#d93c27',
+				'--toastProgressAfterBackground': '#a5d6a7',
+				'--toastColor': '#fff',
+				'--toastProgressColor': '#fff',
+				'--toastProgressAfterColor': '#fff'
+			},
+			duration: 1500
+		});
+	}
 </script>
 
 <svelte:head>
@@ -7,30 +22,6 @@
 <div id="login__page" class="form__tpl">
 	<h1>Renseignez-nous !</h1>
 	<form action="register" method="post">
-		<div class="form-group">
-			<label for="firstname">Prénom</label>
-			<input
-				type="text"
-				name="firstname"
-				id="firstname"
-				required
-				aria-required="true"
-				placeholder="Votre prénom"
-				class="form-control"
-			/>
-		</div>
-		<div class="form-group">
-			<label for="lastname">Nom</label>
-			<input
-				type="text"
-				name="lastname"
-				id="lastname"
-				required
-				aria-required="true"
-				placeholder="Votre nom"
-				class="form-control"
-			/>
-		</div>
 		<div class="form-group">
 			<label for="email">Email</label>
 			<input
