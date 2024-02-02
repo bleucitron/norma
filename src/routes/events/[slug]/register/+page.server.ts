@@ -136,6 +136,8 @@ async function register(params, formData, supabase, state) {
 
     if (alreadyExist[0]) {
         const alreadyExistUser = alreadyExist[0]
+        console.log(alreadyExistUser.state)
+        console.log(params.slug)
         switch (alreadyExistUser.state) {
             case State['Règlement en cours']:
                 return '/events/' + params.slug + '/commande';
