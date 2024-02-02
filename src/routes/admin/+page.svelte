@@ -1,6 +1,20 @@
-<script>
+<script lang="ts">
 	export let data;
-	console.log(data);
+	let todayDate = new Date();
+	let archivedEvents: Array<any> = [];
+	let events: any;
+
+	if (Array.isArray(data.events)) {
+		events = data.events.filter((event) => {
+			if (new Date(event.endDate) < todayDate) {
+				archivedEvents.push(event);
+				return false;
+			}
+			return true;
+		});
+	} else {
+		console.error('data.events is not an array');
+	}
 
 	function formatCurrency(value, currency) {
 		return new Intl.NumberFormat('fr-FR', {
@@ -23,13 +37,10 @@
 	<div class="btn__container">
 		<a href={`/admin/events`} class="btn">Voir tous les évenements</a>
 	</div>
-	<div class="btn__container">
-		<a href={`/admin/users`} class="btn">Voir tous les utilisateurs</a>
-	</div>
 </div>
 
 <ul class="events-list">
-	{#each data.events.slice(0, 2) as event}
+	{#each events.slice(0, 2) as event}
 		<li class="event">
 			<div class="event__item">
 				<div>
