@@ -1,5 +1,20 @@
-<script>
+<script lang="ts">
 	export let data;
+	let todayDate = new Date();
+	let archivedEvents: Array<any> = [];
+	let events: any;
+
+	if (Array.isArray(data.events)) {
+		events = data.events.filter((event) => {
+			if (new Date(event.endDate) < todayDate) {
+				archivedEvents.push(event);
+				return false;
+			}
+			return true;
+		});
+	} else {
+		console.error('data.events is not an array');
+	}
 	// const registeredDancers = data.dancers.map((registeredDancer) => {
 	// 	return registeredDancer;
 	// });
@@ -17,7 +32,7 @@
 </div>
 
 <ul class="events-list">
-	{#each data.events.slice(0, 2) as event}
+	{#each events.slice(0, 2) as event}
 		<li class="event">
 			<div class="event__item">
 				<div>
