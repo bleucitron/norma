@@ -11,6 +11,6 @@ export enum Role {
 
 export enum Level {
     'Débutant',
-    'Intermédiaire',
+    'Confirmé',
     'Expert'
 }

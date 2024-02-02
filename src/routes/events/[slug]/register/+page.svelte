@@ -50,17 +50,17 @@
 			<label for="role-select">Votre rôle :</label>
 			<select name="role" id="role-select" required>
 				<option value="">--Please choose an option--</option>
-				<option value="Leader">Leader</option>
-				<option value="Suiveur">Suiveur</option>
+				<option value="0">Leader</option>
+				<option value="1">Suiveur</option>
 			</select>
 		</div>
 		<div class="form-group">
 			<label for="level-select">Votre niveau :</label>
 			<select name="level" id="level-select" required>
 				<option value="">--Please choose an option--</option>
-				<option value="Débutant">Débutant</option>
-				<option value="Confirmé">Confirmé</option>
-				<option value="Expert">Expert</option>
+				<option value="0">Débutant</option>
+				<option value="1">Confirmé</option>
+				<option value="2">Expert</option>
 			</select>
 		</div>
 		<button type="submit">Poursuivre l'inscription</button>
