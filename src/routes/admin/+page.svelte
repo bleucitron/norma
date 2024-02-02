@@ -1,9 +1,12 @@
-<script lang="ts">
+<script>
 	export let data;
 	console.log(data);
 
 	function formatCurrency(value, currency) {
-		return new Intl.NumberFormat('fr-FR', { style: 'currency', currency }).format(value);
+		return new Intl.NumberFormat('fr-FR', {
+			style: 'currency',
+			currency
+		}).format(value);
 	}
 
 	const registeredDancers = data.dancers.length;
@@ -15,17 +18,18 @@
 	const numberOfLeadersDancers = leadersDancers.length;
 </script>
 
-<!-- <p>Nombre total de danseurs inscrits : {newRegisteredDancers}</p> -->
-
 <div class="header-container">
 	<h1>Vos derniers événements</h1>
 	<div class="btn__container">
 		<a href={`/admin/events`} class="btn">Voir tous les évenements</a>
 	</div>
+	<div class="btn__container">
+		<a href={`/admin/users`} class="btn">Voir tous les utilisateurs</a>
+	</div>
 </div>
 
 <ul class="events-list">
-	{#each events.slice(0, 2) as event}
+	{#each data.events.slice(0, 2) as event}
 		<li class="event">
 			<div class="event__item">
 				<div>
