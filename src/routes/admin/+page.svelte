@@ -14,9 +14,6 @@
 	<div class="btn__container">
 		<a href={`/admin/events`} class="btn">Voir tous les évenements</a>
 	</div>
-	<div class="btn__container">
-		<a href={`/admin/users`} class="btn">Voir tous les utilisateurs</a>
-	</div>
 </div>
 
 <ul class="events-list">
