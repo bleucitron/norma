@@ -38,13 +38,18 @@ export const actions = {
             .select('*(count)')
             .eq('event', params.slug)
             .eq('state', 'inscrit')
+        if (countError) {
+            return fail(400, {
+                error: "Erreur lors de la recherche du nombre d'inscrits"
+            });
+        }
 
         if (!Number(registrationCount)) {
             registrationCount = 0
         }
         if (registrationCount >= 50) {
 
-            registerWaiting(params, formData, supabase)
+            return registerWaiting(params, formData, supabase)
         }
         let check_role = await checkRole(params.slug, role, level, supabase)
 
@@ -55,6 +60,11 @@ export const actions = {
                     .select('*(count)')
                     .eq('event', params.slug)
                     .eq('email', partnaire_email)
+                if (partenaireError) {
+                    return fail(400, {
+                        error: "Erreur lors de la recherche du partenaire renseigné"
+                    });
+                }
                 if (partenaire) {
                     if (partenaire.state === 'Attente') {
                         //envoi auto mail pour payer
@@ -65,7 +75,7 @@ export const actions = {
                 }
 
             }
-            registerOk(params, formData, supabase);
+            return registerOk(params, formData, supabase);
 
         } else {
             if (partnaire_email) {
@@ -77,13 +87,13 @@ export const actions = {
 
                 if (partenaire) {
                     if (partenaire.state === 'Inscrit') {
-                        registerOk(params, formData, supabase);
+                        return registerOk(params, formData, supabase);
                     }
                 } else {
                     sendInvitationMail(partnaire_email)
                 }
             }
-            registerWaiting(params, formData, supabase)
+            return registerWaiting(params, formData, supabase)
         }
     },
 };
@@ -102,7 +112,7 @@ async function checkRole(event, role, level, supabase) {
         .eq('role', (role === 'leader' ? 'suiveur' : 'leader'))
         .eq('level', level)
 
-    return selectedCount <= oppositeCount + 4;
+    return selectedCount <= oppositeCount + 2;
 }
 
 async function registerWaiting(params, formData, supabase) {
@@ -135,6 +145,27 @@ async function register(params, formData, supabase, state) {
     const role = formData.get('role')?.toString();
     const partnaire_email = formData.get('partnaire_email')?.toString();
 
+    const { data: alreadyExist, error: alreadyExistError } = await supabase
+        .from('dancers')
+        .select()
+        .eq('email', email)
+        .eq('event', params.slug)
+
+    if (alreadyExist) {
+        switch (alreadyExist.state) {
+            case 'Reglement en cours':
+                throw redirect(302, '/events/' + params.slug + '/commande');
+            case 'Inscrit':
+                throw redirect(302, '/events/' + params.slug + '/confirmation');
+            case 'Attente':
+                throw redirect(302, '/events/' + params.slug + '/reservation');
+            default:
+                return fail(400, {
+                    error: 'Erreur'
+                })
+        }
+    }
+
     const { error: insertError } = await supabase
         .from('dancers')
         .insert({
@@ -152,6 +183,7 @@ async function register(params, formData, supabase, state) {
             error: 'Une erreur est survenue :' + insertError,
         });
     }
+    return true;
 }
 function sendInvitationMail(email) {
 
