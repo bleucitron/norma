@@ -1,5 +1,20 @@
-<script>
+<script lang="ts">
 	export let data;
+	let todayDate = new Date();
+	let archivedEvents: Array<any> = [];
+	let events: any;
+
+	if (Array.isArray(data.events)) {
+		events = data.events.filter((event) => {
+			if (new Date(event.endDate) < todayDate) {
+				archivedEvents.push(event);
+				return false;
+			}
+			return true;
+		});
+	} else {
+		console.error('data.events is not an array');
+	}
 </script>
 
 <svelte:head></svelte:head>
@@ -12,7 +27,7 @@
 </div>
 
 <ul class="events-list">
-	{#each data.events as event}
+	{#each events as event}
 		<li class="event">
 			<div class="event__item">
 				<div>
@@ -34,6 +49,39 @@
 					</div>
 				</div>
 			</div>
+		</li>
+	{/each}
+</ul>
+
+<div class="separator"></div>
+
+<div class="header-container">
+	<h2>Les événements terminés</h2>
+</div>
+
+<ul class="events-list events-archived">
+	{#each archivedEvents as event}
+		<li class="event">
+			<a href="/archive/{event.formSlug}" class="card">
+				<div class="card__img">
+					<div class="event__item">
+						<div>
+							{#if event.logo}<img
+									src={event.logo.publicUrl}
+									alt={event.title}
+									class="event-img"
+								/>{/if}
+						</div>
+						<div class="card__content">
+							<h2>{event.title}</h2>
+							<p>{event.description}</p>
+							<div class="btn__container">
+								<a href="/archive/{event.formSlug}" class="btn">Voir</a>
+							</div>
+						</div>
+					</div>
+				</div>
+			</a>
 		</li>
 	{/each}
 </ul>
