@@ -151,8 +151,9 @@ async function register(params, formData, supabase, state) {
         .eq('email', email)
         .eq('event', params.slug)
 
-    if (alreadyExist) {
-        switch (alreadyExist.state) {
+    if (alreadyExist[0]) {
+        const alreadyExistUser = alreadyExist[0]
+        switch (alreadyExistUser.state) {
             case 'Reglement en cours':
                 throw redirect(302, '/events/' + params.slug + '/commande');
             case 'Inscrit':
