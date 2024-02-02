@@ -1,21 +1,76 @@
-<script>
+<script lang="ts">
 	export let data;
-	console.log(data);
 
-	function formatCurrency(value, currency) {
-		return new Intl.NumberFormat('fr-FR', {
-			style: 'currency',
-			currency
-		}).format(value);
+	// Utilisateur non inscrit = 0
+	// Utilisateur en attente = 1
+	// Utilisateur inscrit = 2
+
+	// Leader = 0
+	// Suiver = 1
+
+	// Débutant, confirmé, expert
+
+	const registeredDancers = data.dancers.filter((dancer) => dancer.state === 'Inscrit');
+
+	// const eventTitles = data.events.map((event) => normalizeEventTitle(event.title));
+
+	const eventStats = {};
+
+	function normalizeEventTitle(title) {
+		return title.toLowerCase().replace(/\s+/g, '-');
 	}
 
-	const registeredDancers = data.dancers.length;
+	const allLevels = [...new Set(registeredDancers.map((dancer) => dancer.level || 'Non spécifié'))];
 
-	const followersDancers = data.dancers.filter((dancer) => dancer.role === 'Suiveur');
-	const numberOfFollowersDancers = followersDancers.length;
+	registeredDancers.forEach((dancer) => {
+		const eventName = normalizeEventTitle(dancer.event);
+		const level = dancer.level || 'Non spécifié';
 
-	const leadersDancers = data.dancers.filter((dancer) => dancer.role === 'Leader');
-	const numberOfLeadersDancers = leadersDancers.length;
+		if (!eventStats[eventName]) {
+			eventStats[eventName] = {
+				total: 0,
+				leaders: 0,
+				followers: 0,
+				levels: {}
+			};
+		}
+
+		eventStats[eventName].total++;
+
+		if (dancer.role === 'Leader') {
+			eventStats[eventName].leaders++;
+		} else if (dancer.role === 'Suiveur') {
+			eventStats[eventName].followers++;
+
+			if (!eventStats[eventName].levels[level]) {
+				eventStats[eventName].levels[level] = {
+					leaders: 0,
+					followers: 0
+				};
+			}
+
+			eventStats[eventName].levels[level].followers++;
+		}
+	});
+
+	allLevels.forEach((level) => {
+		registeredDancers.forEach((dancer) => {
+			const eventName = normalizeEventTitle(dancer.event);
+
+			if (dancer.role === 'Leader' && dancer.level === level) {
+				if (!eventStats[eventName].levels[level]) {
+					eventStats[eventName].levels[level] = {
+						leaders: 0,
+						followers: 0
+					};
+				}
+
+				eventStats[eventName].levels[level].leaders++;
+			}
+		});
+	});
+
+	console.log(eventStats);
 </script>
 
 <div class="header-container">
@@ -28,37 +83,10 @@
 	</div>
 </div>
 
-<ul class="events-list">
-	{#each data.events.slice(0, 2) as event}
-		<li class="event">
-			<div class="event__item">
-				<div>
-					{#if event.logo}
-						<div class="event-image-container">
-							<img src={event.logo.publicUrl} alt={event.title} class="event-img" />
-						</div>
-					{/if}
-				</div>
-				<div class="card__content">
-					<h2>{event.title}</h2>
-					<p>{event.description}</p>
-					<div class="btn__container">
-						<a href={`/admin/events/${event.formSlug}/users`} class="btn">Voir les participants</a>
-						<a
-							href={`https://admin.helloasso.com/${event.organizationSlug}/evenements/${event.formSlug}/edition/1`}
-							class="btn"
-							target="_blank">Gérer</a
-						>
-					</div>
-				</div>
-			</div>
-		</li>
-	{/each}
-</ul>
+<p>Nombre total d'inscrits aux compétitions : {registeredDancers.length}</p>
 
-<h2>Les statistiques de vos évènements</h2>
 <ul class="events-list">
-	{#each data.events.slice(0, 2) as event}
+	{#each data.events as event}
 		<li class="event">
 			<div class="event__item">
 				<div>
@@ -71,23 +99,38 @@
 				<div class="card__content">
 					<h2>{event.title}</h2>
 					<p>{event.description}</p>
-					<p class="amount-raised">
-						Montant récolté : {formatCurrency(event.amountRaised, event.currency)}
-					</p>
-					<p class="tickets-sold">Pass vendus : {event.ticketsSold}</p>
 				</div>
 				<div class="fake-charts">
 					<div class="fake-chart">
 						<h3>Équilibre Leader / Suiveur</h3>
-						<p>Nombre total de danseurs inscrits : {registeredDancers}</p>
-						<p>Nombre de leaders inscrits : {numberOfFollowersDancers}</p>
-						<p>Nombre de followers inscrits : {numberOfLeadersDancers}</p>
-					</div>
-					<div class="fake-chart">
-						<h3>Équilibre Pass</h3>
-						<p>Pass Cours : 20/50</p>
-						<p>Pass Compétition : 40/50</p>
-						<p>Pass Complet : 10/50</p>
+						{#if eventStats[normalizeEventTitle(event.title)]}
+							<p>
+								Nombre total de danseurs inscrits : {eventStats[normalizeEventTitle(event.title)]
+									.total}
+							</p>
+							<h4>Niveau des inscrits :</h4>
+							<ul>
+								{#each allLevels as level}
+									{#if eventStats[normalizeEventTitle(event.title)].levels[level]}
+										<li>
+											{#if eventStats[normalizeEventTitle(event.title)].levels[level].leaders > 0 || eventStats[normalizeEventTitle(event.title)].levels[level].followers > 0}
+												{level} - Leaders: {eventStats[normalizeEventTitle(event.title)].levels[
+													level
+												].leaders}, Suiveurs: {eventStats[normalizeEventTitle(event.title)].levels[
+													level
+												].followers}
+											{:else if eventStats[normalizeEventTitle(event.title)].levels[level].leaders === 0 && eventStats[normalizeEventTitle(event.title)].levels[level].followers === 0}
+												{level} - Pas de données
+											{/if}
+										</li>
+									{:else}
+										<li>{level} - Pas de données</li>
+									{/if}
+								{/each}
+							</ul>
+						{:else}
+							<p>Données indisponibles</p>
+						{/if}
 					</div>
 				</div>
 			</div>

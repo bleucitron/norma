@@ -15,7 +15,7 @@ export interface Database {
 					order_id: string | null;
 					partner_email: string | null;
 					role: string | null;
-					state: string | null;
+					state: number;
 				};
 				Insert: {
 					created_at?: string;
@@ -28,7 +28,7 @@ export interface Database {
 					order_id?: string | null;
 					partner_email?: string | null;
 					role?: string | null;
-					state?: string | null;
+					state: number;
 				};
 				Update: {
 					created_at?: string;
@@ -41,7 +41,7 @@ export interface Database {
 					order_id?: string | null;
 					partner_email?: string | null;
 					role?: string | null;
-					state?: string | null;
+					state?: number;
 				};
 				Relationships: [];
 			};
