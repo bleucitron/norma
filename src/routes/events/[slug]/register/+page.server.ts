@@ -1,6 +1,7 @@
 import { error, fail, redirect } from '@sveltejs/kit';
 import { access_token } from '$lib/server/accessToken';
 import { get } from 'svelte/store';
+import { State } from '$lib/utils/enums'
 
 export async function load({ cookies, params, fetch }) {
 
@@ -35,19 +36,20 @@ export const actions = {
             .from('dancers')
             .select('*(count)')
             .eq('event', params.slug)
-            .eq('state', 'inscrit')
+            .or('state.eq.' + State.Inscrit + ',state.eq.' + State['Règlement en cours'])
         if (countError) {
             return fail(400, {
                 error: "Erreur lors de la recherche du nombre d'inscrits"
             });
         }
+        let url = ''
 
         if (!Number(registrationCount)) {
             registrationCount = 0
         }
         if (registrationCount >= 50) {
 
-            return registerWaiting(params, formData, supabase)
+            url = await register(params, formData, supabase, State.Attente)
         }
         let check_role = await checkRole(params.slug, role, level, supabase)
 
@@ -55,7 +57,7 @@ export const actions = {
             if (partnaire_email) {
                 const { data: partenaire, error: partenaireError } = await supabase
                     .from('dancers')
-                    .select('*(count)')
+                    .select()
                     .eq('event', params.slug)
                     .eq('email', partnaire_email)
                 if (partenaireError) {
@@ -64,7 +66,7 @@ export const actions = {
                     });
                 }
                 if (partenaire) {
-                    if (partenaire.state === 'Attente') {
+                    if (partenaire.state === State.Attente) {
                         //envoi auto mail pour payer
                         setDancerOrderWaiting(params, partnaire_email, supabase)
                     }
@@ -73,25 +75,32 @@ export const actions = {
                 }
 
             }
-            return registerOk(params, formData, supabase);
+            url = await register(params, formData, supabase, State['Règlement en cours'])
 
         } else {
             if (partnaire_email) {
                 const { data: partenaire, error: partenaireError } = await supabase
                     .from('dancers')
-                    .select('*(count)')
+                    .select()
                     .eq('event', params.slug)
                     .eq('email', partnaire_email)
 
                 if (partenaire) {
-                    if (partenaire.state === 'Inscrit') {
-                        return registerOk(params, formData, supabase);
+                    if (partenaire.state === State.Inscrit) {
+                        url = await register(params, formData, supabase, State['Règlement en cours'])
                     }
                 } else {
                     sendInvitationMail(partnaire_email)
                 }
             }
-            return registerWaiting(params, formData, supabase)
+            url = await register(params, formData, supabase, State.Attente);
+        }
+        if (url) {
+            redirect(302, url);
+        } else {
+            return fail(400, {
+                error: "Erreur"
+            });
         }
     },
 };
@@ -113,28 +122,6 @@ async function checkRole(event, role, level, supabase) {
     return selectedCount <= oppositeCount + 2;
 }
 
-async function registerWaiting(params, formData, supabase) {
-    try {
-        await register(params, formData, supabase, 'Attente')
-    } catch (e) {
-        return fail(400, {
-            error: e
-        })
-    }
-    throw redirect(302, '/events/' + params.slug + '/reservation');
-
-}
-async function registerOk(params, formData, supabase) {
-    try {
-        await register(params, formData, supabase, 'Reglement en cours')
-    } catch (e) {
-        return fail(400, {
-            error: e
-        })
-    }
-    throw redirect(302, '/events/' + params.slug + '/commande');
-}
-
 async function register(params, formData, supabase, state) {
     const email = formData.get('email')?.toString();
     const level = formData.get('level')?.toString();
@@ -149,22 +136,15 @@ async function register(params, formData, supabase, state) {
 
     if (alreadyExist[0]) {
         const alreadyExistUser = alreadyExist[0]
-        console.log(alreadyExistUser.state)
-        console.log(params.slug)
         switch (alreadyExistUser.state) {
-            case 'Reglement en cours':
-                throw redirect(302, '/events/' + params.slug + '/commande');
-                break;
-            case 'Inscrit':
-                throw redirect(302, '/events/' + params.slug + '/confirmation');
-                break;
-            case 'Attente':
-                throw redirect(302, '/events/' + params.slug + '/reservation');
-                break;
+            case State['Règlement en cours']:
+                return '/events/' + params.slug + '/commande';
+            case State.Inscrit:
+                return '/events/' + params.slug + '/confirmation';
+            case State['Attente']:
+                return '/events/' + params.slug + '/reservation';
             default:
-                return fail(400, {
-                    error: 'Erreur'
-                })
+                return ''
         }
     }
 
@@ -179,12 +159,18 @@ async function register(params, formData, supabase, state) {
             partner_email: partnaire_email
         })
     if (insertError) {
-        return fail(400, {
-            error: 'Une erreur est survenue :' + insertError,
-        });
+        return '';
     }
-    return true;
+    switch (state) {
+        case State['Règlement en cours']:
+            return '/events/' + params.slug + '/commande';
+        case State.Attente:
+            return '/events/' + params.slug + '/reservation';
+        default:
+            return '';
+    }
 }
+
 function sendInvitationMail(email) {
 
 }
@@ -192,7 +178,7 @@ function sendInvitationMail(email) {
 async function setDancerOrderWaiting(params, partnaire_email, supabase) {
     const { error } = await supabase
         .from('countries')
-        .update({ state: 'Reglement en cours' })
+        .update({ state: State['Règlement en cours'] })
         .eq('email', partnaire_email)
         .eq('event', params.slug);
     if (!error) {
