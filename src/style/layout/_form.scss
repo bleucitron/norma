@@ -37,7 +37,7 @@ form {
         // margin-bottom: 1rem;
     }
 
-    input,
+    input:not([type='checkbox']),
     button,
     textarea,
     select {
@@ -133,8 +133,9 @@ textarea {
     justify-content: center;
     background-color: $color1;
     border: 0;
+
     &:hover {
-       opacity: 0.8;
+        opacity: 0.8;
     }
 }
 
@@ -171,4 +172,3 @@ textarea {
         width: 100%;
     }
 }
-
