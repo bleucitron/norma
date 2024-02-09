@@ -44,6 +44,7 @@
 		event.typeOfTicketByEvent = event.typeOfTicketByEvent.filter((value, index, self) => {
 			return self.indexOf(value) === index;
 		});
+
 	});
 </script>
 
@@ -118,6 +119,7 @@
 								<li>{ticket}</li>
 							{/each}
 						</ul>
+
 						<h4>Niveau des inscrits :</h4>
 						<ul>
 							<li>

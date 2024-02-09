@@ -11,6 +11,7 @@ export async function load({ locals, params }) {
 	const filteredUsers = users.filter((user) => user.event === eventNameFromUrl);
 
 	return {
-		users: filteredUsers
+		users: filteredUsers,
+		enventName: eventNameFromUrl
 	};
 }

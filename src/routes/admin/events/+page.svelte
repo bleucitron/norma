@@ -42,6 +42,7 @@
 					<p>{event.description}</p>
 					<div class="btn__container">
 						<a href="/admin/events/{event.formSlug}/users" class="btn">Voir les participants</a>
+						<a href="/admin/events/adduser/{event.formSlug}" class="btn">Ajouter un participant</a>
 						<a
 							href="https://admin.helloasso.com/{event.organizationSlug}/evenements/{event.formSlug}/edition/1"
 							class="btn">Gérer</a
