@@ -1,16 +1,16 @@
 export enum State {
-    'Attente',
-    'Règlement en cours',
-    'Inscrit'
+	'Attente',
+	'Règlement en cours',
+	'Inscrit'
 }
 
 export enum Role {
-    'Leader',
-    'Suiveur'
+	'Leader',
+	'Suiveur'
 }
 
 export enum Level {
-    'Débutant',
-    'Confirmé',
-    'Expert'
+	'Débutant',
+	'Confirmé',
+	'Expert'
 }

@@ -1,13 +1,14 @@
 <script lang="ts">
 	import { invalidate } from '$app/navigation';
+	import { Role, State } from '../../../../../lib/utils/enums.js';
 
 	export let data;
 	let users = data.users;
 	let enventName = data.enventName;
 
 	let searchTerm = '';
-	let roleFilter = '';
-	let stateFilter = '';
+	let roleFilter: Role | undefined;
+	let stateFilter: State | undefined;
 	let sortColumn = '';
 	let sortOrder = 1;
 	let sortedUsers = users.slice();
@@ -17,10 +18,8 @@
 		const trimmedFullName = `${user.firstname} ${user.lastname}`.toLowerCase();
 
 		const isSearchMatch = trimmedSearchTerm === '' || trimmedFullName.includes(trimmedSearchTerm);
-		const isRoleMatch = roleFilter === '' || user.role === roleFilter;
-		const isStateMatch =
-			stateFilter === '' ||
-			user.state.toLowerCase().replace(/\s/g, '') === stateFilter.toLowerCase().replace(/\s/g, '');
+		const isRoleMatch = roleFilter === undefined || user.role === roleFilter;
+		const isStateMatch = stateFilter === undefined || user.state === stateFilter;
 
 		return isSearchMatch && isRoleMatch && isStateMatch;
 	});
@@ -52,8 +51,8 @@
 
 	function resetState() {
 		searchTerm = '';
-		roleFilter = '';
-		stateFilter = '';
+		roleFilter = undefined;
+		stateFilter = undefined;
 		sortColumn = '';
 		sortOrder = 1;
 		sortedUsers = users.slice();
@@ -65,14 +64,6 @@
 		const month = (date.getMonth() + 1).toString().padStart(2, '0');
 		const year = date.getFullYear();
 		return `${day}/${month}/${year}`;
-	}
-
-	function filterUsersByRole(e) {
-		roleFilter = e.target.value;
-	}
-
-	function filterUsersByState(e) {
-		stateFilter = e.target.value.trim().toLowerCase().replace(/\s/g, '');
 	}
 
 	async function deleteUser(userToDelete) {
@@ -150,27 +141,29 @@
 			}
 		}
 	}
-	function mapRole(roleNumber: number) {
-		switch (roleNumber) {
-			case 0:
+	function mapRole(role: Role) {
+		switch (role) {
+			case Role.Leader:
 				return 'Leader';
-			case 1:
+			case Role.Suiveur:
 				return 'Suiveur';
 			default:
-				return 'Rôle inconnu';
+				const exhaustiveCheck: never = role;
+				throw new Error(`Unhandled role: ${exhaustiveCheck}`);
 		}
 	}
 
-	function mapState(stateNumber: number) {
-		switch (stateNumber) {
-			case 0:
+	function mapState(state: State) {
+		switch (state) {
+			case State['Règlement en cours']:
 				return 'En attente de paiement';
-			case 1:
-				return "L'iste d'attente";
-			case 2:
+			case State.Attente:
+				return "Liste d'attente";
+			case State.Inscrit:
 				return 'Inscrit';
 			default:
-				return 'État inconnu';
+				const exhaustiveCheck: never = state;
+				throw new Error(`Unhandled state: ${exhaustiveCheck}`);
 		}
 	}
 </script>
@@ -198,16 +191,16 @@
 			<p>Filtrer par :</p>
 		</div>
 		<div class="filters__container">
-			<select on:change={(e) => filterUsersByRole(e)}>
-				<option value="">--Choisir le rôle--</option>
-				<option value="Leader">Leader</option>
-				<option value="Suiveur">Suiveur</option>
+			<select bind:value={roleFilter}>
+				<option value={undefined}>--Choisir le rôle--</option>
+				<option value={Role.Leader}>Leader</option>
+				<option value={Role.Suiveur}>Suiveur</option>
 			</select>
-			<select on:change={(e) => filterUsersByState(e)}>
-				<option value="">--Choisir l'état--</option>
-				<option value="Inscrit">Inscrit</option>
-				<option value="En attente">En attente</option>
-				<option value="Reglement en cours">Reglement en cours</option>
+			<select bind:value={stateFilter}>
+				<option value={undefined}>--Choisir l'état--</option>
+				<option value={State.Inscrit}>Inscrit</option>
+				<option value={State.Attente}>En attente</option>
+				<option value={State['Règlement en cours']}>Reglement en cours</option>
 			</select>
 		</div>
 	</div>
