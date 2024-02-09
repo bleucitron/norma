@@ -18,7 +18,9 @@
 
 		const isSearchMatch = trimmedSearchTerm === '' || trimmedFullName.includes(trimmedSearchTerm);
 		const isRoleMatch = roleFilter === '' || user.role === roleFilter;
-		const isStateMatch = stateFilter === '' || user.state === stateFilter;
+		const isStateMatch =
+			stateFilter === '' ||
+			user.state.toLowerCase().replace(/\s/g, '') === stateFilter.toLowerCase().replace(/\s/g, '');
 
 		return isSearchMatch && isRoleMatch && isStateMatch;
 	});
@@ -70,7 +72,7 @@
 	}
 
 	function filterUsersByState(e) {
-		stateFilter = e.target.value;
+		stateFilter = e.target.value.trim().toLowerCase().replace(/\s/g, '');
 	}
 
 	async function deleteUser(userToDelete) {
@@ -205,6 +207,7 @@
 				<option value="">--Choisir l'état--</option>
 				<option value="Inscrit">Inscrit</option>
 				<option value="En attente">En attente</option>
+				<option value="Reglement en cours">Reglement en cours</option>
 			</select>
 		</div>
 	</div>

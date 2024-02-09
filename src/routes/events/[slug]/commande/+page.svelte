@@ -7,6 +7,9 @@
 </div>
 
 <section>
+	<p class="warning">
+		&#9888; Attention à renseigner le meme email que celui avec lequel vous vous etes inscrit
+	</p>
 	<iframe
 		id="haWidget"
 		allowtransparency="true"
@@ -16,3 +19,9 @@
 		title={data.title}
 	></iframe>
 </section>
+
+<style>
+	.warning {
+		color: red;
+	}
+</style>
