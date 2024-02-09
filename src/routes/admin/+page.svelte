@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { State, Role, Level } from '$lib/utils/enums';
 	export let data;
 
 	let todayDate = new Date();
@@ -17,76 +18,20 @@
 		console.error('data.events is not an array');
 	}
 
-	// Utilisateur non inscrit = 0
-	// Utilisateur en attente = 1
-	// Utilisateur inscrit = 2
-
-	// Leader = 0
-	// Suiver = 1
-
-	// Débutant, confirmé, expert
-
-	const registeredDancers = data.dancers.filter((dancer) => dancer.state === 'Inscrit');
-
-	// const eventTitles = data.events.map((event) => normalizeEventTitle(event.title));
-
-	const eventStats = {};
-
-	function normalizeEventTitle(title) {
-		return title.toLowerCase().replace(/\s+/g, '-');
-	}
-
-	const allLevels = [...new Set(registeredDancers.map((dancer) => dancer.level || 'Non spécifié'))];
-
-	registeredDancers.forEach((dancer) => {
-		const eventName = normalizeEventTitle(dancer.event);
-		const level = dancer.level || 'Non spécifié';
-
-		if (!eventStats[eventName]) {
-			eventStats[eventName] = {
-				total: 0,
-				leaders: 0,
-				followers: 0,
-				levels: {}
-			};
-		}
-
-		eventStats[eventName].total++;
-
-		if (dancer.role === 'Leader') {
-			eventStats[eventName].leaders++;
-		} else if (dancer.role === 'Suiveur') {
-			eventStats[eventName].followers++;
-
-			if (!eventStats[eventName].levels[level]) {
-				eventStats[eventName].levels[level] = {
-					leaders: 0,
-					followers: 0
-				};
-			}
-
-			eventStats[eventName].levels[level].followers++;
-		}
+	events.forEach((event) => {
+		event.totalInscrit = data.dancers.filter(
+			(dancer) => dancer.state === State.Inscrit && dancer.event === event.formSlug
+		);
+		event.reglement = data.dancers.filter(
+			(dancer) => dancer.state === State['Règlement en cours'] && dancer.event === event.formSlug
+		);
+		event.attente = data.dancers.filter(
+			(dancer) => dancer.state === State.Attente && dancer.event === event.formSlug
+		);
+		event.Débutant = event.totalInscrit.filter((dancer) => dancer.level === Level.Débutant);
+		event.Confirmé = event.totalInscrit.filter((dancer) => dancer.level === Level.Confirmé);
+		event.Expert = event.totalInscrit.filter((dancer) => dancer.level === Level.Expert);
 	});
-
-	allLevels.forEach((level) => {
-		registeredDancers.forEach((dancer) => {
-			const eventName = normalizeEventTitle(dancer.event);
-
-			if (dancer.role === 'Leader' && dancer.level === level) {
-				if (!eventStats[eventName].levels[level]) {
-					eventStats[eventName].levels[level] = {
-						leaders: 0,
-						followers: 0
-					};
-				}
-
-				eventStats[eventName].levels[level].leaders++;
-			}
-		});
-	});
-
-	console.log(eventStats);
 </script>
 
 <div class="header-container">
@@ -95,8 +40,6 @@
 		<a href={`/admin/events`} class="btn">Voir tous les évenements</a>
 	</div>
 </div>
-
-<p>Nombre total d'inscrits aux compétitions : {registeredDancers.length}</p>
 
 <ul class="events-list">
 	{#each events.slice(0, 2) as event}
@@ -127,7 +70,7 @@
 </ul>
 
 <ul class="events-list">
-	{#each data.events as event}
+	{#each events as event}
 		<li class="event">
 			<div class="event__item">
 				<div>
@@ -143,35 +86,37 @@
 				</div>
 				<div class="fake-charts">
 					<div class="fake-chart">
-						<h3>Équilibre Leader / Suiveur</h3>
-						{#if eventStats[normalizeEventTitle(event.title)]}
-							<p>
-								Nombre total de danseurs inscrits : {eventStats[normalizeEventTitle(event.title)]
-									.total}
-							</p>
-							<h4>Niveau des inscrits :</h4>
-							<ul>
-								{#each allLevels as level}
-									{#if eventStats[normalizeEventTitle(event.title)].levels[level]}
-										<li>
-											{#if eventStats[normalizeEventTitle(event.title)].levels[level].leaders > 0 || eventStats[normalizeEventTitle(event.title)].levels[level].followers > 0}
-												{level} - Leaders: {eventStats[normalizeEventTitle(event.title)].levels[
-													level
-												].leaders}, Suiveurs: {eventStats[normalizeEventTitle(event.title)].levels[
-													level
-												].followers}
-											{:else if eventStats[normalizeEventTitle(event.title)].levels[level].leaders === 0 && eventStats[normalizeEventTitle(event.title)].levels[level].followers === 0}
-												{level} - Pas de données
-											{/if}
-										</li>
-									{:else}
-										<li>{level} - Pas de données</li>
-									{/if}
-								{/each}
-							</ul>
-						{:else}
-							<p>Données indisponibles</p>
-						{/if}
+						<h3>Stats</h3>
+
+						<p>
+							Nombre total de danseurs inscrits : {event.totalInscrit.length}
+						</p>
+						<p>
+							Nombre total en cours de règement : {event.reglement.length}
+						</p>
+						<p>
+							Nombre total en file d'attente : {event.attente.length}
+						</p>
+						<h4>Niveau des inscrits :</h4>
+						<ul>
+							<li>
+								Débutant : Leader : {event.Débutant.filter((dancer) => dancer.role === Role.Leader)
+									.length}, Suiveur : {event.Débutant.filter(
+									(dancer) => dancer.role === Role.Suiveur
+								).length}
+							</li>
+							<li>
+								Confirmé : Leader : {event.Confirmé.filter((dancer) => dancer.role === Role.Leader)
+									.length}, Suiveur : {event.Confirmé.filter(
+									(dancer) => dancer.role === Role.Suiveur
+								).length}
+							</li>
+							<li>
+								Expert : Leader : {event.Expert.filter((dancer) => dancer.role === Role.Leader)
+									.length}, Suiveur : {event.Expert.filter((dancer) => dancer.role === Role.Suiveur)
+									.length}
+							</li>
+						</ul>
 					</div>
 				</div>
 			</div>
