@@ -31,8 +31,8 @@
 					<p>Bonjour {user.email}</p>
 				</div>
 				<div class="admin__bar-right">
-					<a href="/">Voir le site client</a>
-					<a href="/admin">Administration</a>
+					<a class="admin__link" href="/">Voir le site client</a>
+					<a class="admin__link" href="/admin">Administration</a>
 					<button on:click={logout}>Déconnexion</button>
 				</div>
 			</div>
@@ -40,10 +40,17 @@
 	{/if}
 	<div class="container">
 		<a href="/" class="header__logo"><img src="/assets/norma-logo.png" alt="logo" /></a>
-		<div class="btn__container">
-			<a class="btn" href="/">Accueil</a>
-			<a class="btn" href="/contact">Contact</a>
-		</div>
+		{#if user}
+			<div class="btn__container">
+				<a href={`/admin`} class="btn">Dashboard</a>
+				<a href={`/admin/events`} class="btn">Voir tous les évenements</a>
+			</div>
+		{:else}
+			<div class="btn__container">
+				<a class="btn" href="/">Accueil</a>
+				<a class="btn" href="/contact">Contact</a>
+			</div>
+		{/if}
 	</div>
 </header>
 
@@ -63,8 +70,7 @@
 		}
 
 		p,
-		a,
-		span {
+		a {
 			color: #fff;
 			font-size: 1.4rem;
 			line-height: 1.96rem;
@@ -73,9 +79,9 @@
 		}
 		a {
 			font-weight: bold;
-
+			transition: 0.3s ease-in-out;
 			&:hover {
-				background-color: #ffb500;
+				opacity: 0.8;
 			}
 		}
 	}
@@ -84,6 +90,7 @@
 		display: flex;
 		width: 100%;
 	}
+
 	.admin__bar-right {
 		justify-content: flex-end;
 		gap: 1rem;

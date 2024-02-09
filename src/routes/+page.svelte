@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { onMount } from 'svelte';
 	export let data;
 	let todayDate = new Date();
 	let archivedEvents: Array<any> = [];
@@ -15,6 +16,16 @@
 	} else {
 		console.error('data.events is not an array');
 	}
+
+	onMount(() => {
+		const links = document.querySelectorAll('.admin__link');
+		links.forEach((link) => {
+			link.addEventListener('click', () => {
+				links.forEach((link) => link.classList.remove('activLink'));
+				link.classList.add('activLink');
+			});
+		});
+	});
 </script>
 
 <div class="header-container">

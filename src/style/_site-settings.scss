@@ -2,7 +2,7 @@
 // -----------------------------
 $black: #000;
 $white: #fff;
-$color1: #FFB500;
+$yellow: #FFB500;
 
 
 main {
@@ -40,7 +40,7 @@ $primary-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida 
 
 .btn,
 .card__actions {
-    background-color: $color1;
+    background-color: $yellow;
     border: none;
     padding: .9rem 2rem;
     min-width: 12rem;

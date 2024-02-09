@@ -21,9 +21,6 @@
 
 <div class="header-container">
 	<h1>Tous vos événements</h1>
-	<div class="btn__container">
-		<a href={`/admin`} class="btn">Retour au dashboard</a>
-	</div>
 </div>
 
 <ul class="events-list">

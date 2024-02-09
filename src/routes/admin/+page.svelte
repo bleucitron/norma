@@ -44,15 +44,11 @@
 		event.typeOfTicketByEvent = event.typeOfTicketByEvent.filter((value, index, self) => {
 			return self.indexOf(value) === index;
 		});
-
 	});
 </script>
 
 <div class="header-container">
 	<h1>Vos derniers événements</h1>
-	<div class="btn__container">
-		<a href={`/admin/events`} class="btn">Voir tous les évenements</a>
-	</div>
 </div>
 
 <ul class="events-list">
