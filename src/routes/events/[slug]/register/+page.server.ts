@@ -32,16 +32,11 @@ export const actions = {
 		//         }
 		//     }
 		// ).then((resp) => resp.json());
-		const { data: registrationCount, error: countError } = await supabase
+		let { data: registrationCount } = await supabase
 			.from('dancers')
 			.select('*(count)')
 			.eq('event', params.slug)
 			.or('state.eq.' + State.Inscrit + ',state.eq.' + State['Règlement en cours']);
-		if (countError) {
-			return fail(400, {
-				error: "Erreur lors de la recherche du nombre d'inscrits"
-			});
-		}
 		let url = '';
 
 		if (!Number(registrationCount)) {
@@ -176,7 +171,35 @@ async function register(params, formData, supabase, state) {
 	const email = formData.get('email')?.toString();
 	const level = formData.get('level')?.toString();
 	const role = formData.get('role')?.toString();
-	const partnaire_email = formData.get('partnaire_email')?.toString();
+	let partnaire_email = formData.get('partnaire_email')?.toString();
+
+	const oppositeRole = role === 0 ? 1 : 0;
+
+	if (!partnaire_email) {
+		const { data: userWithNoPartner } = await supabase
+			.from('dancers')
+			.select()
+			.eq('partner_email', '')
+			.eq('role', oppositeRole)
+			.eq('state', State.Inscrit)
+			.eq('event', params.slug)
+			.order('created_at', { ascending: true });
+
+		if (userWithNoPartner && userWithNoPartner[0]) {
+			const selectedUser = userWithNoPartner[0];
+			partnaire_email = selectedUser.email;
+			const { error } = await supabase
+				.from('dancers')
+				.update({ partner_email: email })
+				.match({ email: selectedUser.email, event: params.slug });
+
+			if (!error) {
+				return fail(400, {
+					error: "Erreur lors de l'attribution d'un partenaire"
+				});
+			}
+		}
+	}
 
 	const { data: alreadyExist } = await supabase
 		.from('dancers')
