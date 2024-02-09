@@ -32,9 +32,6 @@
 		event.Confirmé = event.totalInscrit.filter((dancer) => dancer.level === Level.Confirmé);
 		event.Expert = event.totalInscrit.filter((dancer) => dancer.level === Level.Expert);
 	});
-	console.log(events);
-	console.log(Level);
-	console.log(Object.keys(Level));
 </script>
 
 <div class="header-container">
@@ -102,11 +99,23 @@
 						</p>
 						<h4>Niveau des inscrits :</h4>
 						<ul>
-							{#each Object.keys(Level) as [level, value]}
-								<li>
-									{value} : Leader :
-								</li>
-							{/each}
+							<li>
+								Débutant : Leader : {event.Débutant.filter((dancer) => dancer.role === Role.Leader)
+									.length}, Suiveur : {event.Débutant.filter(
+									(dancer) => dancer.role === Role.Suiveur
+								).length}
+							</li>
+							<li>
+								Confirmé : Leader : {event.Confirmé.filter((dancer) => dancer.role === Role.Leader)
+									.length}, Suiveur : {event.Confirmé.filter(
+									(dancer) => dancer.role === Role.Suiveur
+								).length}
+							</li>
+							<li>
+								Expert : Leader : {event.Expert.filter((dancer) => dancer.role === Role.Leader)
+									.length}, Suiveur : {event.Expert.filter((dancer) => dancer.role === Role.Suiveur)
+									.length}
+							</li>
 						</ul>
 					</div>
 				</div>
