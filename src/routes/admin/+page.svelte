@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { State, Role } from '$lib/utils/enums';
 	export let data;
 
 	let todayDate = new Date();
@@ -26,7 +27,7 @@
 
 	// Débutant, confirmé, expert
 
-	const registeredDancers = data.dancers.filter((dancer) => dancer.state === 'Inscrit');
+	const registeredDancers = data.dancers.filter((dancer) => dancer.state === State.Inscrit);
 
 	// const eventTitles = data.events.map((event) => normalizeEventTitle(event.title));
 
@@ -37,6 +38,10 @@
 	}
 
 	const allLevels = [...new Set(registeredDancers.map((dancer) => dancer.level || 'Non spécifié'))];
+
+	// const allLevels = [Level.Débutant, Level.Confirmé, Level.Expert, 'Non spécifié'];
+
+	// const allLevels = [Level.Débutant, Level.Confirmé, Level.Expert];
 
 	registeredDancers.forEach((dancer) => {
 		const eventName = normalizeEventTitle(dancer.event);
@@ -53,9 +58,9 @@
 
 		eventStats[eventName].total++;
 
-		if (dancer.role === 'Leader') {
+		if (dancer.role === Role.Leader) {
 			eventStats[eventName].leaders++;
-		} else if (dancer.role === 'Suiveur') {
+		} else if (dancer.role === Role.Follower) {
 			eventStats[eventName].followers++;
 
 			if (!eventStats[eventName].levels[level]) {
@@ -73,7 +78,7 @@
 		registeredDancers.forEach((dancer) => {
 			const eventName = normalizeEventTitle(dancer.event);
 
-			if (dancer.role === 'Leader' && dancer.level === level) {
+			if (dancer.role === Role.Leader && dancer.level === level) {
 				if (!eventStats[eventName].levels[level]) {
 					eventStats[eventName].levels[level] = {
 						leaders: 0,
