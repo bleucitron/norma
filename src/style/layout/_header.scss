@@ -17,7 +17,7 @@ header {
         gap: 1rem;
 
         .btn {
-            background-color: $color1;
+            background-color: $yellow;
             border: none;
             padding: 9px 30px;
             width: auto;
@@ -40,6 +40,11 @@ header {
     img {
         width: 6rem;
     }
+}
+
+.activLink {
+    background-color: #2a799e;
+
 }
 
 .header-container {
