@@ -1,6 +1,9 @@
-<script>
+<script lang="ts">
+	import { invalidate } from '$app/navigation';
+
 	export let data;
 	let users = data.users;
+	let enventName = data.enventName;
 
 	let searchTerm = '';
 	let roleFilter = '';
@@ -70,6 +73,105 @@
 
 	function filterUsersByState(e) {
 		stateFilter = e.target.value.trim().toLowerCase().replace(/\s/g, '');
+	}
+
+	async function deleteUser(userToDelete) {
+		const confirmation = confirm(
+			`Voulez-vous vraiment supprimer ${userToDelete.firstname} ${userToDelete.lastname}?`
+		);
+
+		if (confirmation) {
+			try {
+				const response = await fetch(`/admin/events/${enventName}/users/${userToDelete.id}`, {
+					method: 'DELETE'
+				});
+
+				if (response.ok) {
+					invalidate('/admin/events/${enventName}/users/').then(() => {
+						location.reload();
+					});
+					alert(`L'utilisateur ${userToDelete.firstname} ${userToDelete.lastname} a été supprimé.`);
+				} else {
+					alert("Erreur lors de la suppression de l'utilisateur");
+				}
+			} catch (error) {
+				console.error("Erreur lors de la suppression de l'utilisateur", error);
+				alert("Erreur lors de la suppression de l'utilisateur");
+			}
+		}
+	}
+	function openUpdate(user) {
+		let updatePopup = document.querySelector(`.update__container[data-user-id="${user.id}"]`);
+		updatePopup.style.display = 'flex';
+		if (updatePopup) {
+			updatePopup.querySelector('[name="firstname"]').value = user.firstname;
+			updatePopup.querySelector('[name="lastname"]').value = user.lastname;
+			updatePopup.querySelector('[name="role"]').value = user.role;
+			updatePopup.querySelector('[name="state"]').value = user.state;
+		}
+	}
+	function closeUpdate(userId) {
+		let updatePopup = document.querySelector(`.update__container[data-user-id="${userId}"]`);
+		if (updatePopup) {
+			updatePopup.style.display = 'none';
+		}
+	}
+	async function updateUser(userToUpdate) {
+		const confirmation = confirm(
+			`Voulez-vous vraiment modifier les informations de ${userToUpdate.firstname} ${userToUpdate.lastname}?`
+		);
+
+		if (confirmation) {
+			const form = document.querySelector(
+				`.update__container[data-user-id="${userToUpdate.id}"] form`
+			);
+			const formData = new FormData(form);
+			const userData = Object.fromEntries(formData.entries());
+			try {
+				const response = await fetch(`/admin/events/${enventName}/users/${userToUpdate.id}`, {
+					method: 'PATCH',
+					headers: {
+						'Content-Type': 'application/json'
+					},
+					body: JSON.stringify(userData)
+				});
+
+				if (response.ok) {
+					invalidate('/admin/events/${enventName}/users/').then(() => {
+						location.reload();
+					});
+					alert(`L'utilisateur ${userToUpdate.firstname} ${userToUpdate.lastname} a été modifié.`);
+				} else {
+					alert("Erreur lors de la modification de l'utilisateur");
+				}
+			} catch (error) {
+				console.error("Erreur lors de la modification de l'utilisateur", error);
+				alert("Erreur lors de la modification de l'utilisateur");
+			}
+		}
+	}
+	function mapRole(roleNumber: number) {
+		switch (roleNumber) {
+			case 0:
+				return 'Leader';
+			case 1:
+				return 'Suiveur';
+			default:
+				return 'Rôle inconnu';
+		}
+	}
+
+	function mapState(stateNumber: number) {
+		switch (stateNumber) {
+			case 0:
+				return 'En attente de paiement';
+			case 1:
+				return "L'iste d'attente";
+			case 2:
+				return 'Inscrit';
+			default:
+				return 'État inconnu';
+		}
 	}
 </script>
 
@@ -141,16 +243,78 @@
 				{#each filteredUsers as user}
 					<tr>
 						<td>{user.firstname} {user.lastname}</td>
-						<td>{user.role}</td>
-						<td>{user.state}</td>
+						<td>{mapRole(user.role)}</td>
+						<td>{mapState(user.state)}</td>
 						<td>{formatToFrenchDate(user.created_at)}</td>
 						<td>
-							<button>Modifier</button>
-							<button>Supprimer</button>
+							<button class="btn" on:click={() => openUpdate(user)}>Modifier</button>
+							<button class="btn" on:click={() => deleteUser(user)}>Supprimer</button>
 						</td>
 					</tr>
+					<div class="update__container" data-user-id={user.id}>
+						<div class="update__header">
+							<p>
+								<strong>
+									Mettre à jour {user.firstname}
+									{user.lastname}</strong
+								>
+							</p>
+						</div>
+						<form id="updateUserForm">
+							<label for="firstname">Prénom</label>
+							<input type="text" name="firstname" required />
+							<label for="lastname">Nom</label>
+							<input type="text" name="lastname" required />
+							<label for="role">Rôle</label>
+							<select name="role">
+								<option value="0">0 - Leader</option>
+								<option value="1">1 - Suiveur</option>
+							</select>
+							<label for="state">État</label>
+							<select name="state">
+								<option value="0">0 - En attente de paiement</option>
+								<option value="1">1 - Liste d'attente</option>
+								<option value="2">2 - Inscrit</option>
+							</select>
+							<button type="button" on:click={() => updateUser(user)}>Mettre à jour</button>
+							<button type="button" on:click={() => closeUpdate(user.id)}>Annuler</button>
+						</form>
+					</div>
 				{/each}
 			{/if}
 		</tbody>
 	</table>
 </section>
+
+<style lang="scss">
+	.update__container {
+		display: none;
+		position: fixed;
+		background-color: #fff;
+		box-shadow: rgba(17, 12, 46, 0.15) 0px 48px 100px 0px;
+		left: 50%;
+		-webkit-transform: translateX(-50%);
+		transform: translateX(-50%);
+		height: auto;
+		width: 760px;
+		top: 20%;
+		border-radius: 12px;
+		padding: 2rem;
+		z-index: 100;
+		flex-direction: column;
+	}
+	.update__header {
+		display: flex;
+		justify-content: space-between;
+		width: 100%;
+
+		p {
+			padding: 0 2rem;
+		}
+	}
+	@media (max-width: 768px) {
+		.update__container {
+			width: 90%;
+		}
+	}
+</style>
