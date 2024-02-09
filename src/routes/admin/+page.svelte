@@ -5,6 +5,7 @@
 	let todayDate = new Date();
 	let archivedEvents: Array<any> = [];
 	let events: any;
+	let orders = data.orders;
 
 	if (Array.isArray(data.events)) {
 		events = data.events.filter((event) => {
@@ -31,6 +32,19 @@
 		event.Débutant = event.totalInscrit.filter((dancer) => dancer.level === Level.Débutant);
 		event.Confirmé = event.totalInscrit.filter((dancer) => dancer.level === Level.Confirmé);
 		event.Expert = event.totalInscrit.filter((dancer) => dancer.level === Level.Expert);
+
+		event.totalTicket = orders.filter((order) => order.order.formSlug === event.formSlug);
+
+		event.typeOfTicketByEvent = event.totalTicket.map((order) => order.name);
+
+		if (event.typeOfTicketByEvent.length === 0) {
+			event.typeOfTicketByEvent.push('Aucun ticket vendu');
+		}
+
+		event.typeOfTicketByEvent = event.typeOfTicketByEvent.filter((value, index, self) => {
+			return self.indexOf(value) === index;
+		});
+
 	});
 </script>
 
@@ -87,7 +101,9 @@
 				<div class="fake-charts">
 					<div class="fake-chart">
 						<h3>Stats</h3>
-
+						<p>
+							Nombre de ticket vendus pour l'évènement : {event.totalTicket.length};
+						</p>
 						<p>
 							Nombre total de danseurs inscrits : {event.totalInscrit.length}
 						</p>
@@ -97,6 +113,13 @@
 						<p>
 							Nombre total en file d'attente : {event.attente.length}
 						</p>
+						<h4>Types de tickets vendus</h4>
+						<ul>
+							{#each event.typeOfTicketByEvent as ticket}
+								<li>{ticket}</li>
+							{/each}
+						</ul>
+
 						<h4>Niveau des inscrits :</h4>
 						<ul>
 							<li>
