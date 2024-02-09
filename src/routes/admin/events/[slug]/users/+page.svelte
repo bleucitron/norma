@@ -242,7 +242,11 @@
 			{:else}
 				{#each filteredUsers as user}
 					<tr>
-						<td>{user.firstname} {user.lastname}</td>
+						{#if user.firstname && user.lastname}
+							<td>{user.firstname} {user.lastname}</td>
+						{:else}
+							<td>{user.email}</td>
+						{/if}
 						<td>{mapRole(user.role)}</td>
 						<td>{mapState(user.state)}</td>
 						<td>{formatToFrenchDate(user.created_at)}</td>
@@ -255,8 +259,11 @@
 						<div class="update__header">
 							<p>
 								<strong>
-									Mettre à jour {user.firstname}
-									{user.lastname}</strong
+									Mettre à jour {#if user.firstname && user.lastname}
+										{user.firstname} {user.lastname}
+									{:else}
+										{user.email}
+									{/if}</strong
 								>
 							</p>
 						</div>
