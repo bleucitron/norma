@@ -3,8 +3,10 @@ import { fail, redirect } from '@sveltejs/kit';
 // import { get } from 'svelte/store';
 import { Level, Role, State } from '$lib/types/norma';
 import type { Database } from '../../../../types/supabase';
+import type { SupabaseClient } from '@supabase/supabase-js';
 
 type Dancer = Database['public']['Tables']['dancers']['Row'];
+type NormaDatabase = SupabaseClient<Database>;
 
 interface RegistrationFormData {
 	email: string;
@@ -198,15 +200,17 @@ export const actions = {
 	}
 };
 
-async function checkRole(event, role: Role, level: Level, supabase) {
-	const { data: selectedCount } = await supabase
+async function checkRole(event, role: Role, level: Level, supabase: NormaDatabase) {
+	//@ts-expect-error Supabase est mal typé
+	const { data: selectedCount }: { data: number } = await supabase
 		.from('dancers')
 		.select('*(count)')
 		.eq('event', event)
 		.eq('role', role)
 		.eq('level', level);
 
-	const { data: oppositeCount } = await supabase
+	//@ts-expect-error Supabase est mal typé
+	const { data: oppositeCount }: { data: number } = await supabase
 		.from('dancers')
 		.select('*(count)')
 		.eq('role', role === Role.Leader ? Role.Suiveur : Role.Leader)
@@ -217,12 +221,12 @@ async function checkRole(event, role: Role, level: Level, supabase) {
 async function registerPartner(
 	params,
 	registrationData: RegistrationFormData,
-	supabase,
+	supabase: NormaDatabase,
 	state: State
 ) {
 	const { email, partner_level, partner_role, partnaire_email } = registrationData;
 
-	const { data: alreadyExist }: { data: Dancer | undefined } = await supabase
+	const { data: alreadyExist }: { data: Dancer | null } = await supabase
 		.from('dancers')
 		.select()
 		.eq('email', email)
@@ -245,6 +249,7 @@ async function registerPartner(
 		}
 	}
 	const { error: insertError } = await supabase.from('dancers').insert({
+		//@ts-expect-error Supabase est mal typé
 		email: partnaire_email,
 		state: state,
 		role: partner_role,
@@ -271,7 +276,7 @@ async function registerPartner(
 async function register(
 	params,
 	registrationData: RegistrationFormData,
-	supabase,
+	supabase: NormaDatabase,
 	state: State
 ): Promise<string> {
 	const { email, level, role } = registrationData;
@@ -291,7 +296,7 @@ async function register(
 
 		if (userWithNoPartner && userWithNoPartner[0]) {
 			const selectedUser = userWithNoPartner[0];
-			partnaire_email = selectedUser.email;
+			partnaire_email = selectedUser.email || undefined;
 			const { error: attributionPartnerError } = await supabase
 				.from('dancers')
 				.update({ partner_email: email })
@@ -303,7 +308,7 @@ async function register(
 		}
 	}
 
-	const { data: alreadyExist }: { data: Dancer | undefined } = await supabase
+	const { data: alreadyExist }: { data: Dancer | null } = await supabase
 		.from('dancers')
 		.select()
 		.eq('email', email)
@@ -354,7 +359,7 @@ async function register(
 
 // }
 
-async function setDancerOrderWaiting(params, partnaire_email, supabase) {
+async function setDancerOrderWaiting(params, partnaire_email: string, supabase: NormaDatabase) {
 	const { error } = await supabase
 		.from('dancers')
 		.update({ state: State['Règlement en cours'] })
