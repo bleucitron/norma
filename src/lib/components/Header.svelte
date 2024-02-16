@@ -43,7 +43,6 @@
 		{#if user}
 			<div class="btn__container">
 				<a href={`/admin`} class="btn">Dashboard</a>
-				<a href={`/admin/events`} class="btn">Voir tous les évenements</a>
 			</div>
 		{:else}
 			<div class="btn__container">

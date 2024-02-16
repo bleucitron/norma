@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { invalidate } from '$app/navigation';
-	import { Role, State } from '../../../../../lib/utils/enums.js';
+	import { Role, State } from '$lib/types/norma.js';
 
 	export let data;
 	let users = data.users;
@@ -243,7 +243,7 @@
 						<td>{mapRole(user.role)}</td>
 						<td>{mapState(user.state)}</td>
 						<td>{formatToFrenchDate(user.created_at)}</td>
-						<td>
+						<td class="updateBtn">
 							<button class="btn" on:click={() => openUpdate(user)}>Modifier</button>
 							<button class="btn" on:click={() => deleteUser(user)}>Supprimer</button>
 						</td>
