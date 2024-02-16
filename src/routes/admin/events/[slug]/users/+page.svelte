@@ -1,10 +1,13 @@
 <script lang="ts">
 	import { invalidate } from '$app/navigation';
 	import { Role, State } from '$lib/types/norma';
+	import type { Database } from '../../../../../types/supabase';
 
 	export let data;
 	let users = data.users;
 	let enventName = data.enventName;
+
+	type Dancer = Database['public']['Tables']['dancers']['Row'];
 
 	let searchTerm = '';
 	let roleFilter: Role | undefined;
@@ -26,7 +29,7 @@
 
 	$: numberOfFilteredUsers = filteredUsers.length;
 
-	function toggleSort(column) {
+	function toggleSort(column: string) {
 		if (column === sortColumn) {
 			sortOrder *= -1;
 		} else {
@@ -38,13 +41,21 @@
 			sortedUsers = filteredUsers.slice().sort((a, b) => {
 				const dateA = formatToFrenchDate(a.created_at);
 				const dateB = formatToFrenchDate(b.created_at);
-				return sortOrder * (dateA - dateB);
+				const dateObjA = new Date(dateA);
+				const dateObjB = new Date(dateB);
+				const difference = dateObjA.getTime() - dateObjB.getTime();
+
+				return sortOrder * difference;
 			});
 		} else {
 			sortedUsers = filteredUsers.slice().sort((a, b) => {
 				const valueA = column === 'role' ? a.role : a.state;
 				const valueB = column === 'role' ? b.role : b.state;
-				return sortOrder * valueA.localeCompare(valueB);
+				if (typeof valueA === 'number' && typeof valueB === 'number') {
+					return sortOrder * (valueA - valueB);
+				} else {
+					return 0;
+				}
 			});
 		}
 	}
@@ -58,7 +69,7 @@
 		sortedUsers = users.slice();
 	}
 
-	function formatToFrenchDate(dateString) {
+	function formatToFrenchDate(dateString: string) {
 		const date = new Date(dateString);
 		const day = date.getDate().toString().padStart(2, '0');
 		const month = (date.getMonth() + 1).toString().padStart(2, '0');
@@ -66,7 +77,7 @@
 		return `${day}/${month}/${year}`;
 	}
 
-	async function deleteUser(userToDelete) {
+	async function deleteUser(userToDelete: Dancer) {
 		const confirmation = confirm(
 			`Voulez-vous vraiment supprimer ${userToDelete.firstname} ${userToDelete.lastname}?`
 		);
@@ -91,23 +102,42 @@
 			}
 		}
 	}
-	function openUpdate(user) {
-		let updatePopup = document.querySelector(`.update__container[data-user-id="${user.id}"]`);
-		updatePopup.style.display = 'flex';
+	function openUpdate(user: Dancer) {
+		let updatePopup = document.querySelector(
+			`.update__container[data-user-id="${user.id}"]`
+		) as HTMLElement | null;
+
 		if (updatePopup) {
-			updatePopup.querySelector('[name="firstname"]').value = user.firstname;
-			updatePopup.querySelector('[name="lastname"]').value = user.lastname;
-			updatePopup.querySelector('[name="role"]').value = user.role;
-			updatePopup.querySelector('[name="state"]').value = user.state;
+			updatePopup.style.display = 'flex';
+
+			const firstnameInput = updatePopup.querySelector<HTMLInputElement>('[name="firstname"]');
+			if (firstnameInput) firstnameInput.value = user.firstname ?? '';
+
+			const lastnameInput = updatePopup.querySelector<HTMLInputElement>('[name="lastname"]');
+			if (lastnameInput) lastnameInput.value = user.lastname ?? '';
+
+			const roleInput = updatePopup.querySelector<HTMLInputElement>('[name="role"]');
+			if (roleInput) roleInput.value = user.role?.toString() ?? '';
+
+			const stateInput = updatePopup.querySelector<HTMLInputElement>('[name="state"]');
+			if (stateInput) stateInput.value = user.state?.toString() ?? '';
+
+			const partnerInput = updatePopup.querySelector<HTMLInputElement>('[name="partner"]');
+			if (partnerInput) partnerInput.value = user.partner_id?.toString() ?? '';
 		}
 	}
-	function closeUpdate(userId) {
-		let updatePopup = document.querySelector(`.update__container[data-user-id="${userId}"]`);
+
+	function closeUpdate(userId: number) {
+		let updatePopup = document.querySelector(
+			`.update__container[data-user-id="${userId}"]`
+		) as HTMLElement | null;
+
 		if (updatePopup) {
 			updatePopup.style.display = 'none';
 		}
 	}
-	async function updateUser(userToUpdate) {
+
+	async function updateUser(userToUpdate: Dancer) {
 		const confirmation = confirm(
 			`Voulez-vous vraiment modifier les informations de ${userToUpdate.firstname} ${userToUpdate.lastname}?`
 		);
@@ -116,6 +146,7 @@
 			const form = document.querySelector(
 				`.update__container[data-user-id="${userToUpdate.id}"] form`
 			);
+			//@ts-expect-error Form to handle
 			const formData = new FormData(form);
 			const userData = Object.fromEntries(formData.entries());
 			try {
@@ -262,9 +293,9 @@
 						</div>
 						<form id="updateUserForm">
 							<label for="firstname">Prénom</label>
-							<input type="text" name="firstname" required />
+							<input type="text" name="firstname" disabled />
 							<label for="lastname">Nom</label>
-							<input type="text" name="lastname" required />
+							<input type="text" name="lastname" disabled />
 							<label for="role">Rôle</label>
 							<select name="role">
 								<option value="0">0 - Leader</option>
@@ -276,6 +307,8 @@
 								<option value="1">1 - Liste d'attente</option>
 								<option value="2">2 - Inscrit</option>
 							</select>
+							<label for="partner">Partenaire</label>
+							<input type="text" name="partner" disabled />
 							<button type="button" on:click={() => updateUser(user)}>Mettre à jour</button>
 							<button type="button" on:click={() => closeUpdate(user.id)}>Annuler</button>
 						</form>
@@ -310,6 +343,11 @@
 
 		p {
 			padding: 0 2rem;
+		}
+	}
+	td {
+		button + button {
+			margin-top: 1rem;
 		}
 	}
 	@media (max-width: 768px) {
