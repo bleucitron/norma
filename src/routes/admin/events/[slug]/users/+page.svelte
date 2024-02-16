@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { invalidate } from '$app/navigation';
-	import { Role, State } from '../../../../../lib/utils/enums.js';
+	import { Role, State } from '$lib/types/norma';
 
 	export let data;
 	let users = data.users;

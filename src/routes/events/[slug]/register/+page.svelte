@@ -14,11 +14,6 @@
 			duration: 1500
 		});
 	}
-	let checked = false;
-	function handleClick(event: any) {
-		checked = !checked;
-		setTimeout(() => (event.target.checked = checked), 0);
-	}
 </script>
 
 <svelte:head>
@@ -68,47 +63,6 @@
 				<option value="2">Expert</option>
 			</select>
 		</div>
-		<div class="form-group checkbox__container">
-			<input
-				type="checkbox"
-				id="partner"
-				name="partner"
-				{checked}
-				on:click|preventDefault={handleClick}
-			/>
-			<label for="partner">Je souhaite inscrire et payer pour mon partenaire</label>
-		</div>
-		{#if checked}
-			<div class="form-group">
-				<label for="role-select">Le rôle de votre partenaire :</label>
-				<select name="partner_role" id="role-select" class="partner__info" required>
-					<option value="">--Veuillez choisir une option--</option>
-					<option value="0">Leader</option>
-					<option value="1">Suiveur</option>
-				</select>
-			</div>
-			<div class="form-group">
-				<label for="level-select">Le niveau de votre partenaire :</label>
-				<select name="partner_level" id="level-select" class="partner__info" required>
-					<option value="">--Veuillez choisir une option--</option>
-					<option value="0">Débutant</option>
-					<option value="1">Confirmé</option>
-					<option value="2">Expert</option>
-				</select>
-			</div>
-		{/if}
 		<button type="submit">Poursuivre l'inscription</button>
 	</form>
 </div>
-
-<style lang="scss">
-	.checkbox__container {
-		display: flex;
-		align-items: center;
-		gap: 1rem;
-
-		label {
-			margin-bottom: 0;
-		}
-	}
-</style>
