@@ -142,7 +142,7 @@ export const actions = {
 	}
 };
 
-async function checkRole(event, role: Role, level: Level, supabase: NormaDatabase) {
+async function checkRole(event: string, role: Role, level: Level, supabase: NormaDatabase) {
 	//@ts-expect-error Supabase est mal typé
 	const { data: selectedCount }: { data: number } = await supabase
 		.from('dancers')
@@ -162,7 +162,7 @@ async function checkRole(event, role: Role, level: Level, supabase: NormaDatabas
 }
 
 async function register(
-	params,
+	params: { slug: string },
 	registrationData: RegistrationFormData,
 	supabase: NormaDatabase,
 	state: State
@@ -234,7 +234,11 @@ async function register(
 
 // }
 
-async function setDancerOrderWaiting(params, partnaire_email: string, supabase: NormaDatabase) {
+async function setDancerOrderWaiting(
+	params: { slug: string },
+	partnaire_email: string,
+	supabase: NormaDatabase
+) {
 	const { error } = await supabase
 		.from('dancers')
 		.update({ state: State['Règlement en cours'] })
@@ -250,7 +254,7 @@ async function dancerIdAttribution(
 	email: string,
 	partner_email: string,
 	supabase: NormaDatabase,
-	params
+	params: { slug: string }
 ) {
 	// Sélection du danseur principal
 	const { data: dancer } = await supabase
