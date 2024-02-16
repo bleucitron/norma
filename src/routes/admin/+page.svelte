@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { State, Role, Level } from '$lib/utils/enums';
+	import { State, Role, Level } from '$lib/types/norma';
 	export let data;
 
 	let todayDate = new Date();

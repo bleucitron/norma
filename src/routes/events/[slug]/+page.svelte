@@ -38,7 +38,7 @@
 			height: 300px;
 			object-fit: cover;
 		}
-		iframe,
+
 		h1,
 		h2 {
 			margin-top: 1rem;
