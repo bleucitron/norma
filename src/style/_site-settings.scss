@@ -42,16 +42,15 @@ $primary-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida 
 .card__actions {
     background-color: $yellow;
     border: none;
-    padding: .9rem 2rem;
+    padding: 0.8rem 1.5rem;
     min-width: 12rem;
     border-radius: 2rem;
-    color: $white;
+    color: #fff;
     cursor: pointer;
-    font-size: 1.4rem;
+    font-size: 1.3rem;
     line-height: calc(1.4rem * 1.4);
     font-family: $primary-family;
     text-align: center;
-
     &:hover {
         background-color: $black;
     }

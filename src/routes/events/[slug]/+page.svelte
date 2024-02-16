@@ -38,9 +38,7 @@
 			height: 300px;
 			object-fit: cover;
 		}
-
 		h1,
-		h2 {
 			margin-top: 1rem;
 			margin-bottom: 1rem;
 		}
