@@ -1,12 +1,5 @@
 <script lang="ts">
-	import { last_order } from '$lib/server/lastOrder';
 	export let data;
-
-	$: $last_order, checkOrder(last_order);
-
-	function checkOrder(last_order: object) {
-		console.log(last_order);
-	}
 </script>
 
 <div class="header-container">

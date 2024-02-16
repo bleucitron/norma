@@ -1,4 +1,5 @@
 import { access_token } from '$lib/server/accessToken';
+import { supabase } from '$lib/supabase';
 import { get } from 'svelte/store';
 export async function load({ params, fetch }) {
 	const event = await fetch(
@@ -12,3 +13,12 @@ export async function load({ params, fetch }) {
 	).then((resp) => resp.json());
 	return event;
 }
+
+const handleDancerUpdate = (payload) => {
+	console.log('Change received!', payload)
+}
+
+supabase
+	.channel('dancers')
+	.on('postgres_changes', { event: 'UPDATE', schema: 'public', table: 'dancers' }, handleDancerUpdate)
+	.subscribe()
