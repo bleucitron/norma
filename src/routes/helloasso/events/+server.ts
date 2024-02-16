@@ -1,4 +1,5 @@
 import { json } from '@sveltejs/kit'
+import { last_order } from "$lib/server/lastOrder";
 
 
 interface HelloAssoNotificationBody {
@@ -20,7 +21,11 @@ export async function POST(event) {
             case 'Order':
                 console.log('Order')
                 console.log(body.data)
+                last_order.set(body.data)
                 break;
+
+
+
             case 'Payment':
                 console.log('Payment')
                 break;
