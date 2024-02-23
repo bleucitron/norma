@@ -54,3 +54,34 @@ test('all events have images', async ({ page }) => {
 		expect(response.status()).toBe(200);
 	}
 });
+
+// Vérifie le parcours d'inscription à un évenment jusqu'à la confirmation
+test('register to an event', async ({ page }) => {
+	await page.goto('http://localhost:5173/');
+
+	// Cliquer sur la carte de l'événement infine
+	const event = await page.getByText('Playwright inscription infinie');
+	await event.click();
+	await expect(page).toHaveURL('http://localhost:5173/events/playwright-inscription-infinie');
+
+	// Cliquer sur le bouton "S'inscrire"
+	const registerBtn = await page.getByText("S'inscrire");
+	await registerBtn.click();
+	await expect(page).toHaveURL(
+		'http://localhost:5173/events/playwright-inscription-infinie/register'
+	);
+
+	// Remplir le formulaire (email, rôle et niveau) et cliquer sur "Poursuivre l'inscription"
+	await page
+		.getByLabel('Email')
+		.fill('normatest-' + Math.random().toString(36).slice(2) + '@mail.test');
+	await page.getByLabel('Votre rôle :').selectOption({ label: 'Leader' });
+	await page.getByLabel('Votre niveau :').selectOption({ label: 'Expert' });
+	const confirmBtn = await page.getByText("Poursuivre l'inscription");
+	await confirmBtn.click();
+	await expect(page).toHaveURL(
+		'http://localhost:5173/events/playwright-inscription-infinie/commande'
+	);
+
+	// Remplir le formulaire helloasso et vérifier que l'utilsitaeur arrive bien sur la page de confirmation
+});

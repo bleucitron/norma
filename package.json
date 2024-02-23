@@ -4,6 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "vite dev",
+    "testenv": "vite dev --mode test",
     "build": "vite build",
     "preview": "vite preview",
     "test": "npm run test:integration",
