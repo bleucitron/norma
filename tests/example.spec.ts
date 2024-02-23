@@ -1,21 +1,24 @@
 import { test, expect } from '@playwright/test';
+import { createClient } from '@supabase/supabase-js';
+import dotenv from 'dotenv';
+import path from 'path';
 
-// test('has title', async ({ page }) => {
-//   await page.goto('https://playwright.dev/');
+function delay(time = 2000) {
+	return new Promise((resolve) => {
+		setTimeout(resolve, time);
+	});
+}
 
-//   // Expect a title "to contain" a substring.
-//   await expect(page).toHaveTitle(/Playwright/);
-// });
+dotenv.config({ path: path.resolve('.env.test') });
+// @ts-expect-error laisse tranquille
+const supabase = createClient(
+	process.env.PUBLIC_SUPABASE_URL,
+	process.env.PUBLIC_SUPABASE_ANON_KEY
+);
 
-// test('get started link', async ({ page }) => {
-//   await page.goto('https://playwright.dev/');
-
-//   // Click the get started link.
-//   await page.getByRole('link', { name: 'Get started' }).click();
-
-//   // Expects page to have a heading with the name of Installation.
-//   await expect(page.getByRole('heading', { name: 'Installation' })).toBeVisible();
-// });
+test.afterEach(async () => {
+	await supabase.from('dancers').delete().eq('event', 'playwright-inscription-infinie');
+});
 
 test('has title', async ({ page }) => {
 	await page.goto('http://localhost:5173/');
@@ -72,9 +75,8 @@ test('register to an event', async ({ page }) => {
 	);
 
 	// Remplir le formulaire (email, rôle et niveau) et cliquer sur "Poursuivre l'inscription"
-	await page
-		.getByLabel('Email')
-		.fill('normatest-' + Math.random().toString(36).slice(2) + '@mail.test');
+	const email = 'normatest-' + Math.random().toString(36).slice(2) + '@mail.test';
+	await page.getByLabel('Email').fill(email);
 	await page.getByLabel('Votre rôle :').selectOption({ label: 'Leader' });
 	await page.getByLabel('Votre niveau :').selectOption({ label: 'Expert' });
 	const confirmBtn = await page.getByText("Poursuivre l'inscription");
@@ -83,5 +85,32 @@ test('register to an event', async ({ page }) => {
 		'http://localhost:5173/events/playwright-inscription-infinie/commande'
 	);
 
-	// Remplir le formulaire helloasso et vérifier que l'utilsitaeur arrive bien sur la page de confirmation
+	// Remplir le formulaire helloasso et vérifier que l'utilisateur arrive bien sur la page de confirmation
+	await expect(page.locator('iframe#haWidget')).toBeVisible();
+
+	const frame = page.mainFrame();
+	const childframes = frame.childFrames();
+	const HaFrame = childframes[0];
+	await HaFrame.waitForLoadState();
+	const iframe = page.frameLocator('iframe#haWidget');
+	const iframebody = await iframe.locator('body');
+	await expect(iframebody).toHaveAttribute('class', 'widget');
+
+	const iframetarif = await iframe.getByText('Tarif infinie gratuit');
+	await expect(iframetarif).toBeVisible();
+
+	await iframe.locator('input[aria-label="Quantité"]').fill('1');
+	await iframe.getByText('Étape suivante').click();
+	await iframe.locator('input[name="firstname"]').fill('Gaëtan');
+	await iframe.locator('input[name="lastname"]').fill('Moreau');
+	await iframe.getByText('Ce participant va effectuer le paiement').click();
+	await iframe.locator('input[name="email"]').fill(email);
+	await iframe.getByText('Étape suivante').click();
+	await delay();
+	await iframe.getByText('Étape suivante').click();
+	await delay();
+	await iframe.getByText("J'accepte les").click({ position: { x: 5, y: 5 } });
+	await iframe.getByText('Valider et payer').click();
+	await delay(5000);
+	await expect(iframe.getByText('Merci !')).toBeVisible();
 });
