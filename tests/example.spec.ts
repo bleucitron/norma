@@ -28,9 +28,29 @@ test('has events list', async ({ page }) => {
 	await page.goto('http://localhost:5173/');
 
 	// Expect a title "to contain" a substring.
-	const list = page.locator('.events-list:not(.events-archived)');
+	const list = page.locator('ul.events-list:not(.events-archived)');
 	await expect(list).toBeVisible();
 
-	const event = page.locator('.events-list:not(.events-archived) .event');
+	const event = page.locator('ul.events-list:not(.events-archived) li.event');
 	await expect(await event.count()).toBeGreaterThanOrEqual(1);
+});
+
+// body > div > main > ul:nth-child(2) > li:nth-child(2) > a > div > div > div:nth-child(1) > img
+// On vérifie si il y a une SRC, si il y a une balise img, et si l'url correspond à ce qui est attendu -> Response 200
+test('all events have images', async ({ page, request }) => {
+	await page.goto('http://localhost:5173/');
+
+	// const imgFromEventList = page.locator('.events-list:not(.events-archived) .event');
+	for (const eventLocator of await page
+		.locator('.events-list:not(.events-archived) .event')
+		.all()) {
+		const img = eventLocator.locator('img.event-img');
+		await expect(img).toBeVisible();
+		await expect(img).toHaveAttribute('src');
+		const src = await img.getAttribute('src');
+
+		//@ts-expect-error laisse moi tranquille :)
+		const response = await request.get(src);
+		expect(response.status()).toBe(200);
+	}
 });
