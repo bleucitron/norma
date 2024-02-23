@@ -211,11 +211,11 @@ async function register(
 		});
 		dancerIdAttribution(email, partnaire_email, supabase, params);
 		if (insertPartnerError) {
-			throw new Error("Erreur lors de l'enregistrement");
+			throw new Error("Erreur lors de l'enregistrement avec un partenaire");
 		}
 	}
 	if (insertError) {
-		throw new Error("Erreur lors de l'enregistrement");
+		throw new Error("Erreur lors de l'enregistrement: " + insertError.message);
 	}
 	switch (state) {
 		case State['Règlement en cours']:
