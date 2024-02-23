@@ -37,7 +37,7 @@ test('has events list', async ({ page }) => {
 
 // body > div > main > ul:nth-child(2) > li:nth-child(2) > a > div > div > div:nth-child(1) > img
 // On vérifie si il y a une SRC, si il y a une balise img, et si l'url correspond à ce qui est attendu -> Response 200
-test('all events have images', async ({ page, request }) => {
+test('all events have images', async ({ page }) => {
 	await page.goto('http://localhost:5173/');
 
 	// const imgFromEventList = page.locator('.events-list:not(.events-archived) .event');
@@ -50,7 +50,7 @@ test('all events have images', async ({ page, request }) => {
 		const src = await img.getAttribute('src');
 
 		//@ts-expect-error laisse moi tranquille :)
-		const response = await request.get(src);
+		const response = await page.request.get(src);
 		expect(response.status()).toBe(200);
 	}
 });
