@@ -8,7 +8,8 @@
 
 <section>
 	<p class="warning">
-		&#9888; Attention à renseigner le meme email que celui avec lequel vous vous etes inscrit
+		&#9888; Attention à renseigner le même email que celui avec lequel vous vous êtes inscrit à
+		savoir : [EMAIL A METTRE ICI]
 	</p>
 	<iframe
 		id="haWidget"
@@ -22,5 +23,6 @@
 <style>
 	.warning {
 		color: red;
+		margin-bottom: 1.6rem;
 	}
 </style>
