@@ -36,7 +36,6 @@ test('has events list', async ({ page }) => {
 
 	const event = page.locator('ul.events-list:not(.events-archived) li.event');
 	await expect(await event.count()).toBeGreaterThanOrEqual(1);
-});
 
 // body > div > main > ul:nth-child(2) > li:nth-child(2) > a > div > div > div:nth-child(1) > img
 // On vérifie si il y a une SRC, si il y a une balise img, et si l'url correspond à ce qui est attendu -> Response 200
