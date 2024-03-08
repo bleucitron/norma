@@ -5,6 +5,8 @@ import { build, files } from '$service-worker';
 
 const CACHE = 'cache-v1';
 
+const _swPrefix = `/_service-worker/`;
+
 const ASSETS = [
 	...build, // the app itself
 	...files // everything in `static`
@@ -44,6 +46,21 @@ self.addEventListener('fetch', (event) => {
 
 			if (response) {
 				return response;
+			}
+		}
+
+		if (url.pathname.startsWith(_swPrefix)) {
+			if (url.pathname === `${_swPrefix}cache`) {
+				const urlsArray = JSON.parse(decodeURIComponent(url.searchParams.get('testUrl')));
+				const res = [];
+				urlsArray.forEach(async (url) => {
+					const result = await cache.match(url);
+					if (result) {
+						res.push(url);
+					}
+				});
+
+				return new Response(JSON.stringify(res));
 			}
 		}
 

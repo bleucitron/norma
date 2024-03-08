@@ -27,6 +27,11 @@
 			});
 		});
 	});
+
+	// const urlsInCache = await fetch(
+	// 	`/_service-worker/cache?testUrl=${encodeURIComponent(JSON.stringify(events.map((event) => `/events/${event.formSlug}`)))}`
+	// ).then((reponse) => reponse.json());
+	// console.log(data);
 </script>
 
 <div class="header-container">
