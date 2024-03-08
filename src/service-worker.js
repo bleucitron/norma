@@ -1,5 +1,11 @@
 self.addEventListener('fetch', (event) => {
-	console.log(event);
-	event.respondWith(false);
-	console.log('test');
+	event.respondWith(
+		fetch(event.request).then((response) => {
+			console.log(event.request, response);
+			return response;
+		})
+	);
 });
+// console.log(event);
+// event.respondWith(false);
+// console.log('test');
