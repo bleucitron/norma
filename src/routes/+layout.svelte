@@ -4,6 +4,7 @@
 	import { invalidate } from '$app/navigation';
 	import Header from '$lib/components/Header.svelte';
 	import { SvelteToast } from '@zerodevx/svelte-toast';
+	import NetworkStatus from '$lib/components/NetworkStatus.svelte';
 
 	export let data;
 
@@ -27,6 +28,7 @@
 
 <Header {user} />
 <SvelteToast />
+<NetworkStatus />
 
 <main class="container-column">
 	<slot />
