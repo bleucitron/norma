@@ -5,7 +5,7 @@
 
 	export let data;
 	let users = data.users;
-	let enventName = data.enventName;
+	let enventName = data.eventName;
 
 	type Dancer = Database['public']['Tables']['dancers']['Row'];
 
@@ -261,6 +261,10 @@
 					<span class:desc={sortOrder === -1 && sortColumn === 'created_at'} class="sort-icon"
 					></span>
 				</th>
+				<th>
+					Pass
+					<span class:desc={sortOrder === -1 && sortColumn === 'pass'} class="sort-icon"></span>
+				</th>
 				<th>Actions</th>
 			</tr>
 		</thead>
@@ -280,6 +284,7 @@
 						<td>{mapRole(user.role)}</td>
 						<td>{mapState(user.state)}</td>
 						<td>{formatToFrenchDate(user.created_at)}</td>
+						<td>{user.name ? user.name : ''}</td>
 						<td class="updateBtn">
 							<button class="btn" on:click={() => openUpdate(user)}>Modifier</button>
 							<button class="btn" on:click={() => openDelete(user)}>Supprimer</button>
