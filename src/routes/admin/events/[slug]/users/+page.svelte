@@ -5,7 +5,7 @@
 
 	export let data;
 	let users = data.users;
-	let enventName = data.eventName;
+	let eventName = data.eventName;
 
 	type Dancer = Database['public']['Tables']['dancers']['Row'];
 
@@ -44,8 +44,13 @@
 				const dateObjA = new Date(dateA);
 				const dateObjB = new Date(dateB);
 				const difference = dateObjA.getTime() - dateObjB.getTime();
-
 				return sortOrder * difference;
+			});
+		} else if (column === 'pass') {
+			sortedUsers = filteredUsers.slice().sort((a, b) => {
+				const valueA = a.pass ? a.pass.toLowerCase() : '';
+				const valueB = b.pass ? b.pass.toLowerCase() : '';
+				return sortOrder * valueA.localeCompare(valueB);
 			});
 		} else {
 			sortedUsers = filteredUsers.slice().sort((a, b) => {
@@ -79,12 +84,12 @@
 
 	async function deleteUser(userToDelete: Dancer) {
 		try {
-			const response = await fetch(`/admin/events/${enventName}/users/${userToDelete.id}`, {
+			const response = await fetch(`/admin/events/${eventName}/users/${userToDelete.id}`, {
 				method: 'DELETE'
 			});
 
 			if (response.ok) {
-				invalidate('/admin/events/${enventName}/users/').then(() => {
+				invalidate('/admin/events/${eventName}/users/').then(() => {
 					location.reload();
 				});
 			} else {
@@ -158,7 +163,7 @@
 		const formData = new FormData(form);
 		const userData = Object.fromEntries(formData.entries());
 		try {
-			const response = await fetch(`/admin/events/${enventName}/users/${userToUpdate.id}`, {
+			const response = await fetch(`/admin/events/${eventName}/users/${userToUpdate.id}`, {
 				method: 'PATCH',
 				headers: {
 					'Content-Type': 'application/json'
@@ -167,7 +172,7 @@
 			});
 
 			if (response.ok) {
-				invalidate('/admin/events/${enventName}/users/').then(() => {
+				invalidate('/admin/events/${eventName}/users/').then(() => {
 					location.reload();
 				});
 			} else {
@@ -261,7 +266,7 @@
 					<span class:desc={sortOrder === -1 && sortColumn === 'created_at'} class="sort-icon"
 					></span>
 				</th>
-				<th>
+				<th on:click={() => toggleSort('pass')}>
 					Pass
 					<span class:desc={sortOrder === -1 && sortColumn === 'pass'} class="sort-icon"></span>
 				</th>
@@ -284,7 +289,7 @@
 						<td>{mapRole(user.role)}</td>
 						<td>{mapState(user.state)}</td>
 						<td>{formatToFrenchDate(user.created_at)}</td>
-						<td>{user.name ? user.name : ''}</td>
+						<td>{user.pass ? user.pass : 'pass non disponible'}</td>
 						<td class="updateBtn">
 							<button class="btn" on:click={() => openUpdate(user)}>Modifier</button>
 							<button class="btn" on:click={() => openDelete(user)}>Supprimer</button>
