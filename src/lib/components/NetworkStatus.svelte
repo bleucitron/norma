@@ -1,4 +1,4 @@
-{#if !navigator.onLine}
+{#if typeof navigator !== 'undefined' && !navigator.onLine}
 	<div class="network__container">
 		<p>You are offline</p>
 	</div>
