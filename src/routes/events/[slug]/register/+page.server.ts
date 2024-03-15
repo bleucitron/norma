@@ -182,9 +182,9 @@ async function register(
 		const state: State = alreadyExistUser.state;
 		switch (state) {
 			case State['Règlement en cours']:
-				return '/events/' + params.slug + '/commande';
+				return '/events/' + params.slug + '/commande?email=' + encodeURI(email);
 			case State.Inscrit:
-				return '/events/' + params.slug + '/confirmation';
+				return '/events/' + params.slug + '/confirmation?email=' + encodeURI(email);
 			case State['Attente']:
 				return '/events/' + params.slug + '/reservation';
 			default:
