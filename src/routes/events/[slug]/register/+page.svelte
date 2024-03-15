@@ -1,5 +1,7 @@
 <script lang="ts">
+	import { Level, Role } from '$lib/types/norma';
 	import { toast } from '@zerodevx/svelte-toast';
+
 	export let form;
 	if (form?.error) {
 		toast.push(form?.error, {
@@ -14,6 +16,42 @@
 			duration: 1500
 		});
 	}
+	let checked = false;
+	function handleClick(event: any) {
+		checked = !checked;
+		setTimeout(() => (event.target.checked = checked), 0);
+	}
+
+	let userRole: Role;
+	let userLevel: Level;
+
+	const roleMapping = {
+		[Role.Leader]: 'Leader',
+		[Role.Suiveur]: 'Suiveur'
+	};
+
+	const partnerRoleMapping = {
+		[Role.Leader]: Role.Suiveur,
+		[Role.Suiveur]: Role.Leader
+	};
+
+	function levelName(levelKey: Level) {
+		switch (levelKey) {
+			case Level.Débutant:
+				return 'Débutant';
+			case Level.Confirmé:
+				return 'Confirmé';
+			case Level.Expert:
+				return 'Expert';
+			default:
+				return '';
+		}
+	}
+
+	$: partnerRole = partnerRoleMapping[userRole];
+	$: partnerLevel = userLevel;
+
+	$: console.log({ userRole, userLevel, partnerRole, partnerLevel });
 </script>
 
 <svelte:head>
@@ -22,6 +60,32 @@
 <div id="login__page" class="form__tpl">
 	<h1>Renseignez-nous !</h1>
 	<form action="register" method="post">
+		<div class="form-group">
+			<label for="lastname">Nom</label>
+			<input
+				type="text"
+				name="lastname"
+				id="lastname"
+				value=""
+				required
+				aria-required="true"
+				placeholder="Votre nom"
+				class="form-control"
+			/>
+		</div>
+		<div class="form-group">
+			<label for="firstname">Prénom</label>
+			<input
+				type="text"
+				name="firstname"
+				id="firstname"
+				value=""
+				required
+				aria-required="true"
+				placeholder="Votre prénom"
+				class="form-control"
+			/>
+		</div>
 		<div class="form-group">
 			<label for="email">Email</label>
 			<input
@@ -48,21 +112,93 @@
 		</div>
 		<div class="form-group">
 			<label for="role-select">Votre rôle :</label>
-			<select name="role" id="role-select" required>
+			<select bind:value={userRole} name="role" id="role-select" required>
 				<option value="">--Veuillez choisir une option--</option>
-				<option value="0">Leader</option>
-				<option value="1">Suiveur</option>
+				<option value={Role.Leader}>Leader</option>
+				<option value={Role.Suiveur}>Suiveur</option>
 			</select>
 		</div>
 		<div class="form-group">
 			<label for="level-select">Votre niveau :</label>
-			<select name="level" id="level-select" required>
+			<select bind:value={userLevel} name="level" id="level-select" required>
 				<option value="">--Veuillez choisir une option--</option>
-				<option value="0">Débutant</option>
-				<option value="1">Confirmé</option>
-				<option value="2">Expert</option>
+				<option value={Level.Débutant}>Débutant</option>
+				<option value={Level.Confirmé}>Confirmé</option>
+				<option value={Level.Expert}>Expert</option>
 			</select>
 		</div>
+		<div class="form-group checkbox__container">
+			<input
+				type="checkbox"
+				id="partner"
+				name="partner"
+				{checked}
+				on:click|preventDefault={handleClick}
+			/>
+			<label for="partner">Je souhaite inscrire et payer pour mon partenaire</label>
+		</div>
+		{#if checked}
+			<div class="form-group">
+				<label for="partner_lastname">Le nom de votre partenaire</label>
+				<input
+					type="text"
+					name="partner_lastname"
+					id="partner_lastname"
+					value=""
+					required
+					aria-required="true"
+					placeholder="Le nom de votre partenaire"
+					class="form-control"
+				/>
+			</div>
+			<div class="form-group">
+				<label for="partner_firstname">Le prénom de votre partenaire</label>
+				<input
+					type="text"
+					name="partner_firstname"
+					id="partner_firstname"
+					value=""
+					required
+					aria-required="true"
+					placeholder="Le prénom de votre partenaire"
+					class="form-control"
+				/>
+			</div>
+			<div class="form-group">
+				<label for="role-select">Le rôle de votre partenaire :</label>
+				<input
+					type="text"
+					name="partner_role"
+					id="role-select-partner"
+					class="partner__info"
+					disabled
+					value={roleMapping[partnerRole] || ''}
+				/>
+			</div>
+			<div class="form-group">
+				<label for="level-select">Le niveau de votre partenaire :</label>
+
+				<input
+					type="text"
+					name="partner_level"
+					id="level-select-partner"
+					class="partner__info"
+					disabled
+					value={levelName(partnerLevel)}
+				/>
+			</div>
+		{/if}
 		<button type="submit">Poursuivre l'inscription</button>
 	</form>
 </div>
+
+<style lang="scss">
+	.checkbox__container {
+		display: flex;
+		align-items: center;
+		gap: 1rem;
+		label {
+			margin-bottom: 0;
+		}
+	}
+</style>
