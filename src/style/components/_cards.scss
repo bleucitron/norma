@@ -67,3 +67,35 @@
         margin-top: auto;
     }
 }
+
+
+.ticket-container {
+    width: 100%;
+    border: 0px;
+
+    .ticket-card-wrapper {
+        display: flex;
+        width: 100%;
+        gap: 3rem;
+    }
+
+    .card-price {
+        padding: 1rem;
+        color: white;
+        border-radius: 0.5rem;
+        min-height: 250px;
+        height: auto;
+        max-width: 200px;
+        opacity: 0.8;
+        cursor: pointer;
+        border: 1px solid transparent;
+        input[type="radio"] {
+            display: none;
+        }
+    }
+
+    .card-price.active {
+        opacity: 1;
+        border: 1px solid $black;
+    }
+}

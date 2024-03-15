@@ -1,4 +1,5 @@
 <script lang="ts">
+	import Card from '../commande/component/card.svelte';
 	export let data;
 </script>
 
@@ -85,17 +86,14 @@
 				class="form-control"
 			/>
 		</div>
-		<fieldset>
-			<legend>Billet choisi :</legend>
-			{#each data.event.tiers as price}
-				<div>
-					<input type="radio" id={price.id} name="tiers" value={JSON.stringify(price)} />
-					<label for={price.id}
-						>{price.label} : {(price.price / 100).toFixed(2).replace('.', ',')} €</label
-					>
-				</div>
-			{/each}
-		</fieldset>
+		<div class="ticket-container">
+			<p>Choisir le billet souhaité</p>
+			<div class="ticket-card-wrapper">
+				{#each data.event.tiers as price}
+					<Card data={price} />
+				{/each}
+			</div>
+		</div>
 
 		<button type="submit">Aller au paiement</button>
 	</form>
