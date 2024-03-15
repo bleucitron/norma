@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
 	import emailjs from '@emailjs/browser';
 	import {
 		PUBLIC_SERVICE_ID,
@@ -7,39 +7,40 @@
 	} from '$env/static/public';
 	import { toast } from '@zerodevx/svelte-toast';
 
-	function sendEmail(e) {
-		emailjs
-			.sendForm(PUBLIC_SERVICE_ID, PUBLIC_CONTACT_TEMPLATE_ID, e.target, PUBLIC_EMAILJS_KEY)
-			.then(
-				(result) => {
-					result.text === 'OK' &&
-						toast.push('Message envoyé avec succès!', {
-							theme: {
-								'--toastBackground': '#4caf50',
-								'--toastProgressBackground': '#81c784',
-								'--toastProgressAfterBackground': '#a5d6a7',
-								'--toastColor': '#fff',
-								'--toastProgressColor': '#fff',
-								'--toastProgressAfterColor': '#fff'
-							},
-							duration: 1500
-						});
-				},
-				(error) => {
-					error.text &&
-						toast.push("Erreur lors de l'envoi du message!", {
-							theme: {
-								'--toastBackground': '#f44336',
-								'--toastProgressBackground': '#e57373',
-								'--toastProgressAfterBackground': '#ef9a9a',
-								'--toastColor': '#fff',
-								'--toastProgressColor': '#fff',
-								'--toastProgressAfterColor': '#fff'
-							},
-							duration: 1500
-						});
-				}
-			);
+	function sendEmail(e: SubmitEvent) {
+		e.preventDefault();
+		const form = e.target as HTMLFormElement;
+
+		emailjs.sendForm(PUBLIC_SERVICE_ID, PUBLIC_CONTACT_TEMPLATE_ID, form, PUBLIC_EMAILJS_KEY).then(
+			(result) => {
+				result.text === 'OK' &&
+					toast.push('Message envoyé avec succès!', {
+						theme: {
+							'--toastBackground': '#4caf50',
+							'--toastProgressBackground': '#81c784',
+							'--toastProgressAfterBackground': '#a5d6a7',
+							'--toastColor': '#fff',
+							'--toastProgressColor': '#fff',
+							'--toastProgressAfterColor': '#fff'
+						},
+						duration: 1500
+					});
+			},
+			(error) => {
+				error.text &&
+					toast.push("Erreur lors de l'envoi du message!", {
+						theme: {
+							'--toastBackground': '#f44336',
+							'--toastProgressBackground': '#e57373',
+							'--toastProgressAfterBackground': '#ef9a9a',
+							'--toastColor': '#fff',
+							'--toastProgressColor': '#fff',
+							'--toastProgressAfterColor': '#fff'
+						},
+						duration: 1500
+					});
+			}
+		);
 	}
 </script>
 

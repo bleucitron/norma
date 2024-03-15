@@ -14,6 +14,7 @@ export type Database = {
 					level: number;
 					order_id: string | null;
 					partner_email: string | null;
+					partner_id: number | null;
 					role: number;
 					state: number;
 				};
@@ -27,6 +28,7 @@ export type Database = {
 					level: number;
 					order_id?: string | null;
 					partner_email?: string | null;
+					partner_id?: number | null;
 					role: number;
 					state: number;
 				};
@@ -40,6 +42,7 @@ export type Database = {
 					level?: number;
 					order_id?: string | null;
 					partner_email?: string | null;
+					partner_id?: number | null;
 					role?: number;
 					state?: number;
 				};

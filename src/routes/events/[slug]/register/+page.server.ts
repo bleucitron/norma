@@ -1,6 +1,4 @@
 import { fail, redirect } from '@sveltejs/kit';
-// import { access_token } from '$lib/server/accessToken';
-// import { get } from 'svelte/store';
 import { Level, Role, State } from '$lib/types/norma';
 import type { Database } from '../../../../types/supabase';
 import type { SupabaseClient } from '@supabase/supabase-js';
@@ -12,8 +10,6 @@ interface RegistrationFormData {
 	email: string;
 	level: Level;
 	role: Role;
-	partner_level: Level | undefined;
-	partner_role: Role | undefined;
 	partnaire_email: string | undefined;
 }
 
@@ -58,44 +54,12 @@ function formDataToRegistration(formData: FormData): RegistrationFormData {
 	if (partnaire_email && typeof partnaire_email !== 'string') {
 		throw new Error(" L'adresse email du partenaire devrait être une chaîne de caractère");
 	}
-	const partner_levelstr = formData.get('partner_level');
-	let partner_level: number | undefined = undefined;
-	if (partner_levelstr) {
-		if (typeof partner_levelstr !== 'string') {
-			throw new Error('Le niveau du danceur du partenaire devrait être une chaîne de caractère');
-		} else {
-			partner_level = parseInt(partner_levelstr);
-			if (
-				!(
-					partner_level === Level.Débutant ||
-					partner_level === Level.Confirmé ||
-					partner_level === Level.Expert
-				)
-			) {
-				throw new Error("Le niveau du danceur du partenaire n'est pas reconnu " + partner_levelstr);
-			}
-		}
-	}
-	const partner_rolestr = formData.get('partner_role');
-	let partner_role: number | undefined = undefined;
-	if (partner_rolestr) {
-		if (typeof partner_rolestr !== 'string') {
-			throw new Error('Le rôle du danceur du partenaire devrait être une chaîne de caractère');
-		} else {
-			partner_role = parseInt(partner_rolestr);
-			if (!(partner_role === Role.Leader || partner_role === Role.Suiveur)) {
-				throw new Error("Le rôle du danceur du partenaire n'est pas reconnu " + partner_rolestr);
-			}
-		}
-	}
 
 	return {
 		email,
 		level,
 		role,
-		partnaire_email,
-		partner_level,
-		partner_role
+		partnaire_email
 	};
 }
 
@@ -110,18 +74,7 @@ export const actions = {
 				error
 			});
 		}
-		const { level, partnaire_email, role, partner_level, partner_role } = registrationData;
-		const is_partner = partner_level && partner_role;
-
-		// const event = await fetch(
-		//     'https://api.helloasso.com/v5/organizations/norma-ecv/forms/event/' + params.slug + '/public',
-		//     {
-		//         method: 'GET',
-		//         headers: {
-		//             authorization: 'Bearer ' + get(access_token)
-		//         }
-		//     }
-		// ).then((resp) => resp.json());
+		const { level, partnaire_email, role } = registrationData;
 
 		//@ts-expect-error Supabase est mal typé
 		let { data: registrationCount }: { data: number } = await supabase
@@ -157,18 +110,10 @@ export const actions = {
 						setDancerOrderWaiting(params, partnaire_email, supabase);
 					}
 				} else {
-					throw new Error('TODO : sendInvitationMail(partnaire_email);');
+					// throw new Error('TODO : sendInvitationMail(partnaire_email);');
 				}
 			}
 			url = await register(params, registrationData, supabase, State['Règlement en cours']);
-			if (is_partner) {
-				url = await registerPartner(
-					params,
-					registrationData,
-					supabase,
-					State['Règlement en cours']
-				);
-			}
 		} else {
 			if (partnaire_email) {
 				const { data: partenaire } = await supabase
@@ -185,9 +130,6 @@ export const actions = {
 					throw new Error('TODO : sendInvitationMail(partnaire_email);');
 				}
 			}
-			if (is_partner) {
-				url = await registerPartner(params, registrationData, supabase, State.Attente);
-			}
 			url = await register(params, registrationData, supabase, State.Attente);
 		}
 		if (url) {
@@ -200,7 +142,7 @@ export const actions = {
 	}
 };
 
-async function checkRole(event, role: Role, level: Level, supabase: NormaDatabase) {
+async function checkRole(event: string, role: Role, level: Level, supabase: NormaDatabase) {
 	//@ts-expect-error Supabase est mal typé
 	const { data: selectedCount }: { data: number } = await supabase
 		.from('dancers')
@@ -218,95 +160,15 @@ async function checkRole(event, role: Role, level: Level, supabase: NormaDatabas
 
 	return selectedCount <= oppositeCount + 2;
 }
-async function registerPartner(
-	params,
-	registrationData: RegistrationFormData,
-	supabase: NormaDatabase,
-	state: State
-) {
-	const { email, partner_level, partner_role, partnaire_email } = registrationData;
-
-	const { data: alreadyExist }: { data: Dancer | null } = await supabase
-		.from('dancers')
-		.select()
-		.eq('email', email)
-		.eq('event', params.slug)
-		.maybeSingle();
-
-	if (alreadyExist) {
-		const alreadyExistUser = alreadyExist;
-		const state: State = alreadyExistUser.state;
-		switch (state) {
-			case State['Règlement en cours']:
-				return '/events/' + params.slug + '/commande';
-			case State.Inscrit:
-				return '/events/' + params.slug + '/confirmation';
-			case State['Attente']:
-				return '/events/' + params.slug + '/reservation';
-			default:
-				const exhaustiveCheck: never = state;
-				throw new Error(`Unhandled state: ${exhaustiveCheck}`);
-		}
-	}
-	const { error: insertError } = await supabase.from('dancers').insert({
-		//@ts-expect-error Supabase est mal typé
-		email: partnaire_email,
-		state: state,
-		role: partner_role,
-		level: partner_level,
-		event: params.slug,
-		partner_email: email
-	});
-	if (insertError) {
-		return '';
-	}
-	switch (state) {
-		case State['Règlement en cours']:
-			return '/events/' + params.slug + '/commande';
-		case State.Attente:
-			return '/events/' + params.slug + '/reservation';
-		case State.Inscrit:
-			throw new Error(`L'utilisateur ne devrait pas être inscrit`);
-		default:
-			const exhaustiveCheck: never = state;
-			throw new Error(`Unhandled state: ${exhaustiveCheck}`);
-	}
-}
 
 async function register(
-	params,
+	params: { slug: string },
 	registrationData: RegistrationFormData,
 	supabase: NormaDatabase,
 	state: State
 ): Promise<string> {
 	const { email, level, role } = registrationData;
-	let { partnaire_email } = registrationData;
-
-	const oppositeRole = role === Role.Leader ? Role.Suiveur : Role.Leader;
-
-	if (!partnaire_email) {
-		const { data: userWithNoPartner } = await supabase
-			.from('dancers')
-			.select()
-			.eq('partner_email', '')
-			.eq('role', oppositeRole)
-			.eq('state', State.Inscrit)
-			.eq('event', params.slug)
-			.order('created_at', { ascending: true });
-
-		if (userWithNoPartner && userWithNoPartner[0]) {
-			const selectedUser = userWithNoPartner[0];
-			partnaire_email = selectedUser.email || undefined;
-			const { error: attributionPartnerError } = await supabase
-				.from('dancers')
-				.update({ partner_email: email })
-				.match({ email: selectedUser.email, event: params.slug });
-
-			if (attributionPartnerError) {
-				throw new Error("Erreur lors de l'attribution d'un partenaire");
-			}
-		}
-	}
+	const { partnaire_email } = registrationData;
 
 	const { data: alreadyExist }: { data: Dancer | null } = await supabase
 		.from('dancers')
@@ -336,11 +198,24 @@ async function register(
 		state: state,
 		role: role,
 		level: level,
-		event: params.slug,
-		partner_email: partnaire_email
+		event: params.slug
 	});
+	if (partnaire_email) {
+		const oppositeRole = role === Role.Leader ? Role.Suiveur : Role.Leader;
+		const { error: insertPartnerError } = await supabase.from('dancers').insert({
+			email: partnaire_email,
+			state: state,
+			role: oppositeRole,
+			level: level,
+			event: params.slug
+		});
+		dancerIdAttribution(email, partnaire_email, supabase, params);
+		if (insertPartnerError) {
+			throw new Error("Erreur lors de l'enregistrement avec un partenaire");
+		}
+	}
 	if (insertError) {
-		throw new Error("Erreur lors de l'enregistrement");
+		throw new Error("Erreur lors de l'enregistrement: " + insertError.message);
 	}
 	switch (state) {
 		case State['Règlement en cours']:
@@ -359,7 +234,11 @@ async function register(
 
 // }
 
-async function setDancerOrderWaiting(params, partnaire_email: string, supabase: NormaDatabase) {
+async function setDancerOrderWaiting(
+	params: { slug: string },
+	partnaire_email: string,
+	supabase: NormaDatabase
+) {
 	const { error } = await supabase
 		.from('dancers')
 		.update({ state: State['Règlement en cours'] })
@@ -368,4 +247,50 @@ async function setDancerOrderWaiting(params, partnaire_email: string, supabase: 
 	if (!error) {
 		throw new Error('TODO : send mail auto pour payer');
 	}
+}
+
+// Récupère les id du danceur et de son partenaire afin de les relier entre eux dans la BD
+async function dancerIdAttribution(
+	email: string,
+	partner_email: string,
+	supabase: NormaDatabase,
+	params: { slug: string }
+) {
+	// Sélection du danseur principal
+	const { data: dancer } = await supabase
+		.from('dancers')
+		.select()
+		.eq('email', email)
+		.eq('event', params.slug)
+		.maybeSingle();
+
+	// Mise à jour de l'ID du partenaire pour le danseur principal
+	if (dancer?.id) {
+		await updatePartnerId(supabase, partner_email, params.slug, dancer.id);
+	}
+
+	// Sélection du partenaire
+	const { data: dancerPartner } = await supabase
+		.from('dancers')
+		.select()
+		.eq('email', partner_email)
+		.eq('event', params.slug)
+		.maybeSingle();
+
+	// Mise à jour de l'ID du partenaire pour le partenaire
+	if (dancerPartner?.id) {
+		await updatePartnerId(supabase, email, params.slug, dancerPartner.id);
+	}
+}
+async function updatePartnerId(
+	supabase: NormaDatabase,
+	email: string,
+	enventSlug: string,
+	partnerId: number
+) {
+	await supabase
+		.from('dancers')
+		.update({ partner_id: partnerId })
+		.eq('email', email)
+		.eq('event', enventSlug);
 }

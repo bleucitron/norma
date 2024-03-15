@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
+	// import placeholder from '/assets/img/event-placeholder.webp';
 	export let data;
 	let todayDate = new Date();
 	let archivedEvents: Array<any> = [];
@@ -38,12 +39,11 @@
 			<a href="/events/{event.formSlug}" class="card">
 				<div class="card__img">
 					<div class="event__item">
-						<div>
-							{#if event.logo}<img
-									src={event.logo.publicUrl}
-									alt={event.title}
-									class="event-img"
-								/>{/if}
+						<div class="wrapper__img">
+							{#if event.logo}<img src={event.logo.publicUrl} alt={event.title} class="event-img" />
+							{:else}
+								<img src="/assets/img/event-placeholder.webp" alt={event.title} class="event-img" />
+							{/if}
 						</div>
 						<div class="card__content">
 							<h2>{event.title}</h2>
