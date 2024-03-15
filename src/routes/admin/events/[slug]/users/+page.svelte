@@ -3,7 +3,6 @@
 	import { Role, State } from '$lib/types/norma.js';
 	import type { Database } from '../../../../../types/supabase';
 
-
 	export let data;
 	let users = data.users;
 	let enventName = data.enventName;
@@ -79,28 +78,21 @@
 	}
 
 	async function deleteUser(userToDelete: Dancer) {
-		const confirmation = confirm(
-			`Voulez-vous vraiment supprimer ${userToDelete.firstname} ${userToDelete.lastname}?`
-		);
+		try {
+			const response = await fetch(`/admin/events/${enventName}/users/${userToDelete.id}`, {
+				method: 'DELETE'
+			});
 
-		if (confirmation) {
-			try {
-				const response = await fetch(`/admin/events/${enventName}/users/${userToDelete.id}`, {
-					method: 'DELETE'
+			if (response.ok) {
+				invalidate('/admin/events/${enventName}/users/').then(() => {
+					location.reload();
 				});
-
-				if (response.ok) {
-					invalidate('/admin/events/${enventName}/users/').then(() => {
-						location.reload();
-					});
-					alert(`L'utilisateur ${userToDelete.firstname} ${userToDelete.lastname} a été supprimé.`);
-				} else {
-					alert("Erreur lors de la suppression de l'utilisateur");
-				}
-			} catch (error) {
-				console.error("Erreur lors de la suppression de l'utilisateur", error);
+			} else {
 				alert("Erreur lors de la suppression de l'utilisateur");
 			}
+		} catch (error) {
+			console.error("Erreur lors de la suppression de l'utilisateur", error);
+			alert("Erreur lors de la suppression de l'utilisateur");
 		}
 	}
 	function openUpdate(user: Dancer) {
@@ -138,39 +130,52 @@
 		}
 	}
 
+	function openDelete(user: Dancer) {
+		let deleteModal = document.querySelector(
+			`.delete__modal[data-user-id="${user.id}"]`
+		) as HTMLElement | null;
+
+		if (deleteModal) {
+			deleteModal.style.display = 'flex';
+		}
+	}
+
+	function closeDelete(userId: number) {
+		let deleteModal = document.querySelector(
+			`.delete__modal[data-user-id="${userId}"]`
+		) as HTMLElement | null;
+
+		if (deleteModal) {
+			deleteModal.style.display = 'none';
+		}
+	}
+
 	async function updateUser(userToUpdate: Dancer) {
-		const confirmation = confirm(
-			`Voulez-vous vraiment modifier les informations de ${userToUpdate.firstname} ${userToUpdate.lastname}?`
+		const form = document.querySelector(
+			`.update__container[data-user-id="${userToUpdate.id}"] form`
 		);
+		//@ts-expect-error Form to handle
+		const formData = new FormData(form);
+		const userData = Object.fromEntries(formData.entries());
+		try {
+			const response = await fetch(`/admin/events/${enventName}/users/${userToUpdate.id}`, {
+				method: 'PATCH',
+				headers: {
+					'Content-Type': 'application/json'
+				},
+				body: JSON.stringify(userData)
+			});
 
-		if (confirmation) {
-			const form = document.querySelector(
-				`.update__container[data-user-id="${userToUpdate.id}"] form`
-			);
-			//@ts-expect-error Form to handle
-			const formData = new FormData(form);
-			const userData = Object.fromEntries(formData.entries());
-			try {
-				const response = await fetch(`/admin/events/${enventName}/users/${userToUpdate.id}`, {
-					method: 'PATCH',
-					headers: {
-						'Content-Type': 'application/json'
-					},
-					body: JSON.stringify(userData)
+			if (response.ok) {
+				invalidate('/admin/events/${enventName}/users/').then(() => {
+					location.reload();
 				});
-
-				if (response.ok) {
-					invalidate('/admin/events/${enventName}/users/').then(() => {
-						location.reload();
-					});
-					alert(`L'utilisateur ${userToUpdate.firstname} ${userToUpdate.lastname} a été modifié.`);
-				} else {
-					alert("Erreur lors de la modification de l'utilisateur");
-				}
-			} catch (error) {
-				console.error("Erreur lors de la modification de l'utilisateur", error);
+			} else {
 				alert("Erreur lors de la modification de l'utilisateur");
 			}
+		} catch (error) {
+			console.error("Erreur lors de la modification de l'utilisateur", error);
+			alert("Erreur lors de la modification de l'utilisateur");
 		}
 	}
 	function mapRole(role: Role) {
@@ -277,9 +282,24 @@
 						<td>{formatToFrenchDate(user.created_at)}</td>
 						<td class="updateBtn">
 							<button class="btn" on:click={() => openUpdate(user)}>Modifier</button>
-							<button class="btn" on:click={() => deleteUser(user)}>Supprimer</button>
+							<button class="btn" on:click={() => openDelete(user)}>Supprimer</button>
 						</td>
 					</tr>
+					<div class="delete__modal" data-user-id={user.id}>
+						<p>
+							<strong>
+								Voulez vous vraiment supprimer ? {#if user.firstname && user.lastname}
+									{user.firstname} {user.lastname}
+								{:else}
+									{user.email}
+								{/if}</strong
+							>
+						</p>
+						<div>
+							<button class="btn" on:click={() => deleteUser(user)}>Supprimer</button>
+							<button class="btn" on:click={() => closeDelete(user.id)}>Annuler</button>
+						</div>
+					</div>
 					<div class="update__container" data-user-id={user.id}>
 						<div class="update__header">
 							<p>
@@ -321,7 +341,8 @@
 </section>
 
 <style lang="scss">
-	.update__container {
+	.update__container,
+	.delete__modal {
 		display: none;
 		position: fixed;
 		background-color: #fff;
@@ -331,11 +352,22 @@
 		transform: translateX(-50%);
 		height: auto;
 		width: 760px;
-		top: 20%;
+		top: 15%;
 		border-radius: 12px;
 		padding: 2rem;
 		z-index: 100;
 		flex-direction: column;
+	}
+	.delete__modal {
+		p {
+			margin-bottom: 2rem;
+			text-align: center;
+		}
+		div {
+			display: flex;
+			justify-content: center;
+			gap: 1rem;
+		}
 	}
 	.update__header {
 		display: flex;
