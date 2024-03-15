@@ -3,10 +3,8 @@ import { State } from '$lib/types/norma';
 import { supabase } from '$lib/supabase';
 
 type Order = {
-	order: {
-		id: number;
-		formSlug: string;
-	};
+	id: number;
+	formSlug: string;
 	payer: {
 		email: string;
 		firstName: string;
@@ -30,9 +28,9 @@ export async function POST(event) {
 			case 'Order':
 				console.log(body.data);
 				const data = body.data as Order;
-				const order_id = data.order.id;
+				const order_id = data.id;
 				const email = data.payer.email;
-				const event = data.order.formSlug;
+				const event = data.formSlug;
 
 				const { error } = await supabase
 					.from('dancers')
