@@ -2,10 +2,6 @@
 	<div class="network__container">
 		<p>You are offline</p>
 	</div>
-{:else}
-	<div class="network__container online">
-		<p>You are online</p>
-	</div>
 {/if}
 
 <style lang="scss">
@@ -19,9 +15,5 @@
 		text-align: center;
 		padding: 10px;
 		z-index: 1000;
-
-		&.online {
-			background-color: green;
-		}
 	}
 </style>
