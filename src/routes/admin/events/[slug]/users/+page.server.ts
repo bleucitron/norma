@@ -33,7 +33,7 @@ export async function load({ locals, params, fetch }) {
 
 	const userInfosByEmail = responseData.data.reduce((acc, item) => {
 		const email = item.payer.email;
-		acc[email] = { ...item.payer, name: item.name };
+		acc[email] = { ...item.payer, pass: item.name };
 		return acc;
 	}, {});
 
