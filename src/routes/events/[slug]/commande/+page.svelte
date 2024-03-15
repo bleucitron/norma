@@ -1,4 +1,5 @@
 <script lang="ts">
+	import Card from '../commande/component/card.svelte';
 	export let data;
 </script>
 
@@ -20,6 +21,14 @@
 				class="form-control"
 				disabled
 			/>
+		</div>
+		<div class="ticket-container">
+			<p>Choisir le billet souhaité</p>
+			<div class="ticket-card-wrapper">
+				{#each data.event.tiers as price}
+					<Card data={price} />
+				{/each}
+			</div>
 		</div>
 		<button type="submit">Aller au paiement</button>
 	</form>
