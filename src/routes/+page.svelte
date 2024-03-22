@@ -27,6 +27,11 @@
 			});
 		});
 	});
+
+	// const urlsInCache = await fetch(
+	// 	`/_service-worker/cache?testUrl=${encodeURIComponent(JSON.stringify(events.map((event) => `/events/${event.formSlug}`)))}`
+	// ).then((reponse) => reponse.json());
+	// console.log(data);
 </script>
 
 <div class="header-container">
@@ -35,7 +40,8 @@
 
 <ul class="events-list">
 	{#each events as event}
-		<li class="event">
+		<!-- Comportement étrange. Une redirection est réalisée automatiquement si je survole la carte lorsque je suis en offline et que les ressources sont chargées en utilisant le serviceworker. Le phénomène de redirection automatique est stoppé en utilisant "data-sveltekit-preload-data="false". On ne sait pas pourquoi le problème à lieu et comme résoudre ce problème. -->
+		<li class="event" data-sveltekit-preload-data="false">
 			<a href="/events/{event.formSlug}" class="card">
 				<div class="card__img">
 					<div class="event__item">

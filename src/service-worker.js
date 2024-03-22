@@ -1,7 +1,11 @@
-import { build, files, version } from '$service-worker';
+import { build, files } from '$service-worker';
 
 // Create a unique cache name for this deployment
-const CACHE = `cache-${version}`;
+// const CACHE = `cache-${version}`;
+
+const CACHE = 'cache-v1';
+
+const _swPrefix = `/_service-worker/`;
 
 const ASSETS = [
 	...build, // the app itself
@@ -18,16 +22,15 @@ self.addEventListener('install', (event) => {
 	event.waitUntil(addFilesToCache());
 });
 
-self.addEventListener('activate', (event) => {
-	// Remove previous cached data from disk
-	async function deleteOldCaches() {
-		for (const key of await caches.keys()) {
-			if (key !== CACHE) await caches.delete(key);
-		}
-	}
+// self.addEventListener('activate', (event) => {
+// 	async function deleteOldCaches() {
+// 		for (const key of await caches.keys()) {
+// 			if (key !== CACHE) await caches.delete(key);
+// 		}
+// 	}
 
-	event.waitUntil(deleteOldCaches());
-});
+// 	event.waitUntil(deleteOldCaches());
+// });
 
 self.addEventListener('fetch', (event) => {
 	// ignore POST requests etc
@@ -43,6 +46,21 @@ self.addEventListener('fetch', (event) => {
 
 			if (response) {
 				return response;
+			}
+		}
+
+		if (url.pathname.startsWith(_swPrefix)) {
+			if (url.pathname === `${_swPrefix}cache`) {
+				const urlsArray = JSON.parse(decodeURIComponent(url.searchParams.get('testUrl')));
+				const res = [];
+				urlsArray.forEach(async (url) => {
+					const result = await cache.match(url);
+					if (result) {
+						res.push(url);
+					}
+				});
+
+				return new Response(JSON.stringify(res));
 			}
 		}
 
