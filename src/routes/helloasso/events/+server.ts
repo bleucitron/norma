@@ -1,7 +1,11 @@
-
 import { json } from '@sveltejs/kit';
 import { State } from '$lib/types/norma';
 import { supabase } from '$lib/supabase';
+import { access_token } from '$lib/server/accessToken';
+import { get } from 'svelte/store';
+import emailjs from '@emailjs/browser';
+import { PUBLIC_EMAILJS_KEY } from '$env/static/public';
+import { PRIVATE_EMAILJS_KEY } from '$env/static/private';
 
 type Order = {
 	id: number;
@@ -40,6 +44,49 @@ export async function POST(event) {
 					.eq('email', email);
 				if (error) {
 					console.log(error);
+				} else {
+					const { data: user, error: SelectError } = await supabase
+						.from('dancers')
+						.select()
+						.eq('event', event)
+						.eq('order_id', order_id)
+						.eq('email', email)
+						.limit(1)
+						.single();
+					if (SelectError) {
+						throw SelectError;
+					}
+					const eventInfos = await fetch(
+						'https://api.helloasso.com/v5/organizations/norma-ecv/forms/event/' + event + '/public',
+						{
+							method: 'GET',
+							headers: {
+								authorization: 'Bearer ' + get(access_token)
+							}
+						}
+					).then((resp) => resp.json());
+					if (user && eventInfos) {
+						const templateParams = {
+							email: user.email,
+							firstname: user.firstname,
+							lastname: user.lastname,
+							eventName: eventInfos.title,
+							unsubscribeLink: ''
+						};
+						emailjs
+							.send('service_wkav6z9', 'template_2a0ie3r', templateParams, {
+								publicKey: PUBLIC_EMAILJS_KEY,
+								privateKey: PRIVATE_EMAILJS_KEY
+							})
+							.then(
+								(response) => {
+									console.log('SUCCESS!', response.status, response.text);
+								},
+								(error) => {
+									console.log('FAILED...', error);
+								}
+							);
+					}
 				}
 				break;
 
