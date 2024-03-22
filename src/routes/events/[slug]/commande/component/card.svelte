@@ -25,7 +25,7 @@
 	}
 </script>
 
-<button class="card-price" on:click={handleClick} on:keypress={handleKeyPress}>
+<button type="button" class="card-price" on:click={handleClick} on:keypress={handleKeyPress}>
 	<input type="radio" id={data.id} name="tiers" value={JSON.stringify(data)} />
 	<label for={data.id}>{data.label} : {(data.price / 100).toFixed(2).replace('.', ',')} €</label>
 </button>

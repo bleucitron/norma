@@ -1,7 +1,7 @@
 .events-list {
     padding-left: 0;
     display: grid;
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: repeat(3, 1fr);
     gap: 2rem;
     margin-bottom: 2rem;
 }
@@ -17,7 +17,7 @@
 .archived-banner {
     background-color: #191919;
     padding: 1rem;
-    color: $yellow;
+    ;
     display: flex;
     justify-content: center;
     text-align: center;

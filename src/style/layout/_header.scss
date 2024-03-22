@@ -2,33 +2,33 @@ header {
     position: fixed;
     width: 100%;
     display: flex;
-    box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
     z-index: 10;
-    background: white;
+    padding: 1.5rem 5rem 0;
+    backdrop-filter: blur(10px);
 
     .container {
-        padding: 0 2rem;
         height: 100%;
+        border-bottom: 1px solid rgba(0, 0, 0, 0.452);
+        padding-bottom: 1.5rem;
     }
 
     .btn__container {
         margin-top: 0;
         display: flex;
-        gap: 1rem;
+        gap: 2rem;
 
         .btn {
-            background-color: $yellow;
             border: none;
-            padding: 9px 30px;
+            padding: 7px 50px;
             width: auto;
-            border-radius: 20px;
-            color: $white;
+            border-radius: 25px;
             cursor: pointer;
             font-size: 1.4rem;
             line-height: calc(1.4rem * 1.4);
             font-family: $primary-family;
             text-align: center;
-
+            color: $black;
+            border: 1px solid $black;
             &:hover {
                 background-color: $black;
             }
@@ -37,8 +37,20 @@ header {
 }
 
 .header__logo {
+    display: flex;
+    align-items: center;
+    text-transform: uppercase;
+    gap: 2rem;
+    color: $black;
+    font-weight: bold;
+    font-size: 3rem;
+    a {
+        text-decoration: none;
+    }
     img {
-        width: 6rem;
+        width: 100%;
+        height: auto;
+        max-width: 30px;
     }
 }
 
