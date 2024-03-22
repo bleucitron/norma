@@ -20,68 +20,6 @@
 				value={data.email}
 				required
 				aria-required="true"
-				placeholder="Enter your email"
-				class="form-control"
-				disabled
-			/>
-		</div>
-		<div class="form-group">
-			<input
-				type="text"
-				name="firstname"
-				id="firstname"
-				value=""
-				required
-				aria-required="true"
-				placeholder="Ex : Marcel"
-				class="form-control"
-			/>
-		</div>
-		<div class="form-group">
-			<input
-				type="text"
-				name="lastname"
-				id="lastname"
-				value=""
-				required
-				aria-required="true"
-				placeholder="Ex : Duchamp"
-				class="form-control"
-			/>
-		</div>
-		<div class="form-group">
-			<input
-				type="text"
-				name="adress"
-				id="adress"
-				value=""
-				required
-				aria-required="true"
-				placeholder="Ex : 10 rue du lac"
-				class="form-control"
-			/>
-		</div>
-		<div class="form-group">
-			<input
-				type="text"
-				name="cp"
-				id="cp"
-				value=""
-				required
-				aria-required="true"
-				placeholder="Ex : 33000"
-				class="form-control"
-			/>
-		</div>
-		<div class="form-group">
-			<input
-				type="text"
-				name="city"
-				id="city"
-				value=""
-				required
-				aria-required="true"
-				placeholder="Ex : Bordeaux"
 				class="form-control"
 			/>
 		</div>
