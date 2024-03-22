@@ -59,7 +59,6 @@
     }
 
     button {
-        background-color: $yellow;
         border: none;
         padding: 9px 30px;
         width: 100%;
@@ -85,8 +84,7 @@
         &:focus {
             transition: 0.3s ease-in-out;
             outline: none;
-            border-color: $yellow;
-        }
+      }
     }
 
     button {
@@ -111,7 +109,6 @@
         text-transform: uppercase;
 
         &:hover {
-            background-color: $yellow;
             color: #fff;
         }
 
@@ -135,7 +132,6 @@
         display: flex;
         align-items: center;
         justify-content: center;
-        background-color: $yellow;
         border: 0;
     }
 

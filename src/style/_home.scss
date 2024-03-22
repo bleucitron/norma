@@ -1,0 +1,23 @@
+.hero {
+    height: calc(100vh - 5rem);
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    gap: 2rem;
+    position: relative;
+    .wrapper {
+        display: flex;
+        gap: 5rem;
+        h1 {
+            font-size: 20rem;
+        }
+    }
+    p {
+        max-width: 800px;
+        text-align: center;
+        font-size: 2rem;
+    }
+    
+}

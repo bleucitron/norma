@@ -39,7 +39,7 @@
 		</section>
 	{/if}
 	<div class="container">
-		<a href="/" class="header__logo"><img src="/assets/norma-logo.png" alt="logo" /></a>
+		<a href="/" class="header__logo">Norma<img src="/assets/norma-logo.png" alt="logo" /></a>
 		{#if user}
 			<div class="btn__container">
 				<a href={`/admin`} class="btn">Dashboard</a>
@@ -73,7 +73,6 @@
 			color: #fff;
 			font-size: 1.4rem;
 			line-height: 1.96rem;
-			font-family: 'Lucida Sans', sans-serif;
 			padding: 0.5rem;
 		}
 		a {
