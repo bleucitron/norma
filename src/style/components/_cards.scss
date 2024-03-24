@@ -61,22 +61,34 @@
     padding: 2rem;
     display: flex;
     flex-direction: column;
-    gap: 2.5rem;
     height: 100%;
+    h2 {
+        margin-bottom: 1rem;
+    }
+
+    p {
+        margin-bottom: 2rem;
+    }
 
     .infos {
         display: flex;
-        gap: 3rem;
+        flex-wrap: wrap;
+        gap: 1rem;
+        margin-bottom: 2rem;
         p {
             border: 1px solid $black;
-            padding: 0.3em 0.6em;
+            padding: 0.2em 0.6em;
             border-radius: 25px;
-            font-size: 0.8em;
+            font-size: 0.7em;
+            margin-bottom: 0;
         }
     }
 
     .btn__container {
         margin-top: auto;
+        .btn {
+            padding: 0.7rem 2.5rem;
+        }
     }
 }
 

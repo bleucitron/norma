@@ -1,143 +1,214 @@
-/* Montserrat Black */
+/* Open Sans Bold */
 @font-face {
-    font-family: 'Montserrat Black';
-    src: url('assets/font/Montserrat-Black.ttf') format('truetype');
-    font-weight: 900;
-    font-style: normal;
-  }
-  
-  /* Montserrat Black Italic */
-  @font-face {
-    font-family: 'Montserrat Black';
-    src: url('assets/font/Montserrat-BlackItalic.ttf') format('truetype');
-    font-weight: 900;
-    font-style: italic;
-  }
-  
-  /* Montserrat Bold */
-  @font-face {
-    font-family: 'Montserrat Bold';
-    src: url('assets/font/Montserrat-Bold.ttf') format('truetype');
-    font-weight: bold;
-    font-style: normal;
-  }
-  
-  /* Montserrat Bold Italic */
-  @font-face {
-    font-family: 'Montserrat Bold';
-    src: url('assets/font/Montserrat-BoldItalic.ttf') format('truetype');
-    font-weight: bold;
-    font-style: italic;
-  }
-  
-  /* Montserrat ExtraBold */
-  @font-face {
-    font-family: 'Montserrat ExtraBold';
-    src: url('assets/font/Montserrat-ExtraBold.ttf') format('truetype');
-    font-weight: 800;
-    font-style: normal;
-  }
-  
-  /* Montserrat ExtraBold Italic */
-  @font-face {
-    font-family: 'Montserrat ExtraBold';
-    src: url('assets/font/Montserrat-ExtraBoldItalic.ttf') format('truetype');
-    font-weight: 800;
-    font-style: italic;
-  }
-  
-  /* Montserrat ExtraLight */
-  @font-face {
-    font-family: 'Montserrat ExtraLight';
-    src: url('assets/font/Montserrat-ExtraLight.ttf') format('truetype');
-    font-weight: 200;
-    font-style: normal;
-  }
-  
-  /* Montserrat ExtraLight Italic */
-  @font-face {
-    font-family: 'Montserrat ExtraLight';
-    src: url('assets/font/Montserrat-ExtraLightItalic.ttf') format('truetype');
-    font-weight: 200;
-    font-style: italic;
-  }
-  
-  /* Montserrat Italic */
-  @font-face {
-    font-family: 'Montserrat Italic';
-    src: url('assets/font/Montserrat-Italic.ttf') format('truetype');
-    font-style: italic;
-  }
-  
-  /* Montserrat Light */
-  @font-face {
-    font-family: 'Montserrat Light';
-    src: url('assets/font/Montserrat-Light.ttf') format('truetype');
-    font-weight: 300;
-    font-style: normal;
-  }
-  
-  /* Montserrat Light Italic */
-  @font-face {
-    font-family: 'Montserrat Light';
-    src: url('assets/font/Montserrat-LightItalic.ttf') format('truetype');
-    font-weight: 300;
-    font-style: italic;
-  }
-  
-  /* Montserrat Medium */
-  @font-face {
-    font-family: 'Montserrat Medium';
-    src: url('assets/font/Montserrat-Medium.ttf') format('truetype');
-    font-weight: 500;
-    font-style: normal;
-  }
-  
-  /* Montserrat Medium Italic */
-  @font-face {
-    font-family: 'Montserrat Medium';
-    src: url('assets/font/Montserrat-MediumItalic.ttf') format('truetype');
-    font-weight: 500;
-    font-style: italic;
-  }
-  
-  /* Montserrat Regular */
-  @font-face {
-    font-family: 'Montserrat Regular';
-    src: url('assets/font/Montserrat-Regular.ttf') format('truetype');
-    font-weight: normal;
-    font-style: normal;
-  }
-  
-  /* Montserrat SemiBold */
-  @font-face {
-    font-family: 'Montserrat SemiBold';
-    src: url('assets/font/Montserrat-SemiBold.ttf') format('truetype');
-    font-weight: 600;
-    font-style: normal;
-  }
-  
-  /* Montserrat SemiBold Italic */
-  @font-face {
-    font-family: 'Montserrat SemiBold';
-    src: url('assets/font/Montserrat-SemiBoldItalic.ttf') format('truetype');
-    font-weight: 600;
-    font-style: italic;
-  }
-  
-  /* Montserrat Thin */
-  @font-face {
-    font-family: 'Montserrat Thin';
-    src: url('assets/font/Montserrat-Thin.ttf') format('truetype');
-    font-weight: 100;
-    font-style: normal;
-  }
-  
-  /* Montserrat Thin Italic */
-  @font-face {
-    font-family: 'Montserrat Thin';
-    src: url('assets/font/Montserrat-ThinItalic.ttf') format('truetype');
-    font-weight: 100;
-    font-style: italic;
-  }
-  
+  font-family: 'Open Sans Bold';
+  src: url('assets/font/OpenSans-Bold.ttf') format('truetype');
+  font-weight: bold;
+  font-style: normal;
+}
+
+/* Open Sans Bold Italic */
+@font-face {
+  font-family: 'Open Sans Bold';
+  src: url('assets/font/OpenSans-BoldItalic.ttf') format('truetype');
+  font-weight: bold;
+  font-style: italic;
+}
+
+/* Open Sans ExtraBold */
+@font-face {
+  font-family: 'Open Sans ExtraBold';
+  src: url('assets/font/OpenSans-ExtraBold.ttf') format('truetype');
+  font-weight: 800;
+  font-style: normal;
+}
+
+/* Open Sans ExtraBold Italic */
+@font-face {
+  font-family: 'Open Sans ExtraBold';
+  src: url('assets/font/OpenSans-ExtraBoldItalic.ttf') format('truetype');
+  font-weight: 800;
+  font-style: italic;
+}
+
+/* Open Sans Italic */
+@font-face {
+  font-family: 'Open Sans Italic';
+  src: url('assets/font/OpenSans-Italic.ttf') format('truetype');
+  font-style: italic;
+}
+
+/* Open Sans Light */
+@font-face {
+  font-family: 'Open Sans Light';
+  src: url('assets/font/OpenSans-Light.ttf') format('truetype');
+  font-weight: 300;
+  font-style: normal;
+}
+
+/* Open Sans Light Italic */
+@font-face {
+  font-family: 'Open Sans Light';
+  src: url('assets/font/OpenSans-LightItalic.ttf') format('truetype');
+  font-weight: 300;
+  font-style: italic;
+}
+
+/* Open Sans Medium */
+@font-face {
+  font-family: 'Open Sans Medium';
+  src: url('assets/font/OpenSans-Medium.ttf') format('truetype');
+  font-weight: 500;
+  font-style: normal;
+}
+
+/* Open Sans Medium Italic */
+@font-face {
+  font-family: 'Open Sans Medium';
+  src: url('assets/font/OpenSans-MediumItalic.ttf') format('truetype');
+  font-weight: 500;
+  font-style: italic;
+}
+
+/* Open Sans Regular */
+@font-face {
+  font-family: 'Open Sans Regular';
+  src: url('assets/font/OpenSans-Regular.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+
+/* Open Sans SemiBold */
+@font-face {
+  font-family: 'Open Sans SemiBold';
+  src: url('assets/font/OpenSans-SemiBold.ttf') format('truetype');
+  font-weight: 600;
+  font-style: normal;
+}
+
+/* Open Sans SemiBold Italic */
+@font-face {
+  font-family: 'Open Sans SemiBold';
+  src: url('assets/font/OpenSans-SemiBoldItalic.ttf') format('truetype');
+  font-weight: 600;
+  font-style: italic;
+}
+
+/* Open Sans Condensed Bold */
+@font-face {
+  font-family: 'Open Sans Condensed Bold';
+  src: url('assets/font/OpenSans_Condensed-Bold.ttf') format('truetype');
+  font-weight: bold;
+  font-style: normal;
+}
+
+/* Open Sans Condensed Bold Italic */
+@font-face {
+  font-family: 'Open Sans Condensed Bold';
+  src: url('assets/font/OpenSans_Condensed-BoldItalic.ttf') format('truetype');
+  font-weight: bold;
+  font-style: italic;
+}
+
+/* Open Sans Condensed ExtraBold */
+@font-face {
+  font-family: 'Open Sans Condensed ExtraBold';
+  src: url('assets/font/OpenSans_Condensed-ExtraBold.ttf') format('truetype');
+  font-weight: 800;
+  font-style: normal;
+}
+
+/* Open Sans Condensed ExtraBold Italic */
+@font-face {
+  font-family: 'Open Sans Condensed ExtraBold';
+  src: url('assets/font/OpenSans_Condensed-ExtraBoldItalic.ttf') format('truetype');
+  font-weight: 800;
+  font-style: italic;
+}
+
+/* Open Sans Condensed Italic */
+@font-face {
+  font-family: 'Open Sans Condensed Italic';
+  src: url('assets/font/OpenSans_Condensed-Italic.ttf') format('truetype');
+  font-style: italic;
+}
+
+/* Open Sans Condensed Light */
+@font-face {
+  font-family: 'Open Sans Condensed Light';
+  src: url('assets/font/OpenSans_Condensed-Light.ttf') format('truetype');
+  font-weight: 300;
+  font-style: normal;
+}
+
+/* Open Sans Condensed Light Italic */
+@font-face {
+  font-family: 'Open Sans Condensed Light';
+  src: url('assets/font/OpenSans_Condensed-LightItalic.ttf') format('truetype');
+  font-weight: 300;
+  font-style: italic;
+}
+
+/* Open Sans Condensed Medium */
+@font-face {
+  font-family: 'Open Sans Condensed Medium';
+  src: url('assets/font/OpenSans_Condensed-Medium.ttf') format('truetype');
+  font-weight: 500;
+  font-style: normal;
+}
+
+/* Open Sans Condensed Medium Italic */
+@font-face {
+  font-family: 'Open Sans Condensed Medium';
+  src: url('assets/font/OpenSans_Condensed-MediumItalic.ttf') format('truetype');
+  font-weight: 500;
+  font-style: italic;
+}
+
+/* Open Sans Condensed Regular */
+@font-face {
+  font-family: 'Open Sans Condensed Regular';
+  src: url('assets/font/OpenSans_Condensed-Regular.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+
+/* Open Sans Condensed SemiBold */
+@font-face {
+  font-family: 'Open Sans Condensed SemiBold';
+  src: url('assets/font/OpenSans_Condensed-SemiBold.ttf') format('truetype');
+  font-weight: 600;
+  font-style: normal;
+}
+
+/* Open Sans Condensed SemiBold Italic */
+@font-face {
+  font-family: 'Open Sans Condensed SemiBold';
+  src: url('assets/font/OpenSans_Condensed-SemiBoldItalic.ttf') format('truetype');
+  font-weight: 600;
+  font-style: italic;
+}
+
+/* Open Sans SemiCondensed Bold */
+@font-face {
+  font-family: 'Open Sans SemiCondensed Bold';
+  src: url('assets/font/OpenSans_SemiCondensed-Bold.ttf') format('truetype');
+  font-weight: bold;
+  font-style: normal;
+}
+
+/* Open Sans SemiCondensed Bold Italic */
+@font-face {
+  font-family: 'Open Sans SemiCondensed Bold';
+  src: url('assets/font/OpenSans_SemiCondensed-BoldItalic.ttf') format('truetype');
+  font-weight: bold;
+  font-style: italic;
+}
+
+/* Open Sans SemiCondensed ExtraBold */
+@font-face {
+  font-family: 'Open Sans SemiCondensed ExtraBold';
+  src: url('assets/font/OpenSans_SemiCondensed-ExtraBold.ttf') format('truetype');
+  font-weight: 800;
+  font-style: normal;
+}
+
