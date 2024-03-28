@@ -28,41 +28,50 @@
 		<section class="admin__bar">
 			<div class="container">
 				<div class="admin__bar-left">
-					<p>Bonjour {user.email}</p>
+					<p>{user.email}</p>
 				</div>
 				<div class="admin__bar-right">
-					<a class="admin__link" href="/">Voir le site client</a>
+					<a class="admin__link" href="/">Site client</a>
 					<a class="admin__link" href="/admin">Administration</a>
-					<button on:click={logout}>Déconnexion</button>
+					<button class="admin__link" on:click={logout}>Déconnexion</button>
 				</div>
 			</div>
 		</section>
 	{/if}
-	<div class="container">
-		<a href="/" class="header__logo">Norma<img src="/assets/norma-logo.png" alt="logo" /></a>
-		{#if user}
-			<div class="btn__container">
-				<a href={`/admin`} class="btn">Dashboard</a>
-			</div>
-		{:else}
-			<div class="btn__container">
-				<a class="btn" href="/">Accueil</a>
-				<a class="btn" href="/contact">Contact</a>
-			</div>
-		{/if}
+	<div class="container header__container">
+		<div class="header__info">
+			<a href="/" class="header__logo">Norma<img src="/assets/norma-logo.png" alt="logo" /></a>
+			{#if user}
+				<div class="btn__container">
+					<a href={`/admin`} class="btn">Dashboard</a>
+				</div>
+			{:else}
+				<div class="btn__container">
+					<a class="btn" href="/">Accueil</a>
+					<a class="btn" href="/contact">Contact</a>
+				</div>
+			{/if}
+		</div>
+		<div class="bottom__divider"></div>
 	</div>
 </header>
 
 <style lang="scss">
+	.bottom__divider {
+		border-bottom: 1px solid rgba(0, 0, 0, 0.452);
+		height: 1rem;
+		width: 100%;
+	}
 	header {
 		flex-direction: column;
 	}
 	.admin__bar {
 		background-color: black;
-		height: 3rem;
+		height: 4rem;
 		width: 100%;
 		display: flex;
 		align-items: center;
+		padding: 0 5rem 0;
 
 		.container {
 			justify-content: flex-start;
@@ -95,13 +104,31 @@
 
 		button {
 			background: none;
-			color: white;
+			color: #fff;
 			border: none;
 			font-weight: bold;
 			cursor: pointer;
+			min-width: unset;
+			padding: 0;
+
 			&:hover {
-				background-color: #ffb500;
+				opacity: 0.8;
 			}
 		}
+	}
+	.admin__link {
+		display: flex;
+		align-items: center;
+		padding: 0.5rem 1.6rem !important;
+	}
+	.header__info {
+		display: flex;
+		justify-content: space-between;
+		width: 100%;
+	}
+	.header__container {
+		padding: 1.5rem 5rem 0;
+		display: flex;
+		flex-direction: column;
 	}
 </style>

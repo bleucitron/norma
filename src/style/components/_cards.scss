@@ -38,7 +38,7 @@
 
 .event {
     background: #fff;
-    border-radius: 5px;
+    border-radius: 2rem;
     box-shadow: rgba(0, 0, 0, 0.05) 0px 0px 0px 1px;
     overflow: hidden;
 }
@@ -62,12 +62,18 @@
     display: flex;
     flex-direction: column;
     height: 100%;
+
     h2 {
         margin-bottom: 1rem;
     }
 
     p {
         margin-bottom: 2rem;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        display: -webkit-box;
+        -webkit-line-clamp: 4;
+        -webkit-box-orient: vertical;
     }
 
     .infos {
@@ -75,6 +81,7 @@
         flex-wrap: wrap;
         gap: 1rem;
         margin-bottom: 2rem;
+
         p {
             border: 1px solid $black;
             padding: 0.2em 0.6em;
@@ -86,6 +93,7 @@
 
     .btn__container {
         margin-top: auto;
+
         .btn {
             padding: 0.7rem 2.5rem;
         }
@@ -101,11 +109,12 @@
         display: flex;
         width: 100%;
         gap: 3rem;
+        justify-content: space-between;
     }
 
     .card-price {
         padding: 1rem;
-        color: white;
+        color: var(--color-black);
         border-radius: 0.5rem;
         min-height: 250px;
         height: auto;
@@ -113,6 +122,8 @@
         opacity: 0.8;
         cursor: pointer;
         border: 1px solid transparent;
+        background-color: var(--color-yellow);
+
         input[type="radio"] {
             display: none;
         }
@@ -121,5 +132,9 @@
     .card-price.active {
         opacity: 1;
         border: 1px solid $black;
+    }
+
+    p {
+        margin-bottom: 1.6rem;
     }
 }

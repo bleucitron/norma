@@ -3,13 +3,10 @@ header {
     width: 100%;
     display: flex;
     z-index: 10;
-    padding: 1.5rem 5rem 0;
     backdrop-filter: blur(10px);
 
     .container {
         height: 100%;
-        border-bottom: 1px solid rgba(0, 0, 0, 0.452);
-        padding-bottom: 1.5rem;
     }
 
     .btn__container {
@@ -29,6 +26,7 @@ header {
             text-align: center;
             color: $black;
             border: 1px solid $black;
+
             &:hover {
                 background-color: $black;
             }
@@ -44,9 +42,11 @@ header {
     color: $black;
     font-weight: bold;
     font-size: 3rem;
+
     a {
         text-decoration: none;
     }
+
     img {
         width: 100%;
         height: auto;
@@ -55,8 +55,9 @@ header {
 }
 
 .activLink {
-    background-color: #2a799e;
-
+    background-color: var(--color-yellow);
+    border-radius: 2rem;
+    color: var(--color-black) !important;
 }
 
 .header-container {
@@ -64,4 +65,6 @@ header {
     align-items: center;
     justify-content: space-between;
     margin-bottom: 34px;
+    text-decoration: underline;
+    text-underline-offset: 1rem;
 }

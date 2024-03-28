@@ -188,7 +188,9 @@
 				/>
 			</div>
 		{/if}
-		<button type="submit">Poursuivre l'inscription</button>
+		<div>
+			<button class="btn" type="submit">Poursuivre l'inscription</button>
+		</div>
 	</form>
 </div>
 

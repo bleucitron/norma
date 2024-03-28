@@ -73,6 +73,6 @@
 				<option value="2">Expert</option>
 			</select>
 		</div>
-		<button type="submit">Ajouter un participant</button>
+		<button class="btn" type="submit">Ajouter un participant</button>
 	</form>
 </div>

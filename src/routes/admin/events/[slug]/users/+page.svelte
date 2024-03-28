@@ -225,7 +225,7 @@
 			<span class="search-icon">🔍</span>
 			<input type="text" bind:value={searchTerm} placeholder="Rechercher un participant" />
 		</div>
-		<button on:click={resetState}>Réinitialiser</button>
+		<button class="reset__btn" on:click={resetState}>Réinitialiser</button>
 	</div>
 
 	<div class="filters__container__column">
@@ -276,7 +276,7 @@
 		<tbody>
 			{#if numberOfFilteredUsers === 0}
 				<tr>
-					<td colspan="5">Aucun utilisateur trouvé</td>
+					<td class="no__users" colspan="1">Aucun utilisateur trouvé</td>
 				</tr>
 			{:else}
 				{#each filteredUsers as user}
@@ -340,8 +340,12 @@
 							</select>
 							<label for="partner">Partenaire</label>
 							<input type="text" name="partner" disabled />
-							<button type="button" on:click={() => updateUser(user)}>Mettre à jour</button>
-							<button type="button" on:click={() => closeUpdate(user.id)}>Annuler</button>
+							<button class="btn" type="button" on:click={() => updateUser(user)}
+								>Mettre à jour</button
+							>
+							<button class="btn" type="button" on:click={() => closeUpdate(user.id)}
+								>Annuler</button
+							>
 						</form>
 					</div>
 				{/each}
@@ -351,6 +355,13 @@
 </section>
 
 <style lang="scss">
+	.reset__btn {
+		color: #000;
+		background-color: #bbb;
+	}
+	.no__users {
+		text-align: left;
+	}
 	.update__container,
 	.delete__modal {
 		display: none;

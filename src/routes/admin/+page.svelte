@@ -1,6 +1,4 @@
 <script lang="ts">
-	import { State, Role, Level } from '$lib/types/norma';
-
 	export let data;
 
 	let todayDate = new Date();
@@ -21,7 +19,7 @@
 </script>
 
 <div class="header-container">
-	<h1>Vos derniers événements</h1>
+	<h1>Derniers événements</h1>
 </div>
 
 <ul class="events-list">
@@ -33,6 +31,8 @@
 						<div class="event-image-container">
 							<img src={event.logo.publicUrl} alt={event.title} class="event-img" />
 						</div>
+					{:else}
+						<img src="/assets/img/event-placeholder.webp" alt={event.title} class="event-img" />
 					{/if}
 				</div>
 				<div class="card__content">
@@ -52,7 +52,7 @@
 <div class="separator"></div>
 
 <div class="header-container">
-	<h2>Les événements terminés</h2>
+	<h2>Événements terminés</h2>
 </div>
 
 <ul class="events-list events-archived">
@@ -62,11 +62,10 @@
 				<div class="card__img">
 					<div class="event__item">
 						<div>
-							{#if event.logo}<img
-									src={event.logo.publicUrl}
-									alt={event.title}
-									class="event-img"
-								/>{/if}
+							{#if event.logo}<img src={event.logo.publicUrl} alt={event.title} class="event-img" />
+							{:else}
+								<img src="/assets/img/event-placeholder.webp" alt={event.title} class="event-img" />
+							{/if}
 						</div>
 						<div class="card__content">
 							<h2>{event.title}</h2>
