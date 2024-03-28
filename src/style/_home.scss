@@ -1,23 +1,30 @@
 .hero {
-    height: calc(100vh - 5rem);
-    width: 100%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
-    gap: 2rem;
-    position: relative;
+    height: 100vh;
+
     .wrapper {
         display: flex;
         gap: 5rem;
+
         h1 {
             font-size: 20rem;
         }
     }
+
     p {
-        max-width: 800px;
+        max-width: 700px;
         text-align: center;
         font-size: 1.7rem;
     }
-    
+}
+
+.hero__content {
+    background: linear-gradient(#fff, #F8F8F8);
+    border-radius: 2rem;
+    width: 100%;
+    height: calc(100% - 10rem);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    gap: 4rem;
 }

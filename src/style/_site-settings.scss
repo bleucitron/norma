@@ -3,9 +3,15 @@
 $black: #000;
 $white: #F8F8F8;
 
+:root {
+    --color-black: #000;
+    --color--white: #FFF;
+    --color-white-soft: #F8F8F8;
+    --color-yellow: #E3F16A;
+}
 
 main {
-    padding: 0rem 2rem 10rem 2rem;
+    padding: 10rem 5rem;
 }
 
 $primary-family: 'Open Sans Regular', sans-serif;
@@ -13,7 +19,6 @@ $primary-family: 'Open Sans Regular', sans-serif;
 // = Container
 // -----------------------------
 .container {
-    // max-width: 1200px;
     margin: 0 auto;
     width: 100%;
     display: flex;
@@ -22,7 +27,6 @@ $primary-family: 'Open Sans Regular', sans-serif;
 }
 
 .container-column {
-    // max-width: 1200px;
     margin: 0 auto;
     width: 100%;
     display: flex;
@@ -55,11 +59,13 @@ button,
     justify-content: center;
     position: relative;
     min-width: 150px;
+
     &:hover {
-        &::after{
+        &::after {
             opacity: 1;
         }
     }
+
     &::after {
         position: absolute;
         right: 1rem;
@@ -70,6 +76,6 @@ button,
         border-radius: 50%;
         opacity: 0;
         transition: 0.2s ease-in-out;
-        
+
     }
 }

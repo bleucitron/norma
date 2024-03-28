@@ -42,11 +42,11 @@
 				</div>
 				<div>
 					<h1>{event.title}</h1>
-					<div class="fake-chart">
+					<div class="event-chart">
 						<div class="stat-wrapper">
 							<h3>Statistiques globales</h3>
 							<p>
-								Nombre de ticket vendus pour l'évènement : {event.totalTicket.length};
+								Nombre de ticket vendus pour l'évènement : {event.totalTicket.length}
 							</p>
 							<p>
 								Nombre total de danseurs inscrits : {event.totalInscrit.length}
@@ -98,7 +98,8 @@
 				<div class="btn__container">
 					<a
 						href="https://admin.helloasso.com/{event.organizationSlug}/evenements/{event.formSlug}/edition/1"
-						class="btn">Gérer</a
+						class="btn"
+						target="_blank">Gérer</a
 					>
 					<a class="btn" href="/admin">Retour</a>
 				</div>

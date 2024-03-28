@@ -1,6 +1,5 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
-	// import placeholder from '/assets/img/event-placeholder.webp';
 	export let data;
 	let todayDate = new Date();
 	let archivedEvents: Array<any> = [];
@@ -35,20 +34,22 @@
 </script>
 
 <div class="hero">
-	<div class="wrapper">
-		<h1 class="header__logo">Norma</h1>
-		<img src="/assets/norma-logo.png" alt="logo" />
+	<div class="hero__content">
+		<div class="wrapper">
+			<h1 class="header__logo">Norma</h1>
+			<img src="/assets/norma-logo.png" alt="logo" />
+		</div>
+		<p>
+			L’application NORMA simplifie l’inscription à vos événements de danse préférés. Explorez une
+			multitude d’ateliers et de soirées, inscrivez-vous à nos évènements et connectez-vous avec une
+			communauté passionnée. Plongez dans la magie de la danse dès aujourd’hui !
+		</p>
+		<a href="#events" class="btn discover__btn">Voir les évènements</a>
 	</div>
-	<p>
-		L’application NORMA simplifie l’inscription à vos événements de danse préférés. Explorez une
-		multitude d’ateliers et de soirées, inscrivez-vous à nos évènements et connectez-vous avec une
-		communauté passionnée. Plongez dans la magie de la danse dès aujourd’hui !
-	</p>
-	<a href="#events" class="btn discover__btn">Voir les évènements</a>
 </div>
 
 <div class="header-container">
-	<h1>Les événements actuels</h1>
+	<h1>Événements</h1>
 </div>
 
 <ul class="events-list" id="events">
@@ -67,7 +68,7 @@
 						<div class="card__content">
 							<h2>{event.title}</h2>
 							<div class="infos">
-								<p><strong>Date : </strong>Inconnu</p>
+								<p><strong>Date :</strong> Inconnu</p>
 								<p><strong>Lieu :</strong> Inconnu</p>
 								<p><strong>Prix :</strong> 0€ à 25€</p>
 							</div>
@@ -86,7 +87,7 @@
 <div class="separator"></div>
 
 <div class="header-container">
-	<h2>Les événements terminés</h2>
+	<h2>Événements terminés</h2>
 </div>
 
 <ul class="events-list events-archived">
