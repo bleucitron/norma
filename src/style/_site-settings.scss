@@ -14,6 +14,16 @@ main {
     padding: 12rem 5rem;
 }
 
+@media (max-width: 768px) {
+    main {
+        padding: 12rem 2rem;
+    }
+
+    .header__container {
+        padding: 1.5rem 2rem !important;
+    }
+}
+
 $primary-family: 'Open Sans Regular', sans-serif;
 
 // = Container
@@ -44,7 +54,7 @@ $primary-family: 'Open Sans Regular', sans-serif;
 .btn,
 button,
 .card__actions {
-    padding: 1rem 2.5rem;
+    padding: 0.7rem 2.5rem;
     border-radius: 2rem;
     cursor: pointer;
     line-height: calc(1.4rem * 1.4);
@@ -79,4 +89,9 @@ button,
         transform: translateX(-1rem);
         transition: 0.2s ease-in-out;
     }
+}
+
+button:disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
 }
