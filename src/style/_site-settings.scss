@@ -80,3 +80,8 @@ button,
         transition: 0.2s ease-in-out;
     }
 }
+
+button:disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+}

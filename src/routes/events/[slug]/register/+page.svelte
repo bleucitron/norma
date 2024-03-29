@@ -3,6 +3,11 @@
 	import { toast } from '@zerodevx/svelte-toast';
 
 	export let form;
+
+	let partnerEmail: string = '';
+	let email: string = '';
+	let errorMessage: string = '';
+
 	if (form?.error) {
 		toast.push(form?.error, {
 			theme: {
@@ -16,7 +21,7 @@
 			duration: 1500
 		});
 	}
-	let checked = false;
+	export let checked = false;
 	function handleClick(event: any) {
 		checked = !checked;
 		setTimeout(() => (event.target.checked = checked), 0);
@@ -51,7 +56,17 @@
 	$: partnerRole = partnerRoleMapping[userRole];
 	$: partnerLevel = userLevel;
 
-	$: console.log({ userRole, userLevel, partnerRole, partnerLevel });
+	$: if (email && partnerEmail && email === partnerEmail) {
+		errorMessage = "L'adresse email ne peut pas être identique à celle du partenaire.";
+	} else {
+		errorMessage = '';
+	}
+
+	$: if (checked && !partnerEmail) {
+		errorMessage = "L'adresse email de votre partenaire est requise.";
+	} else {
+		errorMessage = '';
+	}
 </script>
 
 <svelte:head>
@@ -92,7 +107,7 @@
 				type="email"
 				name="email"
 				id="email"
-				value=""
+				bind:value={email}
 				required
 				aria-required="true"
 				placeholder="Enter your email"
@@ -104,12 +119,17 @@
 			<input
 				type="email"
 				name="partnaire_email"
-				id="email"
-				value=""
+				id="partner_email"
+				bind:value={partnerEmail}
 				placeholder="Email de votre partenaire"
 				class="form-control"
 			/>
 		</div>
+		{#if errorMessage}
+			<div class="error-message">
+				{errorMessage}
+			</div>
+		{/if}
 		<div class="form-group">
 			<label for="role-select">Votre rôle :</label>
 			<select bind:value={userRole} name="role" id="role-select" required>
@@ -174,10 +194,10 @@
 					disabled
 					value={roleMapping[partnerRole] || ''}
 				/>
+				<p class="register-info">Déterminé d'après votre rôle</p>
 			</div>
 			<div class="form-group">
 				<label for="level-select">Le niveau de votre partenaire :</label>
-
 				<input
 					type="text"
 					name="partner_level"
@@ -186,15 +206,24 @@
 					disabled
 					value={levelName(partnerLevel)}
 				/>
+				<p class="register-info">Déterminé d'après votre niveau</p>
 			</div>
 		{/if}
 		<div>
-			<button class="btn" type="submit">Poursuivre l'inscription</button>
+			<button class="btn" type="submit" disabled={!!errorMessage}>Poursuivre l'inscription</button>
 		</div>
 	</form>
 </div>
 
 <style lang="scss">
+	.error-message {
+		color: #cc210a;
+		font-size: 1.2rem;
+		font-family: 'Open Sans', sans-serif;
+		text-align: left;
+		width: 100%;
+		margin-bottom: 1rem;
+	}
 	.checkbox__container {
 		display: flex;
 		align-items: center;
@@ -202,5 +231,14 @@
 		label {
 			margin-bottom: 0;
 		}
+	}
+	.register-info {
+		width: 100%;
+		font-size: 1.2rem;
+		font-family: 'Open Sans', sans-serif;
+		text-align: left;
+		margin-top: 0.6rem;
+		font-style: italic;
+		color: #a2a2a2;
 	}
 </style>

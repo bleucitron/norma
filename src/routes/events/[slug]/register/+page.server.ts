@@ -11,6 +11,7 @@ interface RegistrationFormData {
 	level: Level;
 	role: Role;
 	partnaire_email: string | undefined;
+	payForPartner: boolean | undefined;
 }
 
 function formDataToRegistration(formData: FormData): RegistrationFormData {
@@ -55,11 +56,14 @@ function formDataToRegistration(formData: FormData): RegistrationFormData {
 		throw new Error(" L'adresse email du partenaire devrait être une chaîne de caractère");
 	}
 
+	const payForPartner = formData.get('partner') || undefined;
+
 	return {
 		email,
 		level,
 		role,
-		partnaire_email
+		partnaire_email,
+		payForPartner
 	};
 }
 
@@ -71,10 +75,21 @@ export const actions = {
 			registrationData = formDataToRegistration(formData);
 		} catch (error) {
 			return fail(400, {
-				error
+				error: error
 			});
 		}
-		const { level, partnaire_email, role } = registrationData;
+		const { level, partnaire_email, role, email, payForPartner } = registrationData;
+
+		if (payForPartner && !partnaire_email) {
+			return fail(400, {
+				error: "Vous devez renseigner l'adresse mail de votre partenaire"
+			});
+		}
+		if (partnaire_email === email) {
+			return fail(400, {
+				error: "L'adresse mail de danceur ne doit pas être la même que celle du partenaire"
+			});
+		}
 
 		//@ts-expect-error Supabase est mal typé
 		let { data: registrationCount }: { data: number } = await supabase
@@ -167,8 +182,7 @@ async function register(
 	supabase: NormaDatabase,
 	state: State
 ): Promise<string> {
-	const { email, level, role } = registrationData;
-	const { partnaire_email } = registrationData;
+	const { email, level, role, partnaire_email, payForPartner } = registrationData;
 
 	const { data: alreadyExist }: { data: Dancer | null } = await supabase
 		.from('dancers')
@@ -219,7 +233,7 @@ async function register(
 	}
 	switch (state) {
 		case State['Règlement en cours']:
-			return '/events/' + params.slug + '/commande';
+			return '/events/' + params.slug + '/commande' + '?partner=' + payForPartner;
 		case State.Attente:
 			return '/events/' + params.slug + '/reservation';
 		case State.Inscrit:
