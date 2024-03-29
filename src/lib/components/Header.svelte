@@ -43,7 +43,7 @@
 			<a href="/" class="header__logo">Norma<img src="/assets/norma-logo.png" alt="logo" /></a>
 			{#if user}
 				<div class="btn__container">
-					<a href={`/admin`} class="btn nav__item">Dashboard</a>
+					<!-- <a href={`/admin`} class="btn nav__item">Dashboard</a> -->
 				</div>
 			{:else}
 				<div class="btn__container">
