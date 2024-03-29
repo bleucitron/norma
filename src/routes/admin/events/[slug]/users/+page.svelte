@@ -197,10 +197,10 @@
 
 	function mapState(state: State) {
 		switch (state) {
-			case State['Règlement en cours']:
-				return 'En attente de paiement';
 			case State.Attente:
 				return "Liste d'attente";
+			case State['Règlement en cours']:
+				return 'En attente de paiement';
 			case State.Inscrit:
 				return 'Inscrit';
 			default:
@@ -334,8 +334,8 @@
 							</select>
 							<label for="state">État</label>
 							<select name="state">
-								<option value="0">0 - En attente de paiement</option>
-								<option value="1">1 - Liste d'attente</option>
+								<option value="0">0 - Liste d'attente</option>
+								<option value="1">1 - En attente de paiement</option>
 								<option value="2">2 - Inscrit</option>
 							</select>
 							<label for="partner">Partenaire</label>
