@@ -2,7 +2,7 @@ import { access_token } from '$lib/server/accessToken';
 import { get } from 'svelte/store';
 
 export async function load({ fetch }) {
-	const events = await fetch(
+	const eventsResponse = await fetch(
 		'https://api.helloasso.com/v5/organizations/norma-ecv/forms?pageIndex=1&pageSize=20&formTypes=event',
 		{
 			method: 'GET',
@@ -10,9 +10,35 @@ export async function load({ fetch }) {
 				authorization: 'Bearer ' + get(access_token)
 			}
 		}
-	).then((resp) => resp.json());
+	);
+	const events = await eventsResponse.json();
+
+	const eventsName = events.data.map((event: { formSlug: string }) => event.formSlug);
+
+	const eventDetailsPromises = eventsName.map(async (eventName: string) => {
+		try {
+			const response = await fetch(
+				`https://api.helloasso.com/v5/organizations/norma-ecv/forms/event/${eventName}/public`,
+				{
+					method: 'GET',
+					headers: {
+						authorization: 'Bearer ' + get(access_token)
+					}
+				}
+			);
+			return await response.json();
+		} catch (error) {
+			console.error("Erreur lors de la récupération de l'événement:", error);
+			return null;
+		}
+	});
+
+	const eventsBySlug = await Promise.all(eventDetailsPromises);
+	const filteredEventsBySlug = eventsBySlug.filter((event) => event !== null);
+
 	return {
-		events: events.data
+		events: events.data,
+		eventsDetail: filteredEventsBySlug
 	};
 }
 

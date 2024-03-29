@@ -5,6 +5,8 @@
 	let archivedEvents: Array<any> = [];
 	let events: any;
 
+	let eventBySlug = data;
+
 	if (Array.isArray(data.events)) {
 		events = data.events.filter((event) => {
 			if (new Date(event.endDate) < todayDate) {
@@ -27,10 +29,16 @@
 		});
 	});
 
-	// const urlsInCache = await fetch(
-	// 	`/_service-worker/cache?testUrl=${encodeURIComponent(JSON.stringify(events.map((event) => `/events/${event.formSlug}`)))}`
-	// ).then((reponse) => reponse.json());
-	// console.log(data);
+	events.forEach((event: { formSlug: any; tiers: any; place: any }) => {
+		const eventDetail = eventBySlug.eventsDetail.find(
+			(detail) => detail.formSlug === event.formSlug
+		);
+
+		if (eventDetail) {
+			event.tiers = eventDetail.tiers;
+			event.place = eventDetail.place;
+		}
+	});
 </script>
 
 <div class="hero">
@@ -68,9 +76,29 @@
 						<div class="card__content">
 							<h2>{event.title}</h2>
 							<div class="infos">
-								<p><strong>Date :</strong> Inconnu</p>
-								<p><strong>Lieu :</strong> Inconnu</p>
-								<p><strong>Prix :</strong> 0€ à 25€</p>
+								<p>
+									<strong>Date :</strong>
+									{#if event.startDate}
+										{new Date(event.startDate).toLocaleDateString('fr-FR')}
+									{:else}
+										Date indisponible
+									{/if}
+								</p>
+								<p>
+									<strong>Lieu :</strong>
+									{#if event.place}
+										{event.place.city}
+									{:else}
+										Non disponible
+									{/if}
+								</p>
+								{#if event.tiers.length > 0}
+									<p>
+										<strong>Prix :</strong> À partir de {(event.tiers[0].price / 100)
+											.toFixed(2)
+											.replace('.', ',')} €
+									</p>
+								{/if}
 							</div>
 							<p>{event.description}</p>
 							<div class="btn__container">
