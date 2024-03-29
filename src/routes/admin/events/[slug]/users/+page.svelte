@@ -211,14 +211,21 @@
 </script>
 
 <section class="users__container">
-	<h1>Listes des participants</h1>
-	{#if numberOfFilteredUsers === 1}
-		<p>Il y a {numberOfFilteredUsers} participant trouvé</p>
-	{:else if numberOfFilteredUsers > 1}
-		<p>Il y a {numberOfFilteredUsers} participants trouvés</p>
-	{:else}
-		<p>Aucun participant trouvé</p>
-	{/if}
+	<div class="wrapper__return">
+		<div>
+			<h1>Listes des participants</h1>
+			{#if numberOfFilteredUsers === 1}
+				<p>Il y a {numberOfFilteredUsers} participant trouvé</p>
+			{:else if numberOfFilteredUsers > 1}
+				<p>Il y a {numberOfFilteredUsers} participants trouvés</p>
+			{:else}
+				<p>Aucun participant trouvé</p>
+			{/if}
+		</div>
+		<div>
+			<a href="/admin" class="btn">Retour</a>
+		</div>
+	</div>
 
 	<div class="filters__container">
 		<div class="search__container">
