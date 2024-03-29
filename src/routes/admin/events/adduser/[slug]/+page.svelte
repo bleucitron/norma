@@ -6,7 +6,14 @@
 	<title>Ajouter un participant</title>
 </svelte:head>
 <div id="login__page" class="form__tpl">
-	<h1>Ajouter un participant</h1>
+	<div class="wrapper__return">
+		<div>
+			<h1>Ajouter un participant</h1>
+		</div>
+		<div>
+			<a href="/admin" class="btn">Retour</a>
+		</div>
+	</div>
 	<form action="/admin/events/adduser/{data.slug}" method="post">
 		<div class="form-group">
 			<label for="firstname">Prénom du nouveau participant</label>

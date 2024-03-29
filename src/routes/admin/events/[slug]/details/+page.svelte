@@ -41,7 +41,14 @@
 					{/if}
 				</div>
 				<div>
-					<h1>{event.title}</h1>
+					<div class="wrapper__return">
+						<div>
+							<h1>{event.title}</h1>
+						</div>
+						<div>
+							<a href="/admin" class="btn">Retour</a>
+						</div>
+					</div>
 					<div class="event-chart">
 						<div class="stat-wrapper">
 							<h3>Statistiques globales</h3>
