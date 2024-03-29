@@ -43,12 +43,12 @@
 			<a href="/" class="header__logo">Norma<img src="/assets/norma-logo.png" alt="logo" /></a>
 			{#if user}
 				<div class="btn__container">
-					<a href={`/admin`} class="btn">Dashboard</a>
+					<a href={`/admin`} class="btn nav__item">Dashboard</a>
 				</div>
 			{:else}
 				<div class="btn__container">
-					<a class="btn" href="/">Accueil</a>
-					<a class="btn" href="/contact">Contact</a>
+					<a class="btn nav__item" href="/">Accueil</a>
+					<a class="btn nav__item" href="/contact">Contact</a>
 				</div>
 			{/if}
 		</div>

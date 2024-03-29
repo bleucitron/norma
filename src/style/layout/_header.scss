@@ -54,6 +54,10 @@ header {
     background-color: var(--color-yellow);
     border-radius: 2rem;
     color: var(--color-black) !important;
+    &::after {
+        opacity: 1;
+        transform: translateX(0rem);
+    }
 }
 
 .header-container {
