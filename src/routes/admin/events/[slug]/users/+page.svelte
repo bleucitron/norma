@@ -296,57 +296,61 @@
 						</td>
 					</tr>
 					<div class="delete__modal" data-user-id={user.id}>
-						<p>
-							<strong>
-								Voulez vous vraiment supprimer ? {#if user.firstname && user.lastname}
-									{user.firstname} {user.lastname}
-								{:else}
-									{user.email}
-								{/if}</strong
-							>
-						</p>
-						<div>
-							<button class="btn" on:click={() => deleteUser(user)}>Supprimer</button>
-							<button class="btn" on:click={() => closeDelete(user.id)}>Annuler</button>
-						</div>
-					</div>
-					<div class="update__container" data-user-id={user.id}>
-						<div class="update__header">
+						<div class="delete__container__in">
 							<p>
 								<strong>
-									Mettre à jour {#if user.firstname && user.lastname}
+									Voulez vous vraiment supprimer ? {#if user.firstname && user.lastname}
 										{user.firstname} {user.lastname}
 									{:else}
 										{user.email}
 									{/if}</strong
 								>
 							</p>
+							<div>
+								<button class="btn" on:click={() => deleteUser(user)}>Supprimer</button>
+								<button class="btn" on:click={() => closeDelete(user.id)}>Annuler</button>
+							</div>
 						</div>
-						<form id="updateUserForm">
-							<label for="firstname">Prénom</label>
-							<input type="text" name="firstname" disabled />
-							<label for="lastname">Nom</label>
-							<input type="text" name="lastname" disabled />
-							<label for="role">Rôle</label>
-							<select name="role">
-								<option value="0">0 - Leader</option>
-								<option value="1">1 - Suiveur</option>
-							</select>
-							<label for="state">État</label>
-							<select name="state">
-								<option value="0">0 - Liste d'attente</option>
-								<option value="1">1 - En attente de paiement</option>
-								<option value="2">2 - Inscrit</option>
-							</select>
-							<label for="partner">Partenaire</label>
-							<input type="text" name="partner" disabled />
-							<button class="btn" type="button" on:click={() => updateUser(user)}
-								>Mettre à jour</button
-							>
-							<button class="btn" type="button" on:click={() => closeUpdate(user.id)}
-								>Annuler</button
-							>
-						</form>
+					</div>
+					<div class="update__container" data-user-id={user.id}>
+						<div class="update__container__in">
+							<div class="update__header">
+								<p>
+									<strong>
+										Mettre à jour {#if user.firstname && user.lastname}
+											{user.firstname} {user.lastname}
+										{:else}
+											{user.email}
+										{/if}</strong
+									>
+								</p>
+							</div>
+							<form id="updateUserForm">
+								<label for="firstname">Prénom</label>
+								<input type="text" name="firstname" />
+								<label for="lastname">Nom</label>
+								<input type="text" name="lastname" />
+								<label for="role">Rôle</label>
+								<select name="role">
+									<option value="0">0 - Leader</option>
+									<option value="1">1 - Suiveur</option>
+								</select>
+								<label for="state">État</label>
+								<select name="state">
+									<option value="0">0 - Liste d'attente</option>
+									<option value="1">1 - En attente de paiement</option>
+									<option value="2">2 - Inscrit</option>
+								</select>
+								<label for="partner">Partenaire</label>
+								<input type="text" name="partner" disabled />
+								<button class="btn" type="button" on:click={() => updateUser(user)}
+									>Mettre à jour</button
+								>
+								<button class="btn" type="button" on:click={() => closeUpdate(user.id)}
+									>Annuler</button
+								>
+							</form>
+						</div>
 					</div>
 				{/each}
 			{/if}
@@ -368,18 +372,37 @@
 		position: fixed;
 		background-color: #fff;
 		box-shadow: rgba(17, 12, 46, 0.15) 0px 48px 100px 0px;
-		left: 50%;
-		-webkit-transform: translateX(-50%);
-		transform: translateX(-50%);
-		height: auto;
-		width: 760px;
-		top: 15%;
+		width: 100%;
+		height: 100%;
+		top: 0;
+		left: 0;
 		border-radius: 12px;
 		padding: 2rem;
 		z-index: 100;
 		flex-direction: column;
+		background-color: rgb(0 0 0 / 68%);
+		align-items: center;
+		justify-content: center;
+	}
+	.update__container__in {
+		background-color: #fff;
+		border-radius: 12px;
+		padding: 2rem;
+		width: 760px;
+		height: auto;
+	}
+
+	.delete__container__in {
+		background-color: #fff;
+		border-radius: 12px;
+		padding: 2rem;
+		flex-direction: column;
+		max-width: 460px;
+		width: auto;
+		height: auto;
 	}
 	.delete__modal {
+		gap: 3.5rem;
 		p {
 			margin-bottom: 2rem;
 			text-align: center;
