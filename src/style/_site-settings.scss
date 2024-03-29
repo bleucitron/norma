@@ -11,7 +11,7 @@ $white: #F8F8F8;
 }
 
 main {
-    padding: 10rem 5rem;
+    padding: 12rem 5rem;
 }
 
 $primary-family: 'Open Sans Regular', sans-serif;
@@ -63,6 +63,7 @@ button,
     &:hover {
         &::after {
             opacity: 1;
+            transform: translateX(0rem);
         }
     }
 
@@ -75,7 +76,7 @@ button,
         height: 5px;
         border-radius: 50%;
         opacity: 0;
+        transform: translateX(-1rem);
         transition: 0.2s ease-in-out;
-
     }
 }
