@@ -2,6 +2,9 @@ import { fail, redirect } from '@sveltejs/kit';
 import { Level, Role, State } from '$lib/types/norma';
 import type { Database } from '../../../../types/supabase';
 import type { SupabaseClient } from '@supabase/supabase-js';
+import emailjs from '@emailjs/nodejs';
+import { PUBLIC_EMAILJS_KEY2 } from '$env/static/public';
+import { PRIVATE_EMAILJS_KEY2 } from '$env/static/private';
 
 type Dancer = Database['public']['Tables']['dancers']['Row'];
 type NormaDatabase = SupabaseClient<Database>;
@@ -110,7 +113,13 @@ export const actions = {
 						setDancerOrderWaiting(params, partnaire_email, supabase);
 					}
 				} else {
-					// throw new Error('TODO : sendInvitationMail(partnaire_email);');
+					const dataformail = {
+						partnaire_email: partnaire_email,
+						firstname: firstname,
+						lastname: lastname,
+						event: params.slug
+					};
+					sendInvitationMail(dataformail);
 				}
 			}
 			url = await register(params, registrationData, supabase, State['Règlement en cours']);
@@ -230,9 +239,39 @@ async function register(
 	}
 }
 
-// function sendInvitationMail(email) {
-
-// }
+async function sendInvitationMail(data) {
+	const eventData = await fetch(
+		'https://api.helloasso.com/v5/organizations/norma-ecv/forms/event/' +
+			data.enventSlug +
+			'/public',
+		{
+			method: 'GET',
+			headers: {
+				authorization: 'Bearer ' + get(access_token)
+			}
+		}
+	).then((response) => response.json());
+	const templateParams = {
+		email: data.email,
+		firstname: data.firstname,
+		lastname: data.lastname,
+		eventName: eventData.title,
+		unsubscribeLink: ''
+	};
+	emailjs
+		.send('service_wcy3klk', 'template_p7qk0h3', templateParams, {
+			publicKey: PUBLIC_EMAILJS_KEY2,
+			privateKey: PRIVATE_EMAILJS_KEY2
+		})
+		.then(
+			(response) => {
+				console.log('SUCCESS!', response.status, response.text);
+			},
+			(error) => {
+				console.log('FAILED...', error);
+			}
+		);
+}
 
 async function setDancerOrderWaiting(
 	params: { slug: string },
