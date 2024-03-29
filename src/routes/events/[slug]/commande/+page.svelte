@@ -19,7 +19,6 @@
 				aria-required="true"
 				placeholder="Enter your email"
 				class="form-control"
-				disabled
 			/>
 		</div>
 		<div class="ticket-container">

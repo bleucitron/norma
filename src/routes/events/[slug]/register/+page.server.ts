@@ -233,7 +233,7 @@ async function register(
 	}
 	switch (state) {
 		case State['Règlement en cours']:
-			return '/events/' + params.slug + '/commande' + '?partner=' + payForPartner;
+			return '/events/' + params.slug + '/commande?email=' + encodeURI(email)+'&partner=' + payForPartner;
 		case State.Attente:
 			return '/events/' + params.slug + '/reservation';
 		case State.Inscrit:
