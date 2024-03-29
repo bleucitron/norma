@@ -1,10 +1,11 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
-	// import placeholder from '/assets/img/event-placeholder.webp';
+	import emailjs from 'emailjs-com';
 	export let data;
 	let todayDate = new Date();
 	let archivedEvents: Array<any> = [];
 	let events: any;
+	let userEmail = '';
 
 	if (Array.isArray(data.events)) {
 		events = data.events.filter((event) => {
@@ -19,14 +20,33 @@
 	}
 
 	onMount(() => {
-		const links = document.querySelectorAll('.admin__link');
-		links.forEach((link) => {
-			link.addEventListener('click', () => {
-				links.forEach((link) => link.classList.remove('activLink'));
-				link.classList.add('activLink');
-			});
-		});
+		emailjs.init('o-t5Q0DblgKR0F2GD');
 	});
+
+	async function sendEmail() {
+		if (!userEmail) {
+			alert('Veuillez entrer une adresse e-mail.');
+			return;
+		}
+
+		const templateParams = {
+			from_name: 'Your Name',
+			email: userEmail,
+			message: 'Ton message',
+			reply: 'your-email@example.com'
+		};
+
+		try {
+			const response = await emailjs.send('service_wkav6z9', 'template_2a0ie3r', templateParams);
+			if (response.text === 'OK') {
+				alert('Email envoyé avec succès!');
+			} else {
+				alert("La réponse de l'email n'est pas OK !" + response.text);
+			}
+		} catch (error) {
+			alert("Erreur lors de l'envoi de l'email. Erreur: " + error.text);
+		}
+	}
 </script>
 
 <div class="header-container">
@@ -61,6 +81,16 @@
 
 <div class="separator"></div>
 
+<div class="email-input-container">
+	<input
+		type="email"
+		bind:value={userEmail}
+		placeholder="Adresse e-mail du destinataire"
+		class="email-input"
+	/>
+</div>
+
+<button on:click={sendEmail} class="email-button">Envoyer un email</button>
 <div class="header-container">
 	<h2>Les événements terminés</h2>
 </div>
