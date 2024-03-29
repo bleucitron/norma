@@ -179,10 +179,13 @@ async function checkRole(event: string, role: Role, level: Level, supabase: Norm
 	const { data: oppositeCount }: { data: number } = await supabase
 		.from('dancers')
 		.select('*(count)')
+		.eq('event', event)
 		.eq('role', role === Role.Leader ? Role.Suiveur : Role.Leader)
 		.eq('level', level);
 
-	return selectedCount <= oppositeCount + 2;
+	console.log(selectedCount);
+	console.log(oppositeCount);
+	return selectedCount <= oppositeCount + 5;
 }
 
 async function register(
@@ -242,7 +245,14 @@ async function register(
 	}
 	switch (state) {
 		case State['Règlement en cours']:
-			return '/events/' + params.slug + '/commande?email=' + encodeURI(email)+'&partner=' + payForPartner;
+			return (
+				'/events/' +
+				params.slug +
+				'/commande?email=' +
+				encodeURI(email) +
+				'&partner=' +
+				payForPartner
+			);
 		case State.Attente:
 			return '/events/' + params.slug + '/reservation';
 		case State.Inscrit:
