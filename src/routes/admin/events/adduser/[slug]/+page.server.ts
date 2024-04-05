@@ -156,6 +156,7 @@ async function register(
 			throw new Error("Erreur lors de l'enregistrement");
 		}
 	}
+
 	return error;
 }
 
