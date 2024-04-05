@@ -140,20 +140,21 @@ export const actions = {
 						sendInvitationMail(dataformail);
 					}
 				}
-			}
-			url = await register(params, registrationData, supabase, State['Règlement en cours']);
-		} else {
-			if (partnaire_email) {
-				url = await register(params, registrationData, supabase, State['Règlement en cours']);
-			}
-		}
 
-		if (url) {
-			redirect(302, url);
-		} else {
-			return fail(400, {
-				error: 'Erreur'
-			});
+				url = await register(params, registrationData, supabase, State['Règlement en cours']);
+			} else {
+				if (partnaire_email) {
+					url = await register(params, registrationData, supabase, State['Règlement en cours']);
+				}
+			}
+
+			if (url) {
+				redirect(302, url);
+			} else {
+				return fail(400, {
+					error: 'Erreur'
+				});
+			}
 		}
 	}
 };
@@ -225,7 +226,7 @@ async function register(
 			}
 		}
 	}
-	const { error: insertError } = await supabase.from('dancers').insert({
+	await supabase.from('dancers').insert({
 		email: email,
 		state: state,
 		role: role,
