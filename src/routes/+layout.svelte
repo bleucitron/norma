@@ -4,6 +4,7 @@
 	import { invalidate } from '$app/navigation';
 	import Header from '$lib/components/Header.svelte';
 	import { SvelteToast } from '@zerodevx/svelte-toast';
+
 	export let data;
 
 	$: ({ supabase } = data);

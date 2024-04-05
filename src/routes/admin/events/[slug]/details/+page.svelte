@@ -6,6 +6,7 @@
 	$: event = data.event;
 	$: orders = data.orders;
 	let dancers = data.dancers;
+	let isPronosticVisible = false;
 
 	$: event.totalInscrit = dancers.filter(
 		(dancer) => dancer.state === State.Inscrit && dancer.event === event.formSlug
@@ -35,6 +36,7 @@
 		const toggleButton = document.getElementById('switch');
 		toggleButton?.addEventListener('click', () => {
 			toggleButton.classList.toggle('active');
+			isPronosticVisible = !isPronosticVisible;
 		});
 	});
 </script>
@@ -53,7 +55,14 @@
 						<div>
 							<h1>{event.title}</h1>
 						</div>
-						<div>
+						<div class="wrapper__button">
+							<div class="wrapper__switch">
+								<p>réels</p>
+								<div id="switch" class="">
+									<div id="toggle"></div>
+								</div>
+								<p>Estimé(e)s</p>
+							</div>
 							<a href="/admin" class="btn">Retour</a>
 						</div>
 					</div>
@@ -82,8 +91,9 @@
 							</ul>
 						</div>
 						<div class="stat-wrapper">
-							<h3>Niveau des inscrits:</h3>
+							<h3>Répartition des inscrits :</h3>
 							<ul>
+								<!-- Réel -->
 								<li>
 									Débutant : Leader : {event.Débutant.filter(
 										(dancer) => dancer.role === Role.Leader
@@ -91,6 +101,23 @@
 										(dancer) => dancer.role === Role.Suiveur
 									).length}
 								</li>
+								<!-- Prévision -->
+								{#if isPronosticVisible}
+									<li class="pronostic">
+										Débutant : Leader : {event.Débutant.filter(
+											(dancer) => dancer.role === Role.Leader
+										).length +
+											event.attente.filter(
+												(dancer) => dancer.level === Level.Débutant && dancer.role === Role.Leader
+											).length}, Suiveur : {event.Débutant.filter(
+											(dancer) => dancer.level === Level.Débutant && dancer.role === Role.Suiveur
+										).length +
+											event.attente.filter(
+												(dancer) => dancer.level === Level.Débutant && dancer.role === Role.Suiveur
+											).length}
+									</li>
+								{/if}
+								<!-- Réel -->
 								<li>
 									Confirmé : Leader : {event.Confirmé.filter(
 										(dancer) => dancer.role === Role.Leader
@@ -98,20 +125,45 @@
 										(dancer) => dancer.role === Role.Suiveur
 									).length}
 								</li>
+								<!-- Prévision -->
+								{#if isPronosticVisible}
+									<li class="pronostic">
+										Confirmé : Leader : {event.Confirmé.filter(
+											(dancer) => dancer.role === Role.Leader
+										).length +
+											event.attente.filter(
+												(dancer) => dancer.level === Level.Confirmé && dancer.role === Role.Leader
+											).length}, Suiveur : {event.Confirmé.filter(
+											(dancer) => dancer.level === Level.Confirmé && dancer.role === Role.Suiveur
+										).length +
+											event.attente.filter(
+												(dancer) => dancer.level === Level.Confirmé && dancer.role === Role.Suiveur
+											).length}
+									</li>
+								{/if}
+								<!-- Réel -->
 								<li>
 									Expert : Leader : {event.Expert.filter((dancer) => dancer.role === Role.Leader)
 										.length}, Suiveur : {event.Expert.filter(
 										(dancer) => dancer.role === Role.Suiveur
 									).length}
 								</li>
+								<!-- Prévision -->
+								{#if isPronosticVisible}
+									<li class="pronostic">
+										Expert : Leader : {event.Expert.filter((dancer) => dancer.role === Role.Leader)
+											.length +
+											event.attente.filter(
+												(dancer) => dancer.level === Level.Expert && dancer.role === Role.Leader
+											).length}, Suiveur : {event.Expert.filter(
+											(dancer) => dancer.level === Level.Expert && dancer.role === Role.Suiveur
+										).length +
+											event.attente.filter(
+												(dancer) => dancer.level === Level.Expert && dancer.role === Role.Suiveur
+											).length}
+									</li>
+								{/if}
 							</ul>
-							<div class="wrapper__switch">
-								<p>réels</p>
-								<div id="switch" class="">
-									<div id="toggle"></div>
-								</div>
-								<p>prévus</p>
-							</div>
 						</div>
 					</div>
 				</div>
@@ -132,8 +184,11 @@
 
 <style lang="scss">
 	.event__container {
-		max-width: 700px;
-		margin: 0 auto;
+		.wrapper__button {
+			display: flex;
+			gap: 2rem;
+		}
+
 		img {
 			width: 100%;
 			height: 300px;

@@ -48,6 +48,42 @@ export type Database = {
 				};
 				Relationships: [];
 			};
+			event: {
+				Row: {
+					created_at: string;
+					id: number;
+					level_limit: number | null;
+					level_register: number | null;
+					slug: string | null;
+					total_limit: number | null;
+					total_register: number | null;
+					waiting_limit: number | null;
+					waiting_register: number | null;
+				};
+				Insert: {
+					created_at?: string;
+					id?: number;
+					level_limit?: number | null;
+					level_register?: number | null;
+					slug?: string | null;
+					total_limit?: number | null;
+					total_register?: number | null;
+					waiting_limit?: number | null;
+					waiting_register?: number | null;
+				};
+				Update: {
+					created_at?: string;
+					id?: number;
+					level_limit?: number | null;
+					level_register?: number | null;
+					slug?: string | null;
+					total_limit?: number | null;
+					total_register?: number | null;
+					waiting_limit?: number | null;
+					waiting_register?: number | null;
+				};
+				Relationships: [];
+			};
 			profiles: {
 				Row: {
 					avatar_url: string | null;
