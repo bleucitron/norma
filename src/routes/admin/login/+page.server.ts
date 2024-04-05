@@ -46,7 +46,7 @@ export const actions = {
 			{ path: '/' }
 		);
 
-		//TODO: Implémenter la modal de succés
+		// Redirection vers la page d'administration
 		throw redirect(302, '/admin');
 	}
 };

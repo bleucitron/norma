@@ -56,7 +56,9 @@ export type Database = {
 					level_register: number | null;
 					slug: string | null;
 					total_limit: number | null;
+					total_register: number | null;
 					waiting_limit: number | null;
+					waiting_register: number | null;
 				};
 				Insert: {
 					created_at?: string;
@@ -65,7 +67,9 @@ export type Database = {
 					level_register?: number | null;
 					slug?: string | null;
 					total_limit?: number | null;
+					total_register?: number | null;
 					waiting_limit?: number | null;
+					waiting_register?: number | null;
 				};
 				Update: {
 					created_at?: string;
@@ -74,7 +78,9 @@ export type Database = {
 					level_register?: number | null;
 					slug?: string | null;
 					total_limit?: number | null;
+					total_register?: number | null;
 					waiting_limit?: number | null;
+					waiting_register?: number | null;
 				};
 				Relationships: [];
 			};
