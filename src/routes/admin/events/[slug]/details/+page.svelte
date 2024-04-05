@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { Role, State, Level } from '$lib/types/norma.js';
+	import { onMount } from 'svelte';
 
 	export let data;
 	$: event = data.event;
@@ -28,6 +29,13 @@
 
 	$: event.typeOfTicketByEvent = event.typeOfTicketByEvent.filter((value, index, self) => {
 		return self.indexOf(value) === index;
+	});
+
+	onMount(() => {
+		const toggleButton = document.getElementById('switch');
+		toggleButton?.addEventListener('click', () => {
+			toggleButton.classList.toggle('active');
+		});
 	});
 </script>
 
@@ -74,7 +82,7 @@
 							</ul>
 						</div>
 						<div class="stat-wrapper">
-							<h3>Niveau des inscrits :</h3>
+							<h3>Niveau des inscrits:</h3>
 							<ul>
 								<li>
 									Débutant : Leader : {event.Débutant.filter(
@@ -97,6 +105,13 @@
 									).length}
 								</li>
 							</ul>
+							<div class="wrapper__switch">
+								<p>réels</p>
+								<div id="switch" class="">
+									<div id="toggle"></div>
+								</div>
+								<p>prévus</p>
+							</div>
 						</div>
 					</div>
 				</div>
