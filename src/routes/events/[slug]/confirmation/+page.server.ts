@@ -1,10 +1,10 @@
 import { access_token } from '$lib/server/accessToken';
-import { supabase } from '$lib/supabase';
 import { get } from 'svelte/store';
+import { assoSlug, helloassoBaseUrl } from '$lib';
 export async function load({ params, fetch, url }) {
 	const email = url.searchParams.get('email') ? decodeURI(url.searchParams.get('email')) : '';
 	const event = await fetch(
-		'https://api.helloasso.com/v5/organizations/norma-ecv/forms/event/' + params.slug + '/public',
+		helloassoBaseUrl + assoSlug + '/forms/event/' + params.slug + '/public',
 		{
 			method: 'GET',
 			headers: {

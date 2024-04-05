@@ -140,24 +140,11 @@ export const actions = {
 						sendInvitationMail(dataformail);
 					}
 				}
+			}
+			url = await register(params, registrationData, supabase, State['Règlement en cours']);
+		} else {
+			if (partnaire_email) {
 				url = await register(params, registrationData, supabase, State['Règlement en cours']);
-			} else {
-				if (partnaire_email) {
-					const { data: partenaire } = await supabase
-						.from('dancers')
-						.select()
-						.eq('event', params.slug)
-						.eq('email', partnaire_email);
-
-					if (partenaire && partenaire[0]) {
-						if (partenaire[0].state === State.Inscrit) {
-							url = await register(params, registrationData, supabase, State['Règlement en cours']);
-						}
-					} else {
-						throw new Error('TODO : sendInvitationMail(partnaire_email);');
-					}
-				}
-				url = await register(params, registrationData, supabase, State.Attente);
 			}
 		}
 
@@ -221,19 +208,55 @@ async function register(
 				throw new Error(`Unhandled state: ${exhaustiveCheck}`);
 		}
 	}
-
+	let partenaireId;
 	if (partnaire_email) {
-		const oppositeRole = role === Role.Leader ? Role.Suiveur : Role.Leader;
-		const { error: insertPartnerError } = await supabase.from('dancers').insert({
-			email: partnaire_email,
-			state: state,
-			role: oppositeRole,
-			level: level,
-			event: params.slug
-		});
-		dancerIdAttribution(email, partnaire_email, supabase, params);
-		if (insertPartnerError) {
-			throw new Error("Erreur lors de l'enregistrement avec un partenaire");
+		const { data: partenaireExist } = await supabase
+			.from('dancers')
+			.select()
+			.eq('event', params.slug)
+			.eq('email', partnaire_email)
+			.limit(1)
+			.single();
+		if (partenaireExist) {
+			if (partenaireExist.role === role) {
+				throw new Error('Erreur : le partenaire existe déjà avec le même rôle');
+			} else {
+				partenaireId = partenaireExist.id;
+			}
+		}
+	}
+	const { error: insertError } = await supabase.from('dancers').insert({
+		email: email,
+		state: state,
+		role: role,
+		level: level,
+		event: params.slug
+	});
+	if (partnaire_email) {
+		if (partenaireId) {
+			const { error: updatePartnerError } = await supabase
+				.from('dancers')
+				.update({
+					state: state
+				})
+				.eq('id', partenaireId)
+				.eq('state', State.Attente);
+			if (updatePartnerError) {
+				throw new Error('Erreur lors de la mise à jour du partenaire');
+			}
+		} else {
+			const oppositeRole = role === Role.Leader ? Role.Suiveur : Role.Leader;
+			const { error: insertPartnerError } = await supabase.from('dancers').insert({
+				email: partnaire_email,
+				state: state,
+				role: oppositeRole,
+				level: level,
+				event: params.slug
+			});
+			dancerIdAttribution(email, partnaire_email, supabase, params);
+			if (insertPartnerError) {
+				throw new Error("Erreur lors de l'enregistrement avec un partenaire");
+			}
 		}
 	}
 
