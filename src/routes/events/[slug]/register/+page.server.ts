@@ -95,61 +95,66 @@ export const actions = {
 		}
 
 		//@ts-expect-error Supabase est mal typé
-		let { data: registrationCount }: { data: number } = await supabase
+		const { count: registrationCount }: { count: number } = await supabase
 			.from('dancers')
-			.select('*(count)')
+			.select('*', { count: 'exact', head: true })
 			.eq('event', params.slug)
 			.or('state.eq.' + State.Inscrit + ',state.eq.' + State['Règlement en cours']);
 		let url = '';
 
-		if (!Number.isSafeInteger(registrationCount)) {
-			registrationCount = 0;
-		}
-		if (registrationCount >= 50) {
-			url = await register(params, registrationData, supabase, State.Attente);
-		}
-		const check_role = await checkRole(params.slug, role, level, supabase);
+		const { data: event } = await supabase
+			.from('event')
+			.select()
+			.eq('slug', params.slug)
+			.maybeSingle();
 
-		if (check_role) {
-			if (partnaire_email) {
-				const { data: partenaire, error: partenaireError } = await supabase
-					.from('dancers')
-					.select()
-					.eq('event', params.slug)
-					.eq('email', partnaire_email);
-				if (partenaireError) {
-					return fail(400, {
-						error: 'Erreur lors de la recherche du partenaire renseigné'
-					});
-				}
-				if (partenaire[0]) {
-					if (partenaire[0].state === State.Attente) {
-						//envoi auto mail pour payer
-						setDancerOrderWaiting(params, partnaire_email, supabase);
-					}
-				} else {
-					const dataformail = {
-						partnaire_email: partnaire_email,
-						firstname: firstname,
-						lastname: lastname,
-						event: params.slug
-					};
-					sendInvitationMail(dataformail);
-				}
-			}
-			url = await register(params, registrationData, supabase, State['Règlement en cours']);
-		} else {
-			if (partnaire_email) {
-				url = await register(params, registrationData, supabase, State['Règlement en cours']);
-			}
+		if (registrationCount >= event?.total_limit) {
 			url = await register(params, registrationData, supabase, State.Attente);
-		}
-		if (url) {
-			redirect(302, url);
 		} else {
-			return fail(400, {
-				error: 'Erreur'
-			});
+			const check_role = await checkRole(params.slug, role, level, supabase);
+
+			if (check_role) {
+				if (partnaire_email) {
+					const { data: partenaire, error: partenaireError } = await supabase
+						.from('dancers')
+						.select()
+						.eq('event', params.slug)
+						.eq('email', partnaire_email);
+					if (partenaireError) {
+						return fail(400, {
+							error: 'Erreur lors de la recherche du partenaire renseigné'
+						});
+					}
+					if (partenaire[0]) {
+						if (partenaire[0].state === State.Attente) {
+							//envoi auto mail pour payer
+							setDancerOrderWaiting(params, partnaire_email, supabase);
+						}
+					} else {
+						const dataformail = {
+							partnaire_email: partnaire_email,
+							firstname: firstname,
+							lastname: lastname,
+							event: params.slug
+						};
+						sendInvitationMail(dataformail);
+					}
+				}
+
+				url = await register(params, registrationData, supabase, State['Règlement en cours']);
+			} else {
+				if (partnaire_email) {
+					url = await register(params, registrationData, supabase, State['Règlement en cours']);
+				}
+			}
+
+			if (url) {
+				redirect(302, url);
+			} else {
+				return fail(400, {
+					error: 'Erreur'
+				});
+			}
 		}
 	}
 };
@@ -171,8 +176,6 @@ async function checkRole(event: string, role: Role, level: Level, supabase: Norm
 		.eq('role', role === Role.Leader ? Role.Suiveur : Role.Leader)
 		.eq('level', level);
 
-	console.log(selectedCount);
-	console.log(oppositeCount);
 	return selectedCount <= oppositeCount + 5;
 }
 
@@ -223,7 +226,7 @@ async function register(
 			}
 		}
 	}
-	const { error: insertError } = await supabase.from('dancers').insert({
+	await supabase.from('dancers').insert({
 		email: email,
 		state: state,
 		role: role,
@@ -257,9 +260,7 @@ async function register(
 			}
 		}
 	}
-	if (insertError) {
-		throw new Error("Erreur lors de l'enregistrement: " + insertError.message);
-	}
+
 	switch (state) {
 		case State['Règlement en cours']:
 			return (
