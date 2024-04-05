@@ -117,6 +117,8 @@
 
 <style lang="scss">
 	.event__container {
+		max-width: 700px;
+		margin: 0 auto;
 		img {
 			width: 100%;
 			height: 300px;
