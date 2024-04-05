@@ -41,16 +41,6 @@
 	<div class="container header__container">
 		<div class="header__info">
 			<a href="/" class="header__logo">Norma<img src="/assets/norma-logo.png" alt="logo" /></a>
-			{#if user}
-				<div class="btn__container">
-					<!-- <a href={`/admin`} class="btn nav__item">Dashboard</a> -->
-				</div>
-			{:else}
-				<div class="btn__container">
-					<a class="btn nav__item" href="/">Accueil</a>
-					<a class="btn nav__item" href="/contact">Contact</a>
-				</div>
-			{/if}
 		</div>
 		<div class="bottom__divider"></div>
 	</div>
@@ -72,7 +62,9 @@
 		display: flex;
 		align-items: center;
 		padding: 0 5rem 0;
-
+		@media screen and (max-width: 900px) {
+			padding: 0 2rem 0;
+		}
 		.container {
 			justify-content: flex-start;
 		}
@@ -87,6 +79,9 @@
 		a {
 			font-weight: bold;
 			transition: 0.3s ease-in-out;
+			@media screen and (max-width: 900px) {
+				font-size: 1.2rem;
+			}
 			&:hover {
 				opacity: 0.8;
 			}
@@ -98,9 +93,18 @@
 		width: 100%;
 	}
 
+	.admin__bar-left {
+		@media screen and (max-width: 900px) {
+			display: none;
+		}
+	}
+
 	.admin__bar-right {
 		justify-content: flex-end;
 		gap: 1rem;
+		@media screen and (max-width: 900px) {
+			justify-content: space-between;
+		}
 
 		button {
 			background: none;
@@ -110,6 +114,9 @@
 			cursor: pointer;
 			min-width: unset;
 			padding: 0;
+			@media screen and (max-width: 900px) {
+				font-size: 1.2rem;
+			}
 
 			&:hover {
 				opacity: 0.8;
@@ -120,6 +127,9 @@
 		display: flex;
 		align-items: center;
 		padding: 0.5rem 1.6rem !important;
+		@media screen and (max-width: 900px) {
+			padding: 0.5rem 0rem !important;
+		}
 	}
 	.header__info {
 		display: flex;
