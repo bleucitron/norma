@@ -67,16 +67,30 @@ export const actions = {
 			});
 		}
 		if (paymentData.tier.price === 0) {
-			redirect(302, '/events/' + params.slug + '/confirmation?email=' + email + '&orderId=Gratuit');
+			redirect(
+				302,
+				'/events/' +
+					params.slug +
+					'/confirmation?email=' +
+					encodeURIComponent(email) +
+					'&orderId=Gratuit'
+			);
 		}
 		const body = {
 			totalAmount: paymentData.tier.price,
 			initialAmount: paymentData.tier.price,
 			itemName: paymentData.tier.label,
-			backUrl: 'https://norma-azure.vercel.app/events/' + params.slug + '/commande?email=' + email,
+			backUrl:
+				'https://norma-azure.vercel.app/events/' +
+				params.slug +
+				'/commande?email=' +
+				encodeURIComponent(email),
 			errorUrl: 'https://norma-azure.vercel.app/events/' + params.slug + '/error',
 			returnUrl:
-				'https://norma-azure.vercel.app/events/' + params.slug + '/confirmation?email=' + email,
+				'https://norma-azure.vercel.app/events/' +
+				params.slug +
+				'/confirmation?email=' +
+				encodeURIComponent(email),
 			containsDonation: true,
 			terms: [],
 			payer: {
