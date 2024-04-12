@@ -26,7 +26,6 @@ interface PaymentFormData {
 		label: string;
 		price: number;
 	};
-	//payForPartner: boolean
 }
 
 function formDataToPayment(formData: FormData): PaymentFormData {
