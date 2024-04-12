@@ -44,6 +44,20 @@ h2 {
     font-family: $primary-family;
 }
 
+h3 {
+    font-size: 2rem;
+    line-height: calc(2rem * 1.4);
+    font-family: $primary-family;
+    font-weight: normal;
+}
+
+h4 {
+    font-size: 1.8rem;
+    line-height: calc(1.8rem * 1.4);
+    font-family: $primary-family;
+    font-weight: normal;
+}
+
 p,
 li,
 a,

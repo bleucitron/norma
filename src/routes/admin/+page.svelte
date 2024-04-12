@@ -38,7 +38,7 @@
 				<div class="card__content">
 					<h2>{event.title}</h2>
 					<p>{event.description}</p>
-					<div class="btn__container">
+					<div class="btn-container">
 						<a href="/admin/events/{event.formSlug}/users" class="btn">Voir les participants</a>
 						<a href="/admin/events/adduser/{event.formSlug}" class="btn">Ajouter un participant</a>
 						<a href="/admin/events/{event.formSlug}/details" class="btn">Détails</a>
@@ -70,7 +70,7 @@
 						<div class="card__content">
 							<h2>{event.title}</h2>
 							<p>{event.description}</p>
-							<div class="btn__container">
+							<div class="btn-container">
 								<a href="/archive/{event.formSlug}" class="btn">Voir</a>
 							</div>
 						</div>

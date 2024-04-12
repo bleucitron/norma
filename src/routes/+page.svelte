@@ -101,7 +101,7 @@
 								{/if}
 							</div>
 							<p>{event.description}</p>
-							<div class="btn__container">
+							<div class="btn-container">
 								<a href="/events/{event.formSlug}" class="btn">Découvrir</a>
 							</div>
 						</div>
@@ -134,7 +134,7 @@
 						<div class="card__content">
 							<h2>{event.title}</h2>
 							<p>{event.description}</p>
-							<div class="btn__container">
+							<div class="btn-container">
 								<a href="/archive/{event.formSlug}" class="btn">Voir</a>
 							</div>
 						</div>
