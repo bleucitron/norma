@@ -61,14 +61,17 @@ function formDataToRegistration(formData: FormData): RegistrationFormData {
 	if (partnaire_email && typeof partnaire_email !== 'string') {
 		throw new Error(" L'adresse email du partenaire devrait être une chaîne de caractère");
 	}
-
 	const payForPartner = formData.get('partner') || undefined;
+	if (payForPartner && typeof payForPartner !== 'string' && typeof payForPartner !== 'boolean') {
+		throw new Error('Le paiement pour le partenaire devrait être une chaîne de caractère');
+	}
 
 	return {
 		email,
 		level,
 		role,
 		partnaire_email,
+		//@ts-expect-error any any
 		payForPartner
 	};
 }
@@ -97,7 +100,7 @@ export const actions = {
 			});
 		}
 
-		//@ts-expect-error Supabase est mal typé
+		//@ts-expect-error any any Supabase est mal typé
 		const { count: registrationCount }: { count: number } = await supabase
 			.from('dancers')
 			.select('*', { count: 'exact', head: true })
@@ -111,10 +114,19 @@ export const actions = {
 			.eq('slug', params.slug)
 			.maybeSingle();
 
-		if (registrationCount >= event?.total_limit) {
+		//@ts-expect-error any any
+		if (event && registrationCount >= event.total_limit) {
 			url = await register(params, registrationData, supabase, State.Attente);
 		} else {
 			const check_role = await checkRole(params.slug, role, level, supabase);
+
+			const checkLevelLimit = await fetchDancersByLevel(level, params.slug, supabase);
+
+			//@ts-expect-error any any
+			if (checkLevelLimit.countLevel >= checkLevelLimit.levelLimit) {
+				url = await register(params, registrationData, supabase, State.Attente);
+				redirect(302, url);
+			}
 
 			if (check_role) {
 				if (partnaire_email) {
@@ -155,6 +167,33 @@ export const actions = {
 	}
 };
 
+async function fetchDancersByLevel(level: any, eventSlug: string, supabase: NormaDatabase) {
+	try {
+		const { error, count: countLevel } = await supabase
+			.from('dancers')
+			.select('*', { count: 'exact', head: true })
+			.eq('event', eventSlug)
+			.eq('level', level)
+			.or(`state.eq.${State.Inscrit},state.eq.${State['Règlement en cours']}`);
+
+		const { data: event } = await supabase
+			.from('event')
+			.select()
+			.eq('slug', eventSlug)
+			.maybeSingle();
+
+		if (error) {
+			console.error('Error fetching dancers:', error);
+			throw error;
+		}
+		const levelLimit = event?.level_limit;
+		return { countLevel, levelLimit };
+	} catch (error) {
+		console.error('Error in fetchDancersByLevel:', error);
+		throw error;
+	}
+}
+
 async function checkRole(event: string, role: Role, level: Level, supabase: NormaDatabase) {
 	//@ts-expect-error Supabase est mal typé
 	const { data: selectedCount }: { data: number } = await supabase
@@ -172,7 +211,11 @@ async function checkRole(event: string, role: Role, level: Level, supabase: Norm
 		.eq('role', role === Role.Leader ? Role.Suiveur : Role.Leader)
 		.eq('level', level);
 
-	return selectedCount <= oppositeCount + 5;
+	const { data: eventInfo } = await supabase.from('event').select().eq('slug', event).maybeSingle();
+
+	const limit = eventInfo?.level_gap ? eventInfo.level_gap : 5;
+
+	return selectedCount <= oppositeCount + limit;
 }
 
 async function register(
@@ -277,7 +320,7 @@ async function register(
 	}
 }
 
-async function sendInvitationMail(partenaire, email) {
+async function sendInvitationMail(partenaire: any, email: any) {
 	const eventData = await fetch(
 		'https://api.helloasso.com/v5/organizations/norma-ecv/forms/event/' +
 			partenaire.envent +
@@ -327,8 +370,9 @@ async function setDancerOrderWaiting(
 		.eq('email', partnaire_email)
 		.eq('event', params.slug)
 		.select();
-	// à tester
+	//@ts-expect-error any
 	if (userSendMail && userSendMail.id) {
+		//@ts-expect-error any
 		await sendEmail(userSendMail.id);
 	}
 }

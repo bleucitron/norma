@@ -52,29 +52,26 @@ export type Database = {
 				Row: {
 					created_at: string;
 					id: number;
+					level_gap: number | null;
 					level_limit: number | null;
-					level_register: number | null;
 					slug: string | null;
 					total_limit: number | null;
-					waiting_limit: number | null;
 				};
 				Insert: {
 					created_at?: string;
 					id?: number;
+					level_gap?: number | null;
 					level_limit?: number | null;
-					level_register?: number | null;
 					slug?: string | null;
 					total_limit?: number | null;
-					waiting_limit?: number | null;
 				};
 				Update: {
 					created_at?: string;
 					id?: number;
+					level_gap?: number | null;
 					level_limit?: number | null;
-					level_register?: number | null;
 					slug?: string | null;
 					total_limit?: number | null;
-					waiting_limit?: number | null;
 				};
 				Relationships: [];
 			};

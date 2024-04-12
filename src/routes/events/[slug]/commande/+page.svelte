@@ -2,8 +2,6 @@
 	import Card from '../commande/component/card.svelte';
 	export let data;
 
-	console.log(data);
-
 	const event = data.event;
 </script>
 
