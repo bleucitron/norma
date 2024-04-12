@@ -5,6 +5,7 @@ import { assoSlug, helloassoBaseUrl } from '$lib';
 import emailjs from '@emailjs/nodejs';
 import { PUBLIC_EMAILJS_KEY } from '$env/static/public';
 import { PRIVATE_EMAILJS_KEY } from '$env/static/private';
+import { helloassoBaseUrl, assoSlug } from '$lib/index';
 
 export async function sendEmail(userId) {
 	const { data: user, error } = await supabase
@@ -36,7 +37,7 @@ export async function sendEmail(userId) {
 		firstname: user.firstname,
 		lastname: user.lastname,
 		eventName: event.title,
-		unsubscribeLink: ''
+		lien: helloassoBaseUrl + assoSlug + '/events/' + user.event + '/commande?email=' + user.email
 	};
 	emailjs
 		.send(serviceId, templateId, templateParams, {
