@@ -23,7 +23,6 @@ export async function load({ params, fetch, url }) {
 	};
 }
 interface PaymentFormData {
-	email: string;
 	tier: {
 		id: number;
 		label: string;
@@ -33,13 +32,6 @@ interface PaymentFormData {
 }
 
 function formDataToPayment(formData: FormData): PaymentFormData {
-	const email = formData.get('email');
-	if (!email) {
-		throw new Error('Adresse email manquante');
-	}
-	if (typeof email !== 'string') {
-		throw new Error('Adresse email devrait être une chaîne de caractère');
-	}
 	const tiers = formData.get('tiers');
 	if (!tiers) {
 		throw new Error('Billet non choisi');
@@ -54,14 +46,14 @@ function formDataToPayment(formData: FormData): PaymentFormData {
 		throw new Error('Erreur sur le choix du paiment pour partenaire');
 	}*/
 	return {
-		email,
 		tier
 		//payForPartner
 	};
 }
 
 export const actions = {
-	default: async ({ params, request }) => {
+	default: async ({ params, request, url }) => {
+		const email = url.searchParams.get('email') ? decodeURI(url.searchParams.get('email')) : '';
 		/*const event = await fetch(
 			helloassoBaseUrl + assoSlug + '/forms/event/' + params.slug + '/public',
 			{
@@ -86,7 +78,7 @@ export const actions = {
 				.from('dancers')
 				.update({ order_id: 'Gratuit', state: State.Inscrit })
 				.eq('event', params.slug)
-				.eq('email', paymentData.email)
+				.eq('email', email)
 				.select();
 			if (error) {
 				console.log(error);

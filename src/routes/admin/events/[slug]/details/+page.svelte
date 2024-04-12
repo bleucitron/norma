@@ -169,7 +169,7 @@
 				</div>
 				<p>Type de l'événement : {event.activityType}</p>
 				<p>{event.description}</p>
-				<div class="btn__container">
+				<div class="btn-container">
 					<a
 						href="https://admin.helloasso.com/{event.organizationSlug}/evenements/{event.formSlug}/edition/1"
 						class="btn"

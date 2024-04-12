@@ -93,7 +93,7 @@
         }
     }
 
-    .btn__container {
+    .btn-container {
         margin-top: auto;
         flex-direction: column;
         .btn {
@@ -105,45 +105,6 @@
                 }
             }
         }
-    }
-}
-
-
-.ticket-container {
-    width: 100%;
-    border: 0px;
-
-    .ticket-card-wrapper {
-        display: flex;
-        width: 100%;
-        gap: 3rem;
-        justify-content: space-between;
-    }
-
-    .card-price {
-        padding: 1rem;
-        color: var(--color-black);
-        border-radius: 0.5rem;
-        min-height: 250px;
-        height: auto;
-        max-width: 200px;
-        opacity: 0.8;
-        cursor: pointer;
-        border: 1px solid transparent;
-        background-color: var(--color-yellow);
-
-        input[type="radio"] {
-            display: none;
-        }
-    }
-
-    .card-price.active {
-        opacity: 1;
-        border: 1px solid $black;
-    }
-
-    p {
-        margin-bottom: 1.6rem;
     }
 }
 
