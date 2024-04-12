@@ -110,6 +110,7 @@ export const actions = {
 
 		if (registrationCount >= event?.total_limit) {
 			url = await register(params, registrationData, supabase, State.Attente);
+			redirect(302, url);
 		} else {
 			const check_role = await checkRole(params.slug, role, level, supabase);
 
