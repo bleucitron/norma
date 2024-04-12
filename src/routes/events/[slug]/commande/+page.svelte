@@ -1,7 +1,7 @@
 <script lang="ts">
 	import Card from '../commande/component/card.svelte';
 	export let data;
-
+  
 	const event = data.event;
 </script>
 
