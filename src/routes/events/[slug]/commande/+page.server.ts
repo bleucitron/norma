@@ -49,8 +49,10 @@ function formDataToPayment(formData: FormData): PaymentFormData {
 }
 
 export const actions = {
-	default: async ({ params, request }) => {
+	default: async ({ params, request, url }) => {
 		const formData = await request.formData();
+		console.log(url.searchParams.get('email'));
+		const email = url.searchParams.get('email') ? decodeURI(url.searchParams.get('email')) : '';
 
 		let paymentData;
 		try {
