@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
+	import Marquee from '$lib/components/Marquee.svelte';
 	export let data;
 	let todayDate = new Date();
 	let archivedEvents: Array<any> = [];
@@ -111,6 +112,10 @@
 		</li>
 	{/each}
 </ul>
+
+<div class="separator"></div>
+
+<Marquee />
 
 <div class="separator"></div>
 
