@@ -5,6 +5,7 @@ import type { SupabaseClient } from '@supabase/supabase-js';
 import emailjs from '@emailjs/nodejs';
 import { PUBLIC_EMAILJS_KEY2 } from '$env/static/public';
 import { PRIVATE_EMAILJS_KEY2 } from '$env/static/private';
+import { sendEmail } from '$lib/mailfunction';
 
 type Dancer = Database['public']['Tables']['dancers']['Row'];
 type NormaDatabase = SupabaseClient<Database>;
@@ -320,13 +321,15 @@ async function setDancerOrderWaiting(
 	partnaire_email: string,
 	supabase: NormaDatabase
 ) {
-	const { error } = await supabase
+	const { data: userSendMail } = await supabase
 		.from('dancers')
 		.update({ state: State['Règlement en cours'] })
 		.eq('email', partnaire_email)
-		.eq('event', params.slug);
-	if (!error) {
-		throw new Error('TODO : send mail auto pour payer');
+		.eq('event', params.slug)
+		.select();
+	// à tester
+	if (userSendMail && userSendMail.id) {
+		await sendEmail(userSendMail.id);
 	}
 }
 
