@@ -103,6 +103,7 @@ export const actions = {
 				]
 			}
 		};
+		console.log(body);
 		const resForRedirect = await fetch(helloassoBaseUrl + assoSlug + '/checkout-intents', {
 			method: 'POST',
 			headers: {
