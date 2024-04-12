@@ -84,7 +84,7 @@
         &:focus {
             transition: 0.3s ease-in-out;
             outline: none;
-      }
+        }
     }
 
     button {
@@ -144,7 +144,6 @@
             position: absolute;
             top: 30%;
             right: 1rem;
-            z-index: 10;
             font-size: 1.5rem;
         }
     }
