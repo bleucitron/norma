@@ -4,9 +4,10 @@
 
 	export let form;
 
-	let partnerEmail: string = '';
-	let email: string = '';
-	let errorMessage: string = '';
+	$: email = '';
+	$: partnerEmail = '';
+	$: errorMessage = '';
+	$: errorSameEmail = '';
 
 	if (form?.error) {
 		toast.push(form?.error, {
@@ -56,10 +57,14 @@
 	$: partnerRole = partnerRoleMapping[userRole];
 	$: partnerLevel = userLevel;
 
-	$: if (email && partnerEmail && email === partnerEmail) {
-		errorMessage = "L'adresse email ne peut pas être identique à celle du partenaire.";
-	} else {
-		errorMessage = '';
+	$: console.log('email', email, 'partner', partnerEmail);
+
+	$: {
+		if (email && partnerEmail && email.trim() === partnerEmail.trim()) {
+			errorSameEmail = "L'adresse email ne peut pas être identique à celle du partenaire.";
+		} else {
+			errorSameEmail = '';
+		}
 	}
 
 	$: if (checked && !partnerEmail) {
@@ -125,6 +130,11 @@
 				class="form-control"
 			/>
 		</div>
+		{#if errorSameEmail}
+			<div class="error-message">
+				{errorSameEmail}
+			</div>
+		{/if}
 		{#if errorMessage}
 			<div class="error-message">
 				{errorMessage}
