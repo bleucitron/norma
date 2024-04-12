@@ -2,7 +2,9 @@ import { fail, redirect } from '@sveltejs/kit';
 import { Level, Role, State } from '$lib/types/norma';
 import type { Database } from '../../../../types/supabase';
 import type { SupabaseClient } from '@supabase/supabase-js';
+import { access_token } from '$lib/server/accessToken';
 import emailjs from '@emailjs/nodejs';
+import { get } from 'svelte/store';
 import { PUBLIC_EMAILJS_KEY2 } from '$env/static/public';
 import { PRIVATE_EMAILJS_KEY2 } from '$env/static/private';
 import { sendEmail } from '$lib/mailfunction';
@@ -111,7 +113,6 @@ export const actions = {
 
 		if (registrationCount >= event?.total_limit) {
 			url = await register(params, registrationData, supabase, State.Attente);
-			redirect(302, url);
 		} else {
 			const check_role = await checkRole(params.slug, role, level, supabase);
 
@@ -133,13 +134,7 @@ export const actions = {
 							setDancerOrderWaiting(params, partnaire_email, supabase);
 						}
 					} else {
-						const dataformail = {
-							partnaire_email: partnaire_email,
-							firstname: firstname,
-							lastname: lastname,
-							event: params.slug
-						};
-						sendInvitationMail(dataformail);
+						sendInvitationMail(partenaire, email);
 					}
 				}
 
@@ -149,14 +144,13 @@ export const actions = {
 					url = await register(params, registrationData, supabase, State['Règlement en cours']);
 				}
 			}
-
-			if (url) {
-				redirect(302, url);
-			} else {
-				return fail(400, {
-					error: 'Erreur'
-				});
-			}
+		}
+		if (url) {
+			redirect(302, url);
+		} else {
+			return fail(400, {
+				error: 'Erreur'
+			});
 		}
 	}
 };
@@ -283,10 +277,10 @@ async function register(
 	}
 }
 
-async function sendInvitationMail(data) {
+async function sendInvitationMail(partenaire, email) {
 	const eventData = await fetch(
 		'https://api.helloasso.com/v5/organizations/norma-ecv/forms/event/' +
-			data.enventSlug +
+			partenaire.envent +
 			'/public',
 		{
 			method: 'GET',
@@ -296,11 +290,16 @@ async function sendInvitationMail(data) {
 		}
 	).then((response) => response.json());
 	const templateParams = {
-		email: data.email,
-		firstname: data.firstname,
-		lastname: data.lastname,
+		email: partenaire.email,
+		firstname: partenaire.firstname,
+		lastname: partenaire.lastname,
 		eventName: eventData.title,
-		unsubscribeLink: ''
+		partner: email,
+		lien:
+			'https://norma-azure.vercel.app/events/' +
+			partenaire.event +
+			'/commande?email=' +
+			partenaire.email
 	};
 	emailjs
 		.send('service_wcy3klk', 'template_p7qk0h3', templateParams, {
