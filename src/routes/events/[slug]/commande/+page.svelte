@@ -1,16 +1,14 @@
 <script lang="ts">
 	import Card from '../commande/component/card.svelte';
 	export let data;
-
-	console.log(data);
-
+  
 	const event = data.event;
 </script>
 
 <section id="commande">
 	<div class="header-container">
-		<h1>Suite de votre réservation</h1>
-		<h2>Veuillez choisir le billet souhaité</h2>
+		<h1>Suite de votre réservation :</h1>
+		<h2>(Veuillez choisir le billet souhaité)</h2>
 	</div>
 
 	<div class="infos">

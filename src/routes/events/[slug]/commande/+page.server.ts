@@ -26,7 +26,6 @@ interface PaymentFormData {
 		label: string;
 		price: number;
 	};
-	//payForPartner: boolean
 }
 
 function formDataToPayment(formData: FormData): PaymentFormData {
@@ -50,17 +49,7 @@ function formDataToPayment(formData: FormData): PaymentFormData {
 }
 
 export const actions = {
-	default: async ({ params, request, url }) => {
-		const email = url.searchParams.get('email') ? decodeURI(url.searchParams.get('email')) : '';
-		/*const event = await fetch(
-			helloassoBaseUrl + assoSlug + '/forms/event/' + params.slug + '/public',
-			{
-				method: 'GET',
-				headers: {
-					authorization: 'Bearer ' + get(access_token)
-				}
-			}
-		).then((resp) => resp.json());*/
+	default: async ({ params, request }) => {
 		const formData = await request.formData();
 
 		let paymentData;
@@ -72,32 +61,22 @@ export const actions = {
 			});
 		}
 		if (paymentData.tier.price === 0) {
-			redirect(
-				302,
-				'/events/' + params.slug + '/confirmation?email=' + paymentData.email + '&orderId=Gratuit'
-			);
+			redirect(302, '/events/' + params.slug + '/confirmation?email=' + email + '&orderId=Gratuit');
 		}
 		const body = {
 			totalAmount: paymentData.tier.price,
 			initialAmount: paymentData.tier.price,
 			itemName: paymentData.tier.label,
-			backUrl:
-				'https://norma-azure.vercel.app/events/' +
-				params.slug +
-				'/commande?email=' +
-				paymentData.email,
+			backUrl: 'https://norma-azure.vercel.app/events/' + params.slug + '/commande?email=' + email,
 			errorUrl: 'https://norma-azure.vercel.app/events/' + params.slug + '/error',
 			returnUrl:
-				'https://norma-azure.vercel.app/events/' +
-				params.slug +
-				'/confirmation?email=' +
-				paymentData.email,
+				'https://norma-azure.vercel.app/events/' + params.slug + '/confirmation?email=' + email,
 			containsDonation: true,
 			terms: [],
 			payer: {
 				firstName: '',
 				lastName: '',
-				email: paymentData.email,
+				email: email,
 				address: '',
 				city: '',
 				zipCode: '',
@@ -113,7 +92,6 @@ export const actions = {
 				]
 			}
 		};
-		console.log(body);
 		const resForRedirect = await fetch(helloassoBaseUrl + assoSlug + '/checkout-intents', {
 			method: 'POST',
 			headers: {
