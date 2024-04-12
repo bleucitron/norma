@@ -6,8 +6,8 @@
 
 <section id="commande">
 	<div class="header-container">
-		<h1>Suite de votre réservation</h1>
-		<h2>Veuillez choisir le billet souhaité</h2>
+		<h1>Suite de votre réservation :</h1>
+		<h2>(Veuillez choisir le billet souhaité)</h2>
 	</div>
 
 	<div class="infos">
