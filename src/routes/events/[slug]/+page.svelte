@@ -3,7 +3,7 @@
 	const event = data.event;
 </script>
 
-<section class="event__container">
+<section class="event__container event-details">
 	<div class="wrapper">
 		<div class="card__img">
 			<div>
