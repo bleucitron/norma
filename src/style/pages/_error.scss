@@ -3,13 +3,15 @@
     align-items: center;
     justify-content: center;
     overflow: hidden;
+    height: calc(100vh - 24rem) !important;
+
     .hero__content {
         height: 100%;
     }
 
     .error {
         padding: 0;
-        height: 100vh;
+        height: calc(100vh - 24rem);
         width: 100vw;
         overflow: hidden;
         overscroll-behavior: none;
