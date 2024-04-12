@@ -57,8 +57,6 @@
 	$: partnerRole = partnerRoleMapping[userRole];
 	$: partnerLevel = userLevel;
 
-	$: console.log('email', email, 'partner', partnerEmail);
-
 	$: {
 		if (email && partnerEmail && email.trim() === partnerEmail.trim()) {
 			errorSameEmail = "L'adresse email ne peut pas être identique à celle du partenaire.";

@@ -50,17 +50,7 @@ function formDataToPayment(formData: FormData): PaymentFormData {
 }
 
 export const actions = {
-	default: async ({ params, request, url }) => {
-		const email = url.searchParams.get('email') ? decodeURI(url.searchParams.get('email')) : '';
-		/*const event = await fetch(
-			helloassoBaseUrl + assoSlug + '/forms/event/' + params.slug + '/public',
-			{
-				method: 'GET',
-				headers: {
-					authorization: 'Bearer ' + get(access_token)
-				}
-			}
-		).then((resp) => resp.json());*/
+	default: async ({ params, request }) => {
 		const formData = await request.formData();
 
 		let paymentData;

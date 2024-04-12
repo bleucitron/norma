@@ -52,7 +52,6 @@ export async function load({ params, fetch, url }) {
 				eventName: event.title,
 				unsubscribeLink: ''
 			};
-			console.log(templateParams);
 			emailjs
 				.send('service_wkav6z9', 'template_2a0ie3r', templateParams, {
 					publicKey: PUBLIC_EMAILJS_KEY,
