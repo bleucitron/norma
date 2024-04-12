@@ -8,8 +8,12 @@ import { PUBLIC_EMAILJS_KEY } from '$env/static/public';
 import { PRIVATE_EMAILJS_KEY } from '$env/static/private';
 import { redirect } from '@sveltejs/kit';
 export async function load({ params, fetch, url }) {
-	const email = url.searchParams.get('email') ? decodeURI(url.searchParams.get('email')) : '';
-	const orderId = url.searchParams.get('orderId') ? decodeURI(url.searchParams.get('orderId')) : '';
+	const email = url.searchParams.get('email')
+		? decodeURIComponent(url.searchParams.get('email'))
+		: '';
+	const orderId = url.searchParams.get('orderId')
+		? decodeURIComponent(url.searchParams.get('orderId'))
+		: '';
 	const event = await fetch(
 		helloassoBaseUrl + assoSlug + '/forms/event/' + params.slug + '/public',
 		{

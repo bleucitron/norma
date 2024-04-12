@@ -3,7 +3,9 @@ import { access_token } from '$lib/server/accessToken';
 import { get } from 'svelte/store';
 import { fail, redirect } from '@sveltejs/kit';
 export async function load({ params, fetch, url }) {
-	const email = url.searchParams.get('email') ? decodeURI(url.searchParams.get('email')) : '';
+	const email = url.searchParams.get('email')
+		? decodeURIComponent(url.searchParams.get('email'))
+		: '';
 	const payForPartner = url.searchParams.get('partner');
 	const event = await fetch(
 		helloassoBaseUrl + assoSlug + '/forms/event/' + params.slug + '/public',
@@ -52,7 +54,9 @@ export const actions = {
 	default: async ({ params, request, url }) => {
 		const formData = await request.formData();
 		console.log(url.searchParams.get('email'));
-		const email = url.searchParams.get('email') ? decodeURI(url.searchParams.get('email')) : '';
+		const email = url.searchParams.get('email')
+			? decodeURIComponent(url.searchParams.get('email'))
+			: '';
 
 		let paymentData;
 		try {
