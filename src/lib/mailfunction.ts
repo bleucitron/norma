@@ -36,7 +36,7 @@ export async function sendEmail(userId) {
 		firstname: user.firstname,
 		lastname: user.lastname,
 		eventName: event.title,
-		lien: helloassoBaseUrl + assoSlug + '/events/' + user.event + '/commande?email=' + user.email
+		lien: 'https://norma-azure.vercel.app/events/' + user.event + '/commande?email=' + user.email
 	};
 	emailjs
 		.send(serviceId, templateId, templateParams, {
