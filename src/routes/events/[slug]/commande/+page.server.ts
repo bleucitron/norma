@@ -1,7 +1,5 @@
 import { assoSlug, helloassoBaseUrl } from '$lib';
 import { access_token } from '$lib/server/accessToken';
-import { supabase } from '$lib/supabase';
-import { State } from '$lib/types/norma';
 import { get } from 'svelte/store';
 import { fail, redirect } from '@sveltejs/kit';
 export async function load({ params, fetch, url }) {
@@ -82,17 +80,10 @@ export const actions = {
 			});
 		}
 		if (paymentData.tier.price === 0) {
-			const { error } = await supabase
-				.from('dancers')
-				.update({ order_id: 'Gratuit', state: State.Inscrit })
-				.eq('event', params.slug)
-				.eq('email', paymentData.email)
-				.select();
-			if (error) {
-				console.log(error);
-			} else {
-				redirect(302, '/events/' + params.slug + '/confirmation?email=' + paymentData.email);
-			}
+			redirect(
+				302,
+				'/events/' + params.slug + '/confirmation?email=' + paymentData.email + '&orderId=Gratuit'
+			);
 		}
 		const body = {
 			totalAmount: paymentData.tier.price,
@@ -145,16 +136,3 @@ export const actions = {
 		redirect(302, resForRedirect.redirectUrl);
 	}
 };
-
-/*const handleDancerUpdate = (payload) => {
-	console.log('Change received!', payload)
-	if (true) {
-
-	}
-}
-
-supabase
-	.channel('dancers')
-	.on('postgres_changes', { event: 'UPDATE', schema: 'public', table: 'dancers' }, handleDancerUpdate)
-	.subscribe()
-	*/
