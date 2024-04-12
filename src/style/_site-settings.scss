@@ -1,14 +1,9 @@
 // = Colors
 // -----------------------------
-$black: #000;
+$black: #1D1D1F;
 $white: #F8F8F8;
-
-:root {
-    --color-black: #000;
-    --color--white: #FFF;
-    --color-white-soft: #F8F8F8;
-    --color-yellow: #E3F16A;
-}
+$white-soft: #FFF;
+$yellow: #E3F16A;
 
 main {
     padding: 12rem 5rem;
@@ -45,7 +40,7 @@ $primary-family: 'Open Sans Regular', sans-serif;
 
 // = Buttons
 // -----------------------------
-.btn__container {
+.btn-container {
     margin-top: 1rem;
     display: flex;
     gap: 1rem;

@@ -9,7 +9,7 @@ header {
         height: 100%;
     }
 
-    .btn__container {
+    .btn-container {
         margin-top: 0;
         display: flex;
         gap: 2rem;
@@ -51,9 +51,9 @@ header {
 }
 
 .activLink {
-    background-color: var(--color-yellow);
+    background-color: $yellow;
     border-radius: 2rem;
-    color: var(--color-black) !important;
+    color: var($black) !important;
     &::after {
         opacity: 1;
         transform: translateX(0rem);
@@ -62,9 +62,11 @@ header {
 
 .header-container {
     display: flex;
-    align-items: center;
+    align-items: flex-start;
     justify-content: space-between;
+    flex-direction: column;
     margin-bottom: 34px;
     text-decoration: underline;
     text-underline-offset: 1rem;
+    gap: 2rem;
 }

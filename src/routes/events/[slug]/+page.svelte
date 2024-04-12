@@ -23,7 +23,7 @@
 						{/each}
 					</ul>
 				</div>
-				<div class="btn__container">
+				<div class="btn-container">
 					<a class="btn" href="/events/{event.formSlug}/register">S'inscrire</a>
 				</div>
 			</div>
