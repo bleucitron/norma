@@ -1,4 +1,5 @@
 import { access_token } from '$lib/server/accessToken';
+import { assoSlug, helloassoBaseUrl } from '$lib';
 import { get } from 'svelte/store';
 import type { Database } from '../../types/supabase';
 import type { SupabaseClient } from '@supabase/supabase-js';
@@ -8,7 +9,7 @@ type NormaDatabase = SupabaseClient<Database>;
 export async function load({ fetch, locals: { supabase } }) {
 	try {
 		const { data: events, error } = await fetch(
-			`https://api.helloasso.com/v5/organizations/norma-ecv/forms?pageIndex=1&pageSize=20&formTypes=event`,
+			helloassoBaseUrl + assoSlug + '/forms?pageIndex=1&pageSize=20&formTypes=event',
 			{
 				method: 'GET',
 				headers: {

@@ -1,4 +1,5 @@
 import { fail, redirect } from '@sveltejs/kit';
+import { assoSlug, helloassoBaseUrl } from '$lib';
 import { Level, Role, State } from '$lib/types/norma';
 import type { Database } from '../../../../types/supabase';
 import type { SupabaseClient } from '@supabase/supabase-js';
@@ -321,9 +322,7 @@ async function register(
 
 async function sendInvitationMail(partenaire: any, email: any) {
 	const eventData = await fetch(
-		'https://api.helloasso.com/v5/organizations/norma-ecv/forms/event/' +
-			partenaire.envent +
-			'/public',
+		helloassoBaseUrl + assoSlug + '/forms/event/' + partenaire.envent + '/public',
 		{
 			method: 'GET',
 			headers: {
