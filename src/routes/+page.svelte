@@ -1,9 +1,8 @@
 <script lang="ts">
-	import { onMount } from 'svelte';
 	export let data;
 	let todayDate = new Date();
 	let archivedEvents: Array<any> = [];
-	let events: any;
+	let events;
 
 	let eventBySlug = data;
 
@@ -18,16 +17,6 @@
 	} else {
 		console.error('data.events is not an array');
 	}
-
-	onMount(() => {
-		const links = document.querySelectorAll('.admin__link');
-		links.forEach((link) => {
-			link.addEventListener('click', () => {
-				links.forEach((link) => link.classList.remove('activLink'));
-				link.classList.add('activLink');
-			});
-		});
-	});
 
 	events.forEach((event: { formSlug: any; tiers: any; place: any }) => {
 		const eventDetail = eventBySlug.eventsDetail.find(

@@ -3,7 +3,7 @@
 	import { invalidate, goto } from '$app/navigation';
 	import { toast } from '@zerodevx/svelte-toast';
 
-	export let user: any;
+	export let user;
 
 	const logout = async () => {
 		await $page.data.supabase.auth.signOut();
