@@ -1,4 +1,5 @@
 import { access_token } from '$lib/server/accessToken';
+import { assoSlug, helloassoBaseUrl } from '$lib';
 import { get } from 'svelte/store';
 
 export async function load({ params, fetch, locals }) {
@@ -6,29 +7,23 @@ export async function load({ params, fetch, locals }) {
 		const slug = params.slug;
 
 		const [events, event, orders] = await Promise.all([
-			fetch(
-				'https://api.helloasso.com/v5/organizations/norma-ecv/forms?pageIndex=1&pageSize=20&formTypes=event',
-				{
-					method: 'GET',
-					headers: {
-						authorization: 'Bearer ' + get(access_token)
-					}
+			fetch(helloassoBaseUrl + assoSlug + '/forms?pageIndex=1&pageSize=20&formTypes=event', {
+				method: 'GET',
+				headers: {
+					authorization: 'Bearer ' + get(access_token)
 				}
-			)
+			})
 				.then((response) => response.json())
 				.then((result) => result.data),
 
-			fetch(
-				'https://api.helloasso.com/v5/organizations/norma-ecv/forms/event/' + slug + '/public',
-				{
-					method: 'GET',
-					headers: {
-						authorization: 'Bearer ' + get(access_token)
-					}
+			fetch(helloassoBaseUrl + assoSlug + '/forms/event/' + slug + '/public', {
+				method: 'GET',
+				headers: {
+					authorization: 'Bearer ' + get(access_token)
 				}
-			).then((response) => response.json()),
+			}).then((response) => response.json()),
 
-			fetch('https://api.helloasso.com/v5/organizations/norma-ecv/items', {
+			fetch(helloassoBaseUrl + assoSlug + '/items', {
 				method: 'GET',
 				headers: {
 					authorization: 'Bearer ' + get(access_token)
