@@ -41,7 +41,9 @@ function formDataToPayment(formData: FormData, url): PaymentFormData {
 	}
 	const tier = JSON.parse(tiers);
 
+
 	const payForPartner = url.searchParams.get('partner');
+
 	return {
 		tier,
 		payForPartner
