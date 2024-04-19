@@ -31,7 +31,7 @@ interface PaymentFormData {
 	payForPartner: any;
 }
 
-function formDataToPayment(formData: FormData): PaymentFormData {
+function formDataToPayment(formData: FormData, url): PaymentFormData {
 	const tiers = formData.get('tiers');
 	if (!tiers) {
 		throw new Error('Billet non choisi');
@@ -41,7 +41,7 @@ function formDataToPayment(formData: FormData): PaymentFormData {
 	}
 	const tier = JSON.parse(tiers);
 
-	const payForPartner = formData.get('partner');
+	const payForPartner = url.searchParams.get('partner');
 	return {
 		tier,
 		payForPartner
@@ -58,7 +58,7 @@ export const actions = {
 
 		let paymentData;
 		try {
-			paymentData = formDataToPayment(formData);
+			paymentData = formDataToPayment(formData, url);
 		} catch (error) {
 			return fail(400, {
 				error
