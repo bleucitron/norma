@@ -1,12 +1,10 @@
 <script lang="ts">
 	import { Role, State, Level } from '$lib/types/norma.js';
-	import { onMount } from 'svelte';
 
 	export let data;
 	$: event = data.event;
 	$: orders = data.orders;
 	let dancers = data.dancers;
-	let isPronosticVisible = false;
 
 	$: event.totalInscrit = dancers.filter(
 		(dancer) => dancer.state === State.Inscrit && dancer.event === event.formSlug
@@ -30,14 +28,6 @@
 
 	$: event.typeOfTicketByEvent = event.typeOfTicketByEvent.filter((value, index, self) => {
 		return self.indexOf(value) === index;
-	});
-
-	onMount(() => {
-		const toggleButton = document.getElementById('switch');
-		toggleButton?.addEventListener('click', () => {
-			toggleButton.classList.toggle('active');
-			isPronosticVisible = !isPronosticVisible;
-		});
 	});
 </script>
 
@@ -66,9 +56,6 @@
 							<h3>Statistiques globales</h3>
 							<div class="stat">
 								<p>
-									<span>{event.totalTicket.length}</span>tickets vendus
-								</p>
-								<p>
 									<span>{event.totalInscrit.length}</span> danseurs inscrits
 								</p>
 								<p>
@@ -92,13 +79,9 @@
 						<div class="stat-wrapper">
 							<div>
 								<h3>Répartition des inscrits :</h3>
-								<div class="wrapper__switch">
-									<span>réels</span>
-									<div id="switch" class="">
-										<div id="toggle"></div>
-									</div>
-									<span>Estimé(e)s</span>
-								</div>
+								<p class="preview">
+									Prévisions (inscrits + en attente de règlement) : <span id="circle"></span>
+								</p>
 							</div>
 							<ul>
 								<!-- Réel -->
@@ -113,27 +96,24 @@
 									</p>
 								</li>
 								<!-- Prévision -->
-								{#if isPronosticVisible}
-									<li class="pronostic">
-										<span>Débutant</span>
-										<p>
-											Leader : {event.Débutant.filter((dancer) => dancer.role === Role.Leader)
-												.length +
-												event.attente.filter(
-													(dancer) => dancer.level === Level.Débutant && dancer.role === Role.Leader
-												).length}
-										</p>
-										<p>
-											Suiveur : {event.Débutant.filter(
+								<li class="pronostic">
+									<span>Débutant</span>
+									<p>
+										Leader : {event.Débutant.filter((dancer) => dancer.role === Role.Leader)
+											.length +
+											event.reglement.filter(
+												(dancer) => dancer.level === Level.Débutant && dancer.role === Role.Leader
+											).length}
+									</p>
+									<p>
+										Suiveur : {event.Débutant.filter(
+											(dancer) => dancer.level === Level.Débutant && dancer.role === Role.Suiveur
+										).length +
+											event.reglement.filter(
 												(dancer) => dancer.level === Level.Débutant && dancer.role === Role.Suiveur
-											).length +
-												event.attente.filter(
-													(dancer) =>
-														dancer.level === Level.Débutant && dancer.role === Role.Suiveur
-												).length}
-										</p>
-									</li>
-								{/if}
+											).length}
+									</p>
+								</li>
 								<!-- Réel -->
 								<li>
 									<span>Confirmé</span>
@@ -146,27 +126,24 @@
 									</p>
 								</li>
 								<!-- Prévision -->
-								{#if isPronosticVisible}
-									<li class="pronostic">
-										<span>Confirmé</span>
-										<p>
-											Leader : {event.Confirmé.filter((dancer) => dancer.role === Role.Leader)
-												.length +
-												event.attente.filter(
-													(dancer) => dancer.level === Level.Confirmé && dancer.role === Role.Leader
-												).length}
-										</p>
-										<p>
-											Suiveur : {event.Confirmé.filter(
+								<li class="pronostic">
+									<span>Confirmé</span>
+									<p>
+										Leader : {event.Confirmé.filter((dancer) => dancer.role === Role.Leader)
+											.length +
+											event.reglement.filter(
+												(dancer) => dancer.level === Level.Confirmé && dancer.role === Role.Leader
+											).length}
+									</p>
+									<p>
+										Suiveur : {event.Confirmé.filter(
+											(dancer) => dancer.level === Level.Confirmé && dancer.role === Role.Suiveur
+										).length +
+											event.reglement.filter(
 												(dancer) => dancer.level === Level.Confirmé && dancer.role === Role.Suiveur
-											).length +
-												event.attente.filter(
-													(dancer) =>
-														dancer.level === Level.Confirmé && dancer.role === Role.Suiveur
-												).length}
-										</p>
-									</li>
-								{/if}
+											).length}
+									</p>
+								</li>
 								<!-- Réel -->
 								<li>
 									<span>Expert</span>
@@ -178,26 +155,23 @@
 									</p>
 								</li>
 								<!-- Prévision -->
-								{#if isPronosticVisible}
-									<li class="pronostic">
-										<span>Expert</span>
-										<p>
-											Leader : {event.Expert.filter((dancer) => dancer.role === Role.Leader)
-												.length +
-												event.attente.filter(
-													(dancer) => dancer.level === Level.Expert && dancer.role === Role.Leader
-												).length}
-										</p>
-										<p>
-											Suiveur : {event.Expert.filter(
+								<li class="pronostic">
+									<span>Expert</span>
+									<p>
+										Leader : {event.Expert.filter((dancer) => dancer.role === Role.Leader).length +
+											event.reglement.filter(
+												(dancer) => dancer.level === Level.Expert && dancer.role === Role.Leader
+											).length}
+									</p>
+									<p>
+										Suiveur : {event.Expert.filter(
+											(dancer) => dancer.level === Level.Expert && dancer.role === Role.Suiveur
+										).length +
+											event.reglement.filter(
 												(dancer) => dancer.level === Level.Expert && dancer.role === Role.Suiveur
-											).length +
-												event.attente.filter(
-													(dancer) => dancer.level === Level.Expert && dancer.role === Role.Suiveur
-												).length}
-										</p>
-									</li>
-								{/if}
+											).length}
+									</p>
+								</li>
 							</ul>
 						</div>
 					</div>
