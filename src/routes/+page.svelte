@@ -130,11 +130,11 @@
 				<div class="card__img">
 					<div class="event__item">
 						<div>
-							{#if event.logo}<img
-									src={event.logo.publicUrl}
-									alt={event.title}
-									class="event-img"
-								/>{/if}
+							{#if event.logo}
+								<img src={event.logo.publicUrl} alt={event.title} class="event-img" />
+							{:else}
+								<img src="/assets/img/event-placeholder.webp" alt={event.title} class="event-img" />
+							{/if}
 						</div>
 						<div class="card__content">
 							<h2>{event.title}</h2>

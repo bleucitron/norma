@@ -307,8 +307,7 @@ async function register(
 				params.slug +
 				'/commande?email=' +
 				encodeURIComponent(email) +
-				'&partner=' +
-				payForPartner
+				(payForPartner ? '&partner=' + payForPartner : '')
 			);
 		case State.Attente:
 			return '/events/' + params.slug + '/reservation';
