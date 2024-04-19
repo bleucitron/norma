@@ -238,9 +238,9 @@ async function register(
 		const state: State = alreadyExistUser.state;
 		switch (state) {
 			case State['Règlement en cours']:
-				return '/events/' + params.slug + '/commande?email=' + encodeURI(email);
+				return '/events/' + params.slug + '/commande?email=' + encodeURIComponent(email);
 			case State.Inscrit:
-				return '/events/' + params.slug + '/confirmation?email=' + encodeURI(email);
+				return '/events/' + params.slug + '/confirmation?email=' + encodeURIComponent(email);
 			case State['Attente']:
 				return '/events/' + params.slug + '/reservation';
 			default:
@@ -306,7 +306,7 @@ async function register(
 				'/events/' +
 				params.slug +
 				'/commande?email=' +
-				encodeURI(email) +
+				encodeURIComponent(email) +
 				'&partner=' +
 				payForPartner
 			);

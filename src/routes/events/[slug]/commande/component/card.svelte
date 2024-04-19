@@ -3,7 +3,7 @@
 </script>
 
 <div class="ticket">
-	<form action="commande?email={data.info.email}" method="post">
+	<form action="commande?email={encodeURIComponent(data.info.email)}" method="post">
 		<p>Ticket</p>
 		<div class="form-group"></div>
 		<input type="hidden" id={data.price.id} name="tiers" value={JSON.stringify(data.price)} />

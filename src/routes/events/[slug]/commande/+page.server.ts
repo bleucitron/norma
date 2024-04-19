@@ -3,7 +3,9 @@ import { access_token } from '$lib/server/accessToken';
 import { get } from 'svelte/store';
 import { fail, redirect } from '@sveltejs/kit';
 export async function load({ params, fetch, url }) {
-	const email = url.searchParams.get('email') ? decodeURI(url.searchParams.get('email')) : '';
+	const email = url.searchParams.get('email')
+		? decodeURIComponent(url.searchParams.get('email'))
+		: '';
 	const payForPartner = url.searchParams.get('partner');
 	const event = await fetch(
 		helloassoBaseUrl + assoSlug + '/forms/event/' + params.slug + '/public',
@@ -49,8 +51,12 @@ function formDataToPayment(formData: FormData): PaymentFormData {
 }
 
 export const actions = {
-	default: async ({ params, request }) => {
+	default: async ({ params, request, url }) => {
 		const formData = await request.formData();
+		console.log(url.searchParams.get('email'));
+		const email = url.searchParams.get('email')
+			? decodeURIComponent(url.searchParams.get('email'))
+			: '';
 
 		let paymentData;
 		try {
@@ -61,16 +67,30 @@ export const actions = {
 			});
 		}
 		if (paymentData.tier.price === 0) {
-			redirect(302, '/events/' + params.slug + '/confirmation?email=' + email + '&orderId=Gratuit');
+			redirect(
+				302,
+				'/events/' +
+					params.slug +
+					'/confirmation?email=' +
+					encodeURIComponent(email) +
+					'&orderId=Gratuit'
+			);
 		}
 		const body = {
 			totalAmount: paymentData.tier.price,
 			initialAmount: paymentData.tier.price,
 			itemName: paymentData.tier.label,
-			backUrl: 'https://norma-azure.vercel.app/events/' + params.slug + '/commande?email=' + email,
+			backUrl:
+				'https://norma-azure.vercel.app/events/' +
+				params.slug +
+				'/commande?email=' +
+				encodeURIComponent(email),
 			errorUrl: 'https://norma-azure.vercel.app/events/' + params.slug + '/error',
 			returnUrl:
-				'https://norma-azure.vercel.app/events/' + params.slug + '/confirmation?email=' + email,
+				'https://norma-azure.vercel.app/events/' +
+				params.slug +
+				'/confirmation?email=' +
+				encodeURIComponent(email),
 			containsDonation: true,
 			terms: [],
 			payer: {
