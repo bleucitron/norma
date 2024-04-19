@@ -23,23 +23,6 @@
 			subscription.unsubscribe();
 		};
 	});
-
-	onMount(() => {
-		const adminlinks = document.querySelectorAll('.admin__link');
-		const navLinks = document.querySelectorAll('.nav__item');
-		adminlinks.forEach((link) => {
-			link.addEventListener('click', () => {
-				adminlinks.forEach((link) => link.classList.remove('activLink'));
-				link.classList.add('activLink');
-			});
-		});
-		navLinks.forEach((link) => {
-			link.addEventListener('click', () => {
-				navLinks.forEach((link) => link.classList.remove('activLink'));
-				link.classList.add('activLink');
-			});
-		});
-	});
 </script>
 
 <Header {user} />
@@ -48,6 +31,3 @@
 <main class="container-column">
 	<slot />
 </main>
-
-<style lang="scss">
-</style>
