@@ -218,7 +218,9 @@
 			</div>
 		{/if}
 		<div>
-			<button class="btn" type="submit" disabled={!!errorMessage}>Poursuivre l'inscription</button>
+			<button class="btn" type="submit" disabled={!!errorMessage || !!errorSameEmail}
+				>Poursuivre l'inscription</button
+			>
 		</div>
 	</form>
 </div>
