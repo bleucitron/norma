@@ -130,27 +130,6 @@ export const actions = {
 			}
 
 			if (check_role) {
-				if (partnaire_email) {
-					const { data: partenaire, error: partenaireError } = await supabase
-						.from('dancers')
-						.select()
-						.eq('event', params.slug)
-						.eq('email', partnaire_email);
-					if (partenaireError) {
-						return fail(400, {
-							error: 'Erreur lors de la recherche du partenaire renseigné'
-						});
-					}
-					if (partenaire[0]) {
-						if (partenaire[0].state === State.Attente) {
-							//envoi auto mail pour payer
-							setDancerOrderWaiting(params, partnaire_email, supabase);
-						}
-					} else {
-						sendInvitationMail(partenaire, email);
-					}
-				}
-
 				url = await register(params, registrationData, supabase, State['Règlement en cours']);
 			} else {
 				if (partnaire_email) {
@@ -285,15 +264,20 @@ async function register(
 			if (updatePartnerError) {
 				throw new Error('Erreur lors de la mise à jour du partenaire');
 			}
+			setDancerOrderWaiting(params, partnaire_email, supabase);
 		} else {
 			const oppositeRole = role === Role.Leader ? Role.Suiveur : Role.Leader;
-			const { error: insertPartnerError } = await supabase.from('dancers').insert({
-				email: partnaire_email,
-				state: state,
-				role: oppositeRole,
-				level: level,
-				event: params.slug
-			});
+			const { data: partenaire, error: insertPartnerError } = await supabase
+				.from('dancers')
+				.insert({
+					email: partnaire_email,
+					state: state,
+					role: oppositeRole,
+					level: level,
+					event: params.slug
+				})
+				.select();
+			sendInvitationMail(partenaire[0], email);
 			dancerIdAttribution(email, partnaire_email, supabase, params);
 			if (insertPartnerError) {
 				throw new Error("Erreur lors de l'enregistrement avec un partenaire");
@@ -322,7 +306,7 @@ async function register(
 
 async function sendInvitationMail(partenaire: any, email: any) {
 	const eventData = await fetch(
-		helloassoBaseUrl + assoSlug + '/forms/event/' + partenaire.envent + '/public',
+		helloassoBaseUrl + assoSlug + '/forms/event/' + partenaire.event + '/public',
 		{
 			method: 'GET',
 			headers: {
