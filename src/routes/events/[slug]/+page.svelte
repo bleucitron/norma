@@ -19,7 +19,9 @@
 					<h2>Tickets disponibles :</h2>
 					<ul>
 						{#each event.tiers as price}
-							<li>{price.label} : {(price.price / 100).toFixed(2).replace('.', ',')} €</li>
+							<li class="event-info">
+								{price.label} : {(price.price / 100).toFixed(2).replace('.', ',')} €
+							</li>
 						{/each}
 					</ul>
 				</div>
@@ -30,3 +32,9 @@
 		</div>
 	</div>
 </section>
+
+<style scoped lang="scss">
+	.event-info {
+		font-size: 1.4rem;
+	}
+</style>
