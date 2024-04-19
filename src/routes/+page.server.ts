@@ -1,9 +1,9 @@
 import { access_token } from '$lib/server/accessToken';
 import { get } from 'svelte/store';
-
+import { assoSlug, helloassoBaseUrl } from '$lib';
 export async function load({ fetch }) {
 	const eventsResponse = await fetch(
-		'https://api.helloasso.com/v5/organizations/norma-ecv/forms?pageIndex=1&pageSize=20&formTypes=event',
+		helloassoBaseUrl + assoSlug + '/forms?pageIndex=1&pageSize=20&formTypes=event',
 		{
 			method: 'GET',
 			headers: {
@@ -18,7 +18,7 @@ export async function load({ fetch }) {
 	const eventDetailsPromises = eventsName.map(async (eventName: string) => {
 		try {
 			const response = await fetch(
-				`https://api.helloasso.com/v5/organizations/norma-ecv/forms/event/${eventName}/public`,
+				`${helloassoBaseUrl}${assoSlug}/forms/event/${eventName}/public`,
 				{
 					method: 'GET',
 					headers: {

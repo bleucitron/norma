@@ -1,5 +1,6 @@
 import { access_token } from '$lib/server/accessToken';
 import { get } from 'svelte/store';
+import { assoSlug, helloassoBaseUrl } from '$lib';
 
 export async function load({ locals, params, fetch }) {
 	const { data: users, error } = await locals.supabase.from('dancers').select('*');
@@ -13,9 +14,7 @@ export async function load({ locals, params, fetch }) {
 	const filteredUsers = users.filter((user) => user.event === eventNameFromUrl);
 
 	const dataResponse = await fetch(
-		'https://api.helloasso.com/v5/organizations/norma-ecv/forms/event/' +
-			eventNameFromUrl +
-			'/items',
+		helloassoBaseUrl + assoSlug + '/forms/event/' + eventNameFromUrl + '/items',
 		{
 			method: 'GET',
 			headers: {

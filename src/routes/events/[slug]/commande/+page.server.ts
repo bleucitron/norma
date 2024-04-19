@@ -28,6 +28,7 @@ interface PaymentFormData {
 		label: string;
 		price: number;
 	};
+	payForPartner: any;
 }
 
 function formDataToPayment(formData: FormData): PaymentFormData {
@@ -40,13 +41,10 @@ function formDataToPayment(formData: FormData): PaymentFormData {
 	}
 	const tier = JSON.parse(tiers);
 
-	/*const payForPartner = formData.get('payForPartner');
-	if (typeof payForPartner !== 'boolean') {
-		throw new Error('Erreur sur le choix du paiment pour partenaire');
-	}*/
+	const payForPartner = formData.get('payForPartner');
 	return {
-		tier
-		//payForPartner
+		tier,
+		payForPartner
 	};
 }
 
@@ -107,7 +105,7 @@ export const actions = {
 				produits: [
 					{
 						id: paymentData.tier.id,
-						count: 1 //(paymentData.payForPartner ? 2 : 1)
+						count: paymentData.payForPartner ? 2 : 1
 					}
 				]
 			}
