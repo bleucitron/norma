@@ -75,20 +75,26 @@ export const actions = {
 			);
 		}
 		const body = {
-			totalAmount: paymentData.tier.price,
-			initialAmount: paymentData.tier.price,
+			totalAmount: paymentData.payForPartner ? paymentData.tier.price * 2 : paymentData.tier.price,
+			initialAmount: paymentData.payForPartner
+				? paymentData.tier.price * 2
+				: paymentData.tier.price,
 			itemName: paymentData.tier.label,
 			backUrl:
 				'https://norma-azure.vercel.app/events/' +
 				params.slug +
 				'/commande?email=' +
-				encodeURIComponent(email),
+				encodeURIComponent(email) +
+				'&partner=' +
+				paymentData.payForPartner,
 			errorUrl: 'https://norma-azure.vercel.app/events/' + params.slug + '/error',
 			returnUrl:
 				'https://norma-azure.vercel.app/events/' +
 				params.slug +
 				'/confirmation?email=' +
-				encodeURIComponent(email),
+				encodeURIComponent(email) +
+				'&partner=' +
+				paymentData.payForPartner,
 			containsDonation: true,
 			terms: [],
 			payer: {
