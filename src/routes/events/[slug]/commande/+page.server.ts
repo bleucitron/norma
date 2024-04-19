@@ -31,7 +31,7 @@ interface PaymentFormData {
 	payForPartner: any;
 }
 
-function formDataToPayment(formData: FormData): PaymentFormData {
+function formDataToPayment(formData: FormData, url): PaymentFormData {
 	const tiers = formData.get('tiers');
 	if (!tiers) {
 		throw new Error('Billet non choisi');
@@ -41,7 +41,9 @@ function formDataToPayment(formData: FormData): PaymentFormData {
 	}
 	const tier = JSON.parse(tiers);
 
-	const payForPartner = formData.get('payForPartner');
+
+	const payForPartner = url.searchParams.get('partner');
+
 	return {
 		tier,
 		payForPartner
@@ -58,7 +60,7 @@ export const actions = {
 
 		let paymentData;
 		try {
-			paymentData = formDataToPayment(formData);
+			paymentData = formDataToPayment(formData, url);
 		} catch (error) {
 			return fail(400, {
 				error
@@ -75,20 +77,26 @@ export const actions = {
 			);
 		}
 		const body = {
-			totalAmount: paymentData.tier.price,
-			initialAmount: paymentData.tier.price,
+			totalAmount: paymentData.payForPartner ? paymentData.tier.price * 2 : paymentData.tier.price,
+			initialAmount: paymentData.payForPartner
+				? paymentData.tier.price * 2
+				: paymentData.tier.price,
 			itemName: paymentData.tier.label,
 			backUrl:
 				'https://norma-azure.vercel.app/events/' +
 				params.slug +
 				'/commande?email=' +
-				encodeURIComponent(email),
+				encodeURIComponent(email) +
+				'&partner=' +
+				paymentData.payForPartner,
 			errorUrl: 'https://norma-azure.vercel.app/events/' + params.slug + '/error',
 			returnUrl:
 				'https://norma-azure.vercel.app/events/' +
 				params.slug +
 				'/confirmation?email=' +
-				encodeURIComponent(email),
+				encodeURIComponent(email) +
+				'&partner=' +
+				paymentData.payForPartner,
 			containsDonation: true,
 			terms: [],
 			payer: {
