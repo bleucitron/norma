@@ -41,8 +41,7 @@ function formDataToPayment(formData: FormData, url): PaymentFormData {
 	}
 	const tier = JSON.parse(tiers);
 
-
-	const payForPartner = url.searchParams.get('partner');
+	const payForPartner = url.searchParams.get('partner') === 'on';
 
 	return {
 		tier,
@@ -76,6 +75,7 @@ export const actions = {
 					'&orderId=Gratuit'
 			);
 		}
+		console.log(paymentData.payForPartner);
 		const body = {
 			totalAmount: paymentData.payForPartner ? paymentData.tier.price * 2 : paymentData.tier.price,
 			initialAmount: paymentData.payForPartner
