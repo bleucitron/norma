@@ -41,7 +41,7 @@
 	});
 </script>
 
-<section class="event__container">
+<section class="event__container event__details">
 	<div class="wrapper">
 		<div class="card__img">
 			<div>
@@ -54,121 +54,154 @@
 					<div class="wrapper__return">
 						<div>
 							<h1>{event.title}</h1>
+							<p>{event.description}</p>
 						</div>
+
 						<div class="wrapper__button">
-							<div class="wrapper__switch">
-								<p>réels</p>
-								<div id="switch" class="">
-									<div id="toggle"></div>
-								</div>
-								<p>Estimé(e)s</p>
-							</div>
 							<a href="/admin" class="btn">Retour</a>
 						</div>
 					</div>
 					<div class="event-chart">
 						<div class="stat-wrapper">
 							<h3>Statistiques globales</h3>
-							<p>
-								Nombre de ticket vendus pour l'évènement : {event.totalTicket.length}
-							</p>
-							<p>
-								Nombre total de danseurs inscrits : {event.totalInscrit.length}
-							</p>
-							<p>
-								Nombre total en cours de règement : {event.reglement.length}
-							</p>
-							<p>
-								Nombre total en file d'attente : {event.attente.length}
-							</p>
+							<div class="stat">
+								<p>
+									<span>{event.totalTicket.length}</span>tickets vendus
+								</p>
+								<p>
+									<span>{event.totalInscrit.length}</span> danseurs inscrits
+								</p>
+								<p>
+									<span>{event.reglement.length} </span> tickets en cours de règlement
+								</p>
+								<p>
+									<span>{event.attente.length}</span> inscrits en file d'attente
+								</p>
+							</div>
 						</div>
 						<div class="stat-wrapper">
 							<h3>Types de tickets vendus</h3>
-							<ul>
-								{#each event.typeOfTicketByEvent as ticket}
-									<li>{ticket}</li>
-								{/each}
-							</ul>
+							<div class="stat">
+								<ul>
+									{#each event.typeOfTicketByEvent as ticket}
+										<li>{ticket}</li>
+									{/each}
+								</ul>
+							</div>
 						</div>
 						<div class="stat-wrapper">
-							<h3>Répartition des inscrits :</h3>
+							<div>
+								<h3>Répartition des inscrits :</h3>
+								<div class="wrapper__switch">
+									<span>réels</span>
+									<div id="switch" class="">
+										<div id="toggle"></div>
+									</div>
+									<span>Estimé(e)s</span>
+								</div>
+							</div>
 							<ul>
 								<!-- Réel -->
 								<li>
-									Débutant : Leader : {event.Débutant.filter(
-										(dancer) => dancer.role === Role.Leader
-									).length}, Suiveur : {event.Débutant.filter(
-										(dancer) => dancer.role === Role.Suiveur
-									).length}
+									<span>Débutant</span>
+									<p>
+										Leader : {event.Débutant.filter((dancer) => dancer.role === Role.Leader).length}
+									</p>
+									<p>
+										Suiveur : {event.Débutant.filter((dancer) => dancer.role === Role.Suiveur)
+											.length}
+									</p>
 								</li>
 								<!-- Prévision -->
 								{#if isPronosticVisible}
 									<li class="pronostic">
-										Débutant : Leader : {event.Débutant.filter(
-											(dancer) => dancer.role === Role.Leader
-										).length +
-											event.attente.filter(
-												(dancer) => dancer.level === Level.Débutant && dancer.role === Role.Leader
-											).length}, Suiveur : {event.Débutant.filter(
-											(dancer) => dancer.level === Level.Débutant && dancer.role === Role.Suiveur
-										).length +
-											event.attente.filter(
+										<span>Débutant</span>
+										<p>
+											Leader : {event.Débutant.filter((dancer) => dancer.role === Role.Leader)
+												.length +
+												event.attente.filter(
+													(dancer) => dancer.level === Level.Débutant && dancer.role === Role.Leader
+												).length}
+										</p>
+										<p>
+											Suiveur : {event.Débutant.filter(
 												(dancer) => dancer.level === Level.Débutant && dancer.role === Role.Suiveur
-											).length}
+											).length +
+												event.attente.filter(
+													(dancer) =>
+														dancer.level === Level.Débutant && dancer.role === Role.Suiveur
+												).length}
+										</p>
 									</li>
 								{/if}
 								<!-- Réel -->
 								<li>
-									Confirmé : Leader : {event.Confirmé.filter(
-										(dancer) => dancer.role === Role.Leader
-									).length}, Suiveur : {event.Confirmé.filter(
-										(dancer) => dancer.role === Role.Suiveur
-									).length}
+									<span>Confirmé</span>
+									<p>
+										Leader : {event.Confirmé.filter((dancer) => dancer.role === Role.Leader).length}
+									</p>
+									<p>
+										Suiveur : {event.Confirmé.filter((dancer) => dancer.role === Role.Suiveur)
+											.length}
+									</p>
 								</li>
 								<!-- Prévision -->
 								{#if isPronosticVisible}
 									<li class="pronostic">
-										Confirmé : Leader : {event.Confirmé.filter(
-											(dancer) => dancer.role === Role.Leader
-										).length +
-											event.attente.filter(
-												(dancer) => dancer.level === Level.Confirmé && dancer.role === Role.Leader
-											).length}, Suiveur : {event.Confirmé.filter(
-											(dancer) => dancer.level === Level.Confirmé && dancer.role === Role.Suiveur
-										).length +
-											event.attente.filter(
+										<span>Confirmé</span>
+										<p>
+											Leader : {event.Confirmé.filter((dancer) => dancer.role === Role.Leader)
+												.length +
+												event.attente.filter(
+													(dancer) => dancer.level === Level.Confirmé && dancer.role === Role.Leader
+												).length}
+										</p>
+										<p>
+											Suiveur : {event.Confirmé.filter(
 												(dancer) => dancer.level === Level.Confirmé && dancer.role === Role.Suiveur
-											).length}
+											).length +
+												event.attente.filter(
+													(dancer) =>
+														dancer.level === Level.Confirmé && dancer.role === Role.Suiveur
+												).length}
+										</p>
 									</li>
 								{/if}
 								<!-- Réel -->
 								<li>
-									Expert : Leader : {event.Expert.filter((dancer) => dancer.role === Role.Leader)
-										.length}, Suiveur : {event.Expert.filter(
-										(dancer) => dancer.role === Role.Suiveur
-									).length}
+									<span>Expert</span>
+									<p>
+										Leader : {event.Expert.filter((dancer) => dancer.role === Role.Leader).length}
+									</p>
+									<p>
+										Suiveur : {event.Expert.filter((dancer) => dancer.role === Role.Suiveur).length}
+									</p>
 								</li>
 								<!-- Prévision -->
 								{#if isPronosticVisible}
 									<li class="pronostic">
-										Expert : Leader : {event.Expert.filter((dancer) => dancer.role === Role.Leader)
-											.length +
-											event.attente.filter(
-												(dancer) => dancer.level === Level.Expert && dancer.role === Role.Leader
-											).length}, Suiveur : {event.Expert.filter(
-											(dancer) => dancer.level === Level.Expert && dancer.role === Role.Suiveur
-										).length +
-											event.attente.filter(
+										<span>Expert</span>
+										<p>
+											Leader : {event.Expert.filter((dancer) => dancer.role === Role.Leader)
+												.length +
+												event.attente.filter(
+													(dancer) => dancer.level === Level.Expert && dancer.role === Role.Leader
+												).length}
+										</p>
+										<p>
+											Suiveur : {event.Expert.filter(
 												(dancer) => dancer.level === Level.Expert && dancer.role === Role.Suiveur
-											).length}
+											).length +
+												event.attente.filter(
+													(dancer) => dancer.level === Level.Expert && dancer.role === Role.Suiveur
+												).length}
+										</p>
 									</li>
 								{/if}
 							</ul>
 						</div>
 					</div>
 				</div>
-				<p>Type de l'événement : {event.activityType}</p>
-				<p>{event.description}</p>
 				<div class="btn-container">
 					<a
 						href="https://admin.helloasso.com/{event.organizationSlug}/evenements/{event.formSlug}/edition/1"
