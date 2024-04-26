@@ -14,6 +14,9 @@ export async function load({ params, fetch, url }) {
 	const orderId = url.searchParams.get('orderId')
 		? decodeURIComponent(url.searchParams.get('orderId'))
 		: '';
+	const tierId = url.searchParams.get('tierId')
+		? decodeURIComponent(url.searchParams.get('tierId'))
+		: '';
 	const event = await fetch(
 		helloassoBaseUrl + assoSlug + '/forms/event/' + params.slug + '/public',
 		{
@@ -23,12 +26,13 @@ export async function load({ params, fetch, url }) {
 			}
 		}
 	).then((resp) => resp.json());
+	const tierName = event.tiers.find((x) => x.id === Number(tierId)).label;
 	if (!email) {
 		redirect(302, '/events/' + params.slug + '/error');
 	}
 	const { error } = await supabase
 		.from('dancers')
-		.update({ order_id: orderId, state: State.Inscrit })
+		.update({ order_id: orderId, state: State.Inscrit, pass_name: tierName })
 		.eq('event', params.slug)
 		.eq('email', email)
 		.select();

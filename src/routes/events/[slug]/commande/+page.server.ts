@@ -2,6 +2,7 @@ import { assoSlug, helloassoBaseUrl } from '$lib';
 import { access_token } from '$lib/server/accessToken';
 import { get } from 'svelte/store';
 import { fail, redirect } from '@sveltejs/kit';
+import { supabase } from '$lib/supabase';
 export async function load({ params, fetch, url }) {
 	const email = url.searchParams.get('email')
 		? decodeURIComponent(url.searchParams.get('email'))
@@ -72,10 +73,20 @@ export const actions = {
 					params.slug +
 					'/confirmation?email=' +
 					encodeURIComponent(email) +
-					'&orderId=Gratuit'
+					'&partner=' +
+					paymentData.payForPartner +
+					'&orderId=Gratuit' +
+					'&tierId=' +
+					paymentData.tier.id
 			);
 		}
-		console.log(paymentData.payForPartner);
+		const { data: user } = await supabase
+			.from('dancers')
+			.select()
+			.eq('event', params.slug)
+			.eq('email', email)
+			.limit(1)
+			.single();
 		const body = {
 			totalAmount: paymentData.payForPartner ? paymentData.tier.price * 2 : paymentData.tier.price,
 			initialAmount: paymentData.payForPartner
@@ -96,12 +107,14 @@ export const actions = {
 				'/confirmation?email=' +
 				encodeURIComponent(email) +
 				'&partner=' +
-				paymentData.payForPartner,
+				paymentData.payForPartner +
+				'&tierId=' +
+				paymentData.tier.id,
 			containsDonation: true,
 			terms: [],
 			payer: {
-				firstName: '',
-				lastName: '',
+				firstName: user.firstname ? user.firstname : '',
+				lastName: user.lastname ? user.lastname : '',
 				email: email,
 				address: '',
 				city: '',
