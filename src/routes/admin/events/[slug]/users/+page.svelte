@@ -48,6 +48,15 @@
 				const difference = dateObjA.getTime() - dateObjB.getTime();
 				return sortOrder * difference;
 			});
+		} else if (column === 'updated_at') {
+			sortedUsers = filteredUsers.slice().sort((a, b) => {
+				const dateA = formatToFrenchDate(a.updated_at);
+				const dateB = formatToFrenchDate(b.updated_at);
+				const dateObjA = new Date(dateA);
+				const dateObjB = new Date(dateB);
+				const difference = dateObjA.getTime() - dateObjB.getTime();
+				return sortOrder * difference;
+			});
 		} else if (column === 'pass') {
 			sortedUsers = filteredUsers.slice().sort((a, b) => {
 				const valueA = a.pass ? a.pass.toLowerCase() : '';
@@ -312,6 +321,11 @@
 					Pass
 					<span class:desc={sortOrder === -1 && sortColumn === 'pass'} class="sort-icon"></span>
 				</th>
+				<th on:click={() => toggleSort('updated_at')}>
+					Dernière modification
+					<span class:desc={sortOrder === -1 && sortColumn === 'updated_at'} class="sort-icon"
+					></span>
+				</th>
 				<th>Actions</th>
 			</tr>
 		</thead>
@@ -331,6 +345,7 @@
 						<td>{mapState(user.state)}</td>
 						<td>{formatToFrenchDate(user.created_at)}</td>
 						<td>{user.pass ? user.pass : 'pass non disponible'}</td>
+						<td>{formatToFrenchDate(user.updated_at)}</td>
 						<td class="updateBtn">
 							<button class="btn" on:click={() => openUpdate(user)}>Modifier</button>
 							<button class="btn" on:click={() => openDelete(user)}>Supprimer</button>

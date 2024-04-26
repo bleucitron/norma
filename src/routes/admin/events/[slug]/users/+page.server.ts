@@ -3,7 +3,10 @@ import { get } from 'svelte/store';
 import { assoSlug, helloassoBaseUrl } from '$lib';
 
 export async function load({ locals, params, fetch }) {
-	const { data: users, error } = await locals.supabase.from('dancers').select('*');
+	const { data: users, error } = await locals.supabase
+		.from('dancers')
+		.select('*')
+		.order('id', { ascending: false });
 
 	if (error) {
 		console.error('Error fetching users', error);
