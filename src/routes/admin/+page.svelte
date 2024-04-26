@@ -1,5 +1,7 @@
 <script lang="ts">
 	export let data;
+	import { Circle } from 'svelte-loading-spinners';
+	import { navigating } from '$app/stores';
 
 	let todayDate = new Date();
 	let archivedEvents: Array<any> = [];
@@ -17,6 +19,12 @@
 		console.error('data.events is not an array');
 	}
 </script>
+
+{#if $navigating}
+	<div class="loading">
+		<Circle color="#000000" />
+	</div>
+{/if}
 
 <div class="header-container">
 	<h1>Derniers événements</h1>

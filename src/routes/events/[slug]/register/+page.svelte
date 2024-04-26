@@ -3,6 +3,8 @@
 	import { toast } from '@zerodevx/svelte-toast';
 
 	export let form;
+	import { Circle } from 'svelte-loading-spinners';
+	import { navigating } from '$app/stores';
 
 	$: email = '';
 	$: partnerEmail = '';
@@ -75,6 +77,13 @@
 <svelte:head>
 	<title>Mes informations complémentaires</title>
 </svelte:head>
+
+{#if $navigating}
+	<div class="loading">
+		<Circle color="#000000" />
+	</div>
+{/if}
+
 <div id="login__page" class="form__tpl">
 	<h1>Renseignez-nous !</h1>
 	<form action="register" method="post">

@@ -1,8 +1,15 @@
 <script lang="ts">
 	import { enhance } from '$app/forms';
-
+	import { Circle } from 'svelte-loading-spinners';
+	import { navigating } from '$app/stores';
 	export let form;
 </script>
+
+{#if $navigating}
+	<div class="loading">
+		<Circle color="#000000" />
+	</div>
+{/if}
 
 <div id="login__page" class="form__tpl">
 	<h1>Connexion</h1>

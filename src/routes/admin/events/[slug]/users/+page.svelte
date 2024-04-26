@@ -2,6 +2,8 @@
 	import { invalidate } from '$app/navigation';
 	import { Level, Role, State } from '$lib/types/norma.js';
 	import type { Database } from '../../../../../types/supabase';
+	import { Circle } from 'svelte-loading-spinners';
+	import { navigating } from '$app/stores';
 
 	export let data;
 	let users = data.users;
@@ -43,6 +45,15 @@
 			sortedUsers = filteredUsers.slice().sort((a, b) => {
 				const dateA = formatToFrenchDate(a.created_at);
 				const dateB = formatToFrenchDate(b.created_at);
+				const dateObjA = new Date(dateA);
+				const dateObjB = new Date(dateB);
+				const difference = dateObjA.getTime() - dateObjB.getTime();
+				return sortOrder * difference;
+			});
+		} else if (column === 'updated_at') {
+			sortedUsers = filteredUsers.slice().sort((a, b) => {
+				const dateA = formatToFrenchDate(a.updated_at);
+				const dateB = formatToFrenchDate(b.updated_at);
 				const dateObjA = new Date(dateA);
 				const dateObjB = new Date(dateB);
 				const difference = dateObjA.getTime() - dateObjB.getTime();
@@ -226,6 +237,12 @@
 	}
 </script>
 
+{#if $navigating}
+	<div class="loading">
+		<Circle color="#000000" />
+	</div>
+{/if}
+
 <section class="users__container">
 	<div class="wrapper__return">
 		<div>
@@ -312,6 +329,11 @@
 					Pass
 					<span class:desc={sortOrder === -1 && sortColumn === 'pass'} class="sort-icon"></span>
 				</th>
+				<th on:click={() => toggleSort('updated_at')}>
+					Dernière modification
+					<span class:desc={sortOrder === -1 && sortColumn === 'updated_at'} class="sort-icon"
+					></span>
+				</th>
 				<th>Actions</th>
 			</tr>
 		</thead>
@@ -331,6 +353,7 @@
 						<td>{mapState(user.state)}</td>
 						<td>{formatToFrenchDate(user.created_at)}</td>
 						<td>{user.pass ? user.pass : 'pass non disponible'}</td>
+						<td>{formatToFrenchDate(user.updated_at)}</td>
 						<td class="updateBtn">
 							<button class="btn" on:click={() => openUpdate(user)}>Modifier</button>
 							<button class="btn" on:click={() => openDelete(user)}>Supprimer</button>
