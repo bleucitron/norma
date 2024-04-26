@@ -15,6 +15,8 @@ type NormaDatabase = SupabaseClient<Database>;
 
 interface RegistrationFormData {
 	email: string;
+	lastname: string;
+	firstname: string;
 	level: Level;
 	role: Role;
 	partnaire_email: string | undefined;
@@ -28,6 +30,20 @@ function formDataToRegistration(formData: FormData): RegistrationFormData {
 	}
 	if (typeof email !== 'string') {
 		throw new Error('Adresse email devrait être une chaîne de caractère');
+	}
+	const lastname = formData.get('lastname');
+	if (!lastname) {
+		throw new Error('Nom manquant');
+	}
+	if (typeof lastname !== 'string') {
+		throw new Error('Nom devrait être une chaîne de caractère');
+	}
+	const firstname = formData.get('firstname');
+	if (!firstname) {
+		throw new Error('Prénom manquant');
+	}
+	if (typeof firstname !== 'string') {
+		throw new Error('Prénom devrait être une chaîne de caractère');
 	}
 	const levelstr = formData.get('level');
 	let level: number;
@@ -69,6 +85,8 @@ function formDataToRegistration(formData: FormData): RegistrationFormData {
 
 	return {
 		email,
+		lastname,
+		firstname,
 		level,
 		role,
 		partnaire_email,
@@ -206,7 +224,8 @@ async function register(
 	supabase: NormaDatabase,
 	state: State
 ): Promise<string> {
-	const { email, level, role, partnaire_email, payForPartner } = registrationData;
+	const { email, lastname, firstname, level, role, partnaire_email, payForPartner } =
+		registrationData;
 
 	const { data: alreadyExist }: { data: Dancer | null } = await supabase
 		.from('dancers')
@@ -249,6 +268,8 @@ async function register(
 	}
 	await supabase.from('dancers').insert({
 		email: email,
+		lastname: lastname,
+		firstname: firstname,
 		state: state,
 		role: role,
 		level: level,
