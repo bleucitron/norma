@@ -2,6 +2,8 @@
 	import { invalidate } from '$app/navigation';
 	import { Level, Role, State } from '$lib/types/norma.js';
 	import type { Database } from '../../../../../types/supabase';
+	import { Circle } from 'svelte-loading-spinners';
+	import { navigating } from '$app/stores';
 
 	export let data;
 	let users = data.users;
@@ -225,6 +227,12 @@
 		}
 	}
 </script>
+
+{#if $navigating}
+	<div class="loading">
+		<Circle />
+	</div>
+{/if}
 
 <section class="users__container">
 	<div class="wrapper__return">

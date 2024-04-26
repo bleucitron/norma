@@ -1,4 +1,7 @@
 <script lang="ts">
+	import { Circle } from 'svelte-loading-spinners';
+	import { navigating } from '$app/stores';
+
 	export let data;
 	let todayDate = new Date();
 	let archivedEvents: Array<any> = [];
@@ -29,6 +32,12 @@
 		}
 	});
 </script>
+
+{#if $navigating}
+	<div class="loading">
+		<Circle />
+	</div>
+{/if}
 
 <div class="hero">
 	<div class="hero__content">
