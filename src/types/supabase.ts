@@ -17,6 +17,7 @@ export type Database = {
 					partner_id: number | null;
 					role: number;
 					state: number;
+					updated_at: string | null;
 				};
 				Insert: {
 					created_at?: string;
@@ -31,6 +32,7 @@ export type Database = {
 					partner_id?: number | null;
 					role: number;
 					state: number;
+					updated_at?: string | null;
 				};
 				Update: {
 					created_at?: string;
@@ -45,6 +47,7 @@ export type Database = {
 					partner_id?: number | null;
 					role?: number;
 					state?: number;
+					updated_at?: string | null;
 				};
 				Relationships: [];
 			};

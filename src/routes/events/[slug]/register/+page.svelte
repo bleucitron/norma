@@ -80,7 +80,7 @@
 
 {#if $navigating}
 	<div class="loading">
-		<Circle />
+		<Circle color="#000000" />
 	</div>
 {/if}
 
