@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { invalidate } from '$app/navigation';
-	import { Role, State } from '$lib/types/norma.js';
+	import { Level, Role, State } from '$lib/types/norma.js';
 	import type { Database } from '../../../../../types/supabase';
 
 	export let data;
@@ -12,6 +12,7 @@
 	let searchTerm = '';
 	let roleFilter: Role | undefined;
 	let stateFilter: State | undefined;
+	let levelFilter: Level | undefined;
 	let sortColumn = '';
 	let sortOrder = 1;
 	let sortedUsers = users.slice();
@@ -23,8 +24,9 @@
 		const isSearchMatch = trimmedSearchTerm === '' || trimmedFullName.includes(trimmedSearchTerm);
 		const isRoleMatch = roleFilter === undefined || user.role === roleFilter;
 		const isStateMatch = stateFilter === undefined || user.state === stateFilter;
+		const isLevelMatch = levelFilter === undefined || user.level === levelFilter;
 
-		return isSearchMatch && isRoleMatch && isStateMatch;
+		return isSearchMatch && isRoleMatch && isStateMatch && isLevelMatch;
 	});
 
 	$: numberOfFilteredUsers = filteredUsers.length;
@@ -69,6 +71,7 @@
 		searchTerm = '';
 		roleFilter = undefined;
 		stateFilter = undefined;
+		levelFilter = undefined;
 		sortColumn = '';
 		sortOrder = 1;
 		sortedUsers = users.slice();
@@ -194,6 +197,19 @@
 				throw new Error(`Unhandled role: ${exhaustiveCheck}`);
 		}
 	}
+	function mapLevel(level: Level) {
+		switch (level) {
+			case Level.Débutant:
+				return 'Débutant';
+			case Level.Confirmé:
+				return 'Confirmé';
+			case Level.Expert:
+				return 'Expert';
+			default:
+				const exhaustiveCheck: never = level;
+				throw new Error(`Unhandled role: ${exhaustiveCheck}`);
+		}
+	}
 
 	function mapState(state: State) {
 		switch (state) {
@@ -251,6 +267,12 @@
 				<option value={State.Attente}>En attente</option>
 				<option value={State['Règlement en cours']}>Reglement en cours</option>
 			</select>
+			<select bind:value={levelFilter}>
+				<option value={undefined}>--Choisir le niveau--</option>
+				<option value={Level.Débutant}>Débutant</option>
+				<option value={Level.Confirmé}>Confirmé</option>
+				<option value={Level.Expert}>Expert</option>
+			</select>
 		</div>
 	</div>
 	<table>
@@ -258,11 +280,24 @@
 			<tr>
 				<th on:click={() => toggleSort('name')}>
 					Nom
-					<span class:desc={sortOrder === -1 && sortColumn === 'name'} class="sort-icon"></span>
+					<span class:desc={sortOrder === -1 && sortColumn === 'lastname'} class="sort-icon"></span>
+				</th>
+				<th on:click={() => toggleSort('name')}>
+					Prénom
+					<span class:desc={sortOrder === -1 && sortColumn === 'firstname'} class="sort-icon"
+					></span>
+				</th>
+				<th on:click={() => toggleSort('name')}>
+					Email
+					<span class:desc={sortOrder === -1 && sortColumn === 'email'} class="sort-icon"></span>
 				</th>
 				<th on:click={() => toggleSort('role')}>
 					Rôle
 					<span class:desc={sortOrder === -1 && sortColumn === 'role'} class="sort-icon"></span>
+				</th>
+				<th on:click={() => toggleSort('state')}>
+					Niveau
+					<span class:desc={sortOrder === -1 && sortColumn === 'level'} class="sort-icon"></span>
 				</th>
 				<th on:click={() => toggleSort('state')}>
 					État
@@ -288,12 +323,11 @@
 			{:else}
 				{#each filteredUsers as user}
 					<tr>
-						{#if user.firstname && user.lastname}
-							<td>{user.firstname} {user.lastname}</td>
-						{:else}
-							<td>{user.email}</td>
-						{/if}
+						<td>{user.lastname}</td>
+						<td>{user.firstname}</td>
+						<td>{user.email}</td>
 						<td>{mapRole(user.role)}</td>
+						<td>{mapLevel(user.level)}</td>
 						<td>{mapState(user.state)}</td>
 						<td>{formatToFrenchDate(user.created_at)}</td>
 						<td>{user.pass ? user.pass : 'pass non disponible'}</td>
