@@ -25,7 +25,10 @@
     align-items: center;
     justify-content: center;
     flex-direction: column;
-    gap: 4rem;
+    gap: 3rem;
+    @media screen and (max-width: 768px) {
+       gap: 1rem;
+    }
 }
 
 @media (max-width: 1064px) {
@@ -47,13 +50,11 @@
 
 @media (max-width: 768px) {
     .hero {
-        .hero__content {
-            gap: 0;
-        }
-
         .wrapper {
             align-items: center;
-            gap: 2rem;
+            gap: 3rem;
+            background: red;
+            max-height: 100px;
 
             h1 {
                 font-size: 8rem;
