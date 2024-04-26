@@ -1,5 +1,7 @@
 <script lang="ts">
 	import { Role, State, Level } from '$lib/types/norma.js';
+	import { Circle } from 'svelte-loading-spinners';
+	import { navigating } from '$app/stores';
 
 	export let data;
 	$: event = data.event;
@@ -30,6 +32,12 @@
 		return self.indexOf(value) === index;
 	});
 </script>
+
+{#if $navigating}
+	<div class="loading">
+		<Circle />
+	</div>
+{/if}
 
 <section class="event__container event__details">
 	<div class="wrapper">

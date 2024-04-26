@@ -1,7 +1,15 @@
 <script>
+	import { Circle } from 'svelte-loading-spinners';
+	import { navigating } from '$app/stores';
 	export let data;
 	const event = data.event;
 </script>
+
+{#if $navigating}
+	<div class="loading">
+		<Circle />
+	</div>
+{/if}
 
 <section class="event__container event-details">
 	<div class="wrapper">

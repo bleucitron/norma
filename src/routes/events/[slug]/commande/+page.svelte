@@ -1,9 +1,16 @@
 <script lang="ts">
 	import Card from '../commande/component/card.svelte';
 	export let data;
-  
+	import { Circle } from 'svelte-loading-spinners';
+	import { navigating } from '$app/stores';
 	const event = data.event;
 </script>
+
+{#if $navigating}
+	<div class="loading">
+		<Circle />
+	</div>
+{/if}
 
 <section id="commande">
 	<div class="header-container">

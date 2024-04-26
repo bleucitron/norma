@@ -1,3 +1,14 @@
+<script lang="ts">
+	import { Circle } from 'svelte-loading-spinners';
+	import { navigating } from '$app/stores';
+</script>
+
+{#if $navigating}
+	<div class="loading">
+		<Circle />
+	</div>
+{/if}
+
 <section class="template">
 	<div class="hero container-error">
 		<div class="hero__content">
