@@ -127,13 +127,15 @@ export const actions = {
 			if (checkLevelLimit.countLevel >= checkLevelLimit.levelLimit) {
 				url = await register(params, registrationData, supabase, State.Attente);
 				redirect(302, url);
-			}
-
-			if (check_role) {
-				url = await register(params, registrationData, supabase, State['Règlement en cours']);
 			} else {
-				if (partnaire_email) {
+				if (check_role) {
 					url = await register(params, registrationData, supabase, State['Règlement en cours']);
+				} else {
+					if (partnaire_email) {
+						url = await register(params, registrationData, supabase, State['Règlement en cours']);
+					} else {
+						url = await register(params, registrationData, supabase, State.Attente);
+					}
 				}
 			}
 		}
@@ -176,17 +178,17 @@ async function fetchDancersByLevel(level: any, eventSlug: string, supabase: Norm
 
 async function checkRole(event: string, role: Role, level: Level, supabase: NormaDatabase) {
 	//@ts-expect-error Supabase est mal typé
-	const { data: selectedCount }: { data: number } = await supabase
+	const { count: selectedCount }: { data: number } = await supabase
 		.from('dancers')
-		.select('*(count)')
+		.select('*', { count: 'exact', head: true })
 		.eq('event', event)
 		.eq('role', role)
 		.eq('level', level);
 
 	//@ts-expect-error Supabase est mal typé
-	const { data: oppositeCount }: { data: number } = await supabase
+	const { count: oppositeCount }: { count: number } = await supabase
 		.from('dancers')
-		.select('*(count)')
+		.select('*', { count: 'exact', head: true })
 		.eq('event', event)
 		.eq('role', role === Role.Leader ? Role.Suiveur : Role.Leader)
 		.eq('level', level);
