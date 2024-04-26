@@ -235,6 +235,16 @@
 				throw new Error(`Unhandled state: ${exhaustiveCheck}`);
 		}
 	}
+
+	function closeModal(event: MouseEvent) {
+		const target = event.target as HTMLElement;
+		if (
+			target.classList.contains('update__container') ||
+			target.classList.contains('delete__modal')
+		) {
+			target.style.display = 'none';
+		}
+	}
 </script>
 
 {#if $navigating}
@@ -359,7 +369,13 @@
 							<button class="btn" on:click={() => openDelete(user)}>Supprimer</button>
 						</td>
 					</tr>
-					<div class="delete__modal" data-user-id={user.id}>
+					<div
+						class="delete__modal"
+						data-user-id={user.id}
+						on:click={closeModal}
+						on:keydown={closeModal}
+						aria-hidden="true"
+					>
 						<div class="delete__container__in">
 							<p>
 								<strong>
@@ -376,7 +392,13 @@
 							</div>
 						</div>
 					</div>
-					<div class="update__container" data-user-id={user.id}>
+					<div
+						class="update__container"
+						data-user-id={user.id}
+						on:click={closeModal}
+						on:keydown={closeModal}
+						aria-hidden="true"
+					>
 						<div class="update__container__in">
 							<div class="update__header">
 								<p>
