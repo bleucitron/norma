@@ -15,6 +15,7 @@ export type Database = {
 					order_id: string | null;
 					partner_email: string | null;
 					partner_id: number | null;
+					pass_name: string | null;
 					role: number;
 					state: number;
 					updated_at: string | null;
@@ -30,6 +31,7 @@ export type Database = {
 					order_id?: string | null;
 					partner_email?: string | null;
 					partner_id?: number | null;
+					pass_name?: string | null;
 					role: number;
 					state: number;
 					updated_at?: string | null;
@@ -45,6 +47,7 @@ export type Database = {
 					order_id?: string | null;
 					partner_email?: string | null;
 					partner_id?: number | null;
+					pass_name?: string | null;
 					role?: number;
 					state?: number;
 					updated_at?: string | null;

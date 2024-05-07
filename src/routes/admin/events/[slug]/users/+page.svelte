@@ -23,12 +23,41 @@
 		const trimmedSearchTerm = searchTerm.trim().toLowerCase();
 		const trimmedFullName = `${user.firstname} ${user.lastname}`.toLowerCase();
 
-		const isSearchMatch = trimmedSearchTerm === '' || trimmedFullName.includes(trimmedSearchTerm);
+		const isSearchMatch =
+			trimmedSearchTerm === '' ||
+			trimmedFullName.includes(trimmedSearchTerm) ||
+			user.email.toLowerCase().includes(trimmedSearchTerm);
+
+		const isNameMatch =
+			(user.lastname && user.lastname.toLowerCase().includes(trimmedSearchTerm)) ||
+			(user.firstname && user.firstname.toLowerCase().includes(trimmedSearchTerm));
+
+		const isCombinedNameMatch =
+			trimmedSearchTerm.includes(' ') &&
+			user.lastname &&
+			user.firstname &&
+			(user.lastname.toLowerCase() + ' ' + user.firstname.toLowerCase()).includes(
+				trimmedSearchTerm
+			);
+
+		const isCombinedReverseNameMatch =
+			trimmedSearchTerm.includes(' ') &&
+			user.firstname &&
+			user.lastname &&
+			(user.firstname.toLowerCase() + ' ' + user.lastname.toLowerCase()).includes(
+				trimmedSearchTerm
+			);
+
 		const isRoleMatch = roleFilter === undefined || user.role === roleFilter;
 		const isStateMatch = stateFilter === undefined || user.state === stateFilter;
 		const isLevelMatch = levelFilter === undefined || user.level === levelFilter;
 
-		return isSearchMatch && isRoleMatch && isStateMatch && isLevelMatch;
+		return (
+			(isSearchMatch || isNameMatch || isCombinedNameMatch || isCombinedReverseNameMatch) &&
+			isRoleMatch &&
+			isStateMatch &&
+			isLevelMatch
+		);
 	});
 
 	$: numberOfFilteredUsers = filteredUsers.length;
@@ -41,28 +70,47 @@
 			sortColumn = column;
 		}
 
-		if (column === 'created_at') {
+		if (column === 'created_at' || column === 'updated_at') {
 			sortedUsers = filteredUsers.slice().sort((a, b) => {
-				const dateA = formatToFrenchDate(a.created_at);
-				const dateB = formatToFrenchDate(b.created_at);
-				const dateObjA = new Date(dateA);
-				const dateObjB = new Date(dateB);
-				const difference = dateObjA.getTime() - dateObjB.getTime();
-				return sortOrder * difference;
-			});
-		} else if (column === 'updated_at') {
-			sortedUsers = filteredUsers.slice().sort((a, b) => {
-				const dateA = formatToFrenchDate(a.updated_at);
-				const dateB = formatToFrenchDate(b.updated_at);
-				const dateObjA = new Date(dateA);
-				const dateObjB = new Date(dateB);
-				const difference = dateObjA.getTime() - dateObjB.getTime();
+				const dateA = column === 'created_at' ? a.created_at : a.updated_at;
+				const dateB = column === 'created_at' ? b.created_at : b.updated_at;
+				const difference = new Date(dateA).getTime() - new Date(dateB).getTime();
 				return sortOrder * difference;
 			});
 		} else if (column === 'pass') {
 			sortedUsers = filteredUsers.slice().sort((a, b) => {
 				const valueA = a.pass ? a.pass.toLowerCase() : '';
 				const valueB = b.pass ? b.pass.toLowerCase() : '';
+				return sortOrder * valueA.localeCompare(valueB);
+			});
+		} else if (column === 'level') {
+			sortedUsers = filteredUsers.slice().sort((a, b) => {
+				const valueA = a.level;
+				const valueB = b.level;
+				if (valueA === valueB) {
+					return 0;
+				} else if (valueA === Level.Débutant) {
+					return sortOrder;
+				} else if (valueB === Level.Débutant) {
+					return -sortOrder;
+				} else if (valueA === Level.Confirmé && valueB === Level.Expert) {
+					return sortOrder;
+				} else if (valueA === Level.Expert && valueB === Level.Confirmé) {
+					return -sortOrder;
+				} else {
+					return 0;
+				}
+			});
+		} else if (column === 'email') {
+			sortedUsers = filteredUsers.slice().sort((a, b) => {
+				const emailA = a.email.toLowerCase();
+				const emailB = b.email.toLowerCase();
+				return sortOrder * emailA.localeCompare(emailB);
+			});
+		} else if (column === 'firstname' || column === 'lastname') {
+			sortedUsers = filteredUsers.slice().sort((a, b) => {
+				const valueA = (a[column] || '').toLowerCase();
+				const valueB = (b[column] || '').toLowerCase();
 				return sortOrder * valueA.localeCompare(valueB);
 			});
 		} else {
@@ -305,16 +353,16 @@
 	<table>
 		<thead>
 			<tr>
-				<th on:click={() => toggleSort('name')}>
+				<th on:click={() => toggleSort('lastname')}>
 					Nom
 					<span class:desc={sortOrder === -1 && sortColumn === 'lastname'} class="sort-icon"></span>
 				</th>
-				<th on:click={() => toggleSort('name')}>
+				<th on:click={() => toggleSort('firstname')}>
 					Prénom
 					<span class:desc={sortOrder === -1 && sortColumn === 'firstname'} class="sort-icon"
 					></span>
 				</th>
-				<th on:click={() => toggleSort('name')}>
+				<th on:click={() => toggleSort('email')}>
 					Email
 					<span class:desc={sortOrder === -1 && sortColumn === 'email'} class="sort-icon"></span>
 				</th>
@@ -322,7 +370,7 @@
 					Rôle
 					<span class:desc={sortOrder === -1 && sortColumn === 'role'} class="sort-icon"></span>
 				</th>
-				<th on:click={() => toggleSort('state')}>
+				<th on:click={() => toggleSort('level')}>
 					Niveau
 					<span class:desc={sortOrder === -1 && sortColumn === 'level'} class="sort-icon"></span>
 				</th>
