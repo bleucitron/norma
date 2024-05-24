@@ -214,8 +214,7 @@ async function checkRole(event: string, role: Role, level: Level, supabase: Norm
 	const { data: eventInfo } = await supabase.from('event').select().eq('slug', event).maybeSingle();
 
 	const limit = eventInfo?.level_gap ? eventInfo.level_gap : 5;
-
-	return selectedCount <= oppositeCount + limit;
+	return selectedCount < oppositeCount + limit;
 }
 
 async function register(
