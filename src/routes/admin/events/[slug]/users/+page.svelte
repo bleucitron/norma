@@ -412,7 +412,7 @@
 						<td>{mapState(user.state)}</td>
 						<td>{formatToFrenchDate(user.created_at)}</td>
 						<td>{user.pass_name ? user.pass_name : ''}</td>
-						<td>{formatToFrenchDate(user.updated_at)}</td>
+						<td>{user.updated_at ? formatToFrenchDate(user.updated_at) : ''}</td>
 						<td class="updateBtn">
 							<button class="btn" on:click={() => openUpdate(user)}>Modifier</button>
 							<button class="btn" on:click={() => openDelete(user)}>Supprimer</button>
