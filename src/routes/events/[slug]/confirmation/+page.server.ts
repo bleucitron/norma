@@ -8,15 +8,12 @@ import { PUBLIC_EMAILJS_KEY } from '$env/static/public';
 import { PRIVATE_EMAILJS_KEY } from '$env/static/private';
 import { redirect } from '@sveltejs/kit';
 export async function load({ params, fetch, url }) {
-	const email = url.searchParams.get('email')
-		? decodeURIComponent(url.searchParams.get('email'))
-		: '';
-	const orderId = url.searchParams.get('orderId')
-		? decodeURIComponent(url.searchParams.get('orderId'))
-		: '';
-	const tierId = url.searchParams.get('tierId')
-		? decodeURIComponent(url.searchParams.get('tierId'))
-		: '';
+	const emailParam = url.searchParams.get('email');
+	const email = emailParam ? decodeURIComponent(emailParam) : '';
+	const orderIdParam = url.searchParams.get('orderId');
+	const orderId = orderIdParam ? decodeURIComponent(orderIdParam) : '';
+	const tierIdParam = url.searchParams.get('tierId');
+	const tierId = tierIdParam ? decodeURIComponent(tierIdParam) : '';
 	const event = await fetch(
 		helloassoBaseUrl + assoSlug + '/forms/event/' + params.slug + '/public',
 		{
@@ -26,7 +23,9 @@ export async function load({ params, fetch, url }) {
 			}
 		}
 	).then((resp) => resp.json());
-	const tierName = event.tiers.find((x) => x.id === Number(tierId)).label;
+	const tierName = event.tiers.find(
+		(x: { id: number; label: string }) => x.id === Number(tierId)
+	).label;
 	if (!email) {
 		redirect(302, '/events/' + params.slug + '/error');
 	}
