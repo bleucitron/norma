@@ -32,7 +32,7 @@ export async function PATCH({ locals, request, params }) {
 	}
 
 	const newSate = parseInt(userData.state);
-	if (dancer.state === State.Attente && newSate === State['Règlement en cours']) {
+	if (dancer?.state === State.Attente && newSate === State['Règlement en cours']) {
 		await sendEmail(userId);
 	}
 

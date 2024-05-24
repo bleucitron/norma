@@ -5,6 +5,8 @@
 	import Header from '$lib/components/Header.svelte';
 	import Footer from '$lib/components/Footer.svelte';
 	import { SvelteToast } from '@zerodevx/svelte-toast';
+	import type { Session } from '@supabase/supabase-js';
+	import type { AuthChangeEvent } from '@supabase/supabase-js';
 
 	export let data;
 
@@ -14,7 +16,7 @@
 	onMount(() => {
 		const {
 			data: { subscription }
-		} = supabase.auth.onAuthStateChange((event, _session) => {
+		} = supabase.auth.onAuthStateChange((event: AuthChangeEvent, _session: Session | null) => {
 			if (_session?.expires_at !== _session?.expires_at) {
 				invalidate('supabase:auth');
 			}

@@ -2,10 +2,34 @@
 	import { Circle } from 'svelte-loading-spinners';
 	import { navigating } from '$app/stores';
 
-	export let data;
+	interface Event {
+		formSlug: string;
+		endDate: string;
+		title: string;
+		startDate?: string;
+		logo?: { publicUrl: string };
+		description: string;
+		tiers: Array<{ price: number }>;
+		place?: {
+			city?: string;
+		};
+	}
+
+	export let data: {
+		events?: Array<{
+			formSlug: string;
+			endDate: string;
+			title: string;
+			startDate?: string;
+			logo?: { publicUrl: string };
+			description: string;
+			tiers: Array<{ price: number }>;
+		}>;
+		eventsDetail?: Array<any>;
+	};
 	let todayDate = new Date();
-	let archivedEvents: Array<any> = [];
-	let events;
+	let archivedEvents: Event[] = [];
+	let events: Event[] = [];
 
 	let eventBySlug = data;
 
@@ -21,8 +45,8 @@
 		console.error('data.events is not an array');
 	}
 
-	events.forEach((event: { formSlug: any; tiers: any; place: any }) => {
-		const eventDetail = eventBySlug.eventsDetail.find(
+	events.forEach((event) => {
+		const eventDetail = eventBySlug.eventsDetail?.find(
 			(detail) => detail.formSlug === event.formSlug
 		);
 
