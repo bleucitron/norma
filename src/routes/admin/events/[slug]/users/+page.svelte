@@ -422,7 +422,6 @@
 						class="delete__modal"
 						data-user-id={user.id}
 						on:click={closeModal}
-						on:keydown={closeModal}
 						aria-hidden="true"
 					>
 						<div class="delete__container__in">
@@ -445,7 +444,6 @@
 						class="update__container"
 						data-user-id={user.id}
 						on:click={closeModal}
-						on:keydown={closeModal}
 						aria-hidden="true"
 					>
 						<div class="update__container__in">
