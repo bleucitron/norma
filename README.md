@@ -30,6 +30,20 @@ Créez un fichier .env à la racine du projet et ajoutez les clés nécessaires 
      npm run dev
      ```
 
+## Structure du projet
+```mermaid
+flowchart TD
+    CLIENT["`Client
+(.svelte-kit/output/client)`"] <--> SERVER["`Server
+(.svelte-kit/output/server)`"]
+    SERVER <--> SUPABASE[(Supabase)]
+    SERVER <--> HELLO_ASSO[Hello Asso]
+    SERVER --> EMAIL_JS1[Email JS1]
+    SERVER --> EMAIL_JS2[Email JS2]
+    ENV[Env] --> SERVER
+```
+    
+
 Vous pouvez enssuite vous rendre sur [http://localhost:5173/](http://localhost:5173/) pour voir le projet
 
 ## Ressources liées au projet
@@ -49,5 +63,5 @@ Vous pouvez enssuite vous rendre sur [http://localhost:5173/](http://localhost:5
 ## Support
 Pour toute question ou problème, veuillez consulter la page Confluence ou contacter les mainteneurs du projet.
 
-Merci de votre intérêt pour le projet Norma ! Nous espérons que cet outil facilitera la gestion des événements et contribuera au succès du festival Swing Art.
 
+Merci de votre intérêt pour le projet Norma ! Nous espérons que cet outil facilitera la gestion des événements et contribuera au succès du festival Swing Art.
