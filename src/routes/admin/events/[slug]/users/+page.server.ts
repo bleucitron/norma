@@ -33,15 +33,18 @@ export async function load({ locals, params, fetch }) {
 		return { users: filteredUsers, eventName: eventNameFromUrl, payers: [] };
 	}
 
-	const userInfosByEmail = responseData.data.reduce((acc, item) => {
-		const email = item.payer.email;
-		acc[email] = { ...item.payer, pass: item.name };
-		return acc;
-	}, {});
+	const userInfosByEmail = responseData.data.reduce(
+		(acc: { [x: string]: any }, item: { payer: { email: any }; name: any }) => {
+			const email = item.payer.email;
+			acc[email] = { ...item.payer, pass: item.name };
+			return acc;
+		},
+		{}
+	);
 
 	const mergedUsers = filteredUsers.map((user) => {
-		if (userInfosByEmail[user.email]) {
-			return { ...user, ...userInfosByEmail[user.email] };
+		if (userInfosByEmail[user.email ? user.email : '']) {
+			return { ...user, ...userInfosByEmail[user.email ? user.email : ''] };
 		}
 		return user;
 	});

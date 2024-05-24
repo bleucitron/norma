@@ -1,12 +1,12 @@
 <script lang="ts">
-	import { Role, State, Level } from '$lib/types/norma.js';
+	import { Role, State, Level, Dancer, Order } from '$lib/types/norma.js';
 	import { Circle } from 'svelte-loading-spinners';
 	import { navigating } from '$app/stores';
 
 	export let data;
 	$: event = data.event;
 	$: orders = data.orders;
-	let dancers = data.dancers;
+	let dancers = data.dancers ?? [];
 
 	$: event.totalInscrit = dancers.filter(
 		(dancer) => dancer.state === State.Inscrit && dancer.event === event.formSlug
@@ -20,17 +20,23 @@
 		(dancer) => dancer.state === State.Attente && dancer.event === event.formSlug
 	);
 
-	$: event.Débutant = event.totalInscrit.filter((dancer) => dancer.level === Level.Débutant);
-	$: event.Confirmé = event.totalInscrit.filter((dancer) => dancer.level === Level.Confirmé);
-	$: event.Expert = event.totalInscrit.filter((dancer) => dancer.level === Level.Expert);
+	$: event.Débutant = event.totalInscrit.filter(
+		(dancer: Dancer) => dancer.level === Level.Débutant
+	);
+	$: event.Confirmé = event.totalInscrit.filter(
+		(dancer: Dancer) => dancer.level === Level.Confirmé
+	);
+	$: event.Expert = event.totalInscrit.filter((dancer: Dancer) => dancer.level === Level.Expert);
 
-	$: event.totalTicket = orders.filter((order) => order.order.formSlug === event.formSlug);
+	$: event.totalTicket = orders.filter((order: Order) => order.order.formSlug === event.formSlug);
 
-	$: event.typeOfTicketByEvent = event.totalTicket.map((order) => order.name);
+	$: event.typeOfTicketByEvent = event.totalTicket.map((order: Order) => order.name);
 
-	$: event.typeOfTicketByEvent = event.typeOfTicketByEvent.filter((value, index, self) => {
-		return self.indexOf(value) === index;
-	});
+	$: event.typeOfTicketByEvent = event.typeOfTicketByEvent.filter(
+		(value: string, index: number, self: string[]) => {
+			return self.indexOf(value) === index;
+		}
+	);
 </script>
 
 {#if $navigating}

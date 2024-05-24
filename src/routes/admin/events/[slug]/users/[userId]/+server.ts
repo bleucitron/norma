@@ -2,7 +2,7 @@ import { json } from '@sveltejs/kit';
 import { State } from '$lib/types/norma';
 import { sendEmail } from '$lib/mailfunction';
 
-export async function DELETE({ locals, params }: any) {
+export async function DELETE({ locals, params }: { locals: any; params: { userId: number } }) {
 	const { userId } = params;
 
 	const { error } = await locals.supabase.from('dancers').delete().eq('id', userId);
@@ -33,7 +33,7 @@ export async function PATCH({ locals, request, params }) {
 
 	const newSate = parseInt(userData.state);
 	if (dancer?.state === State.Attente && newSate === State['Règlement en cours']) {
-		await sendEmail(userId);
+		await sendEmail(parseInt(userId));
 	}
 
 	return json({ message: "L'utilisateur a été modifié avec succès" });

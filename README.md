@@ -5,3 +5,4 @@ Lien app : https://norma-azure.vercel.app/
 
 ### Installation des dépendances : npm install 
 ### Installation du package de login supabase : npx supabase login
+### Lancement de l'application : npm run dev
