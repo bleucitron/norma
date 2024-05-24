@@ -1,3 +1,4 @@
+
 # Norma
 L'application [NORMA](https://norma-azure.vercel.app/) simplifie l’inscription à vos événements de danse préférés. Explorez une multitude d’ateliers et de soirées, inscrivez-vous à nos évènements et connectez-vous avec une communauté passionnée. Plongez dans la magie de la danse dès aujourd’hui !
 
@@ -7,6 +8,7 @@ L'application [NORMA](https://norma-azure.vercel.app/) simplifie l’inscription
 * Supabase CLI
 
 ## Installation
+
 1. **Cloner le dépôt du projet :**
    ```sh
    git clone https://github.com/your-repo/swingtime-gestion-inscriptions.git
@@ -27,6 +29,7 @@ Créez un fichier .env à la racine du projet et ajoutez les clés nécessaires 
      ```
      npm run dev
      ```
+
 Vous pouvez enssuite vous rendre sur [http://localhost:5173/](http://localhost:5173/) pour voir le projet
 
 ## Ressources liées au projet
@@ -47,3 +50,4 @@ Vous pouvez enssuite vous rendre sur [http://localhost:5173/](http://localhost:5
 Pour toute question ou problème, veuillez consulter la page Confluence ou contacter les mainteneurs du projet.
 
 Merci de votre intérêt pour le projet Norma ! Nous espérons que cet outil facilitera la gestion des événements et contribuera au succès du festival Swing Art.
+
