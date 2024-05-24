@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
 	import emailjs from '@emailjs/browser';
 	import {
 		PUBLIC_SERVICE_ID,
@@ -7,9 +7,11 @@
 	} from '$env/static/public';
 	import { toast } from '@zerodevx/svelte-toast';
 
-	function sendEmail(e) {
+	function sendEmail(e: SubmitEvent) {
+		e.preventDefault();
+		const target = e.target as HTMLFormElement;
 		emailjs
-			.sendForm(PUBLIC_SERVICE_ID, PUBLIC_REGISTER_TEMPLATE_ID, e.target, PUBLIC_EMAILJS_KEY)
+			.sendForm(PUBLIC_SERVICE_ID, PUBLIC_REGISTER_TEMPLATE_ID, target, PUBLIC_EMAILJS_KEY)
 			.then(
 				(result) => {
 					result.text === 'OK' &&

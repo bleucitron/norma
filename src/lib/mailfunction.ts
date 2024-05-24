@@ -6,7 +6,7 @@ import emailjs from '@emailjs/nodejs';
 import { PUBLIC_EMAILJS_KEY } from '$env/static/public';
 import { PRIVATE_EMAILJS_KEY } from '$env/static/private';
 
-export async function sendEmail(userId) {
+export async function sendEmail(userId: number) {
 	const { data: user, error } = await supabase
 		.from('dancers')
 		.select('*')
