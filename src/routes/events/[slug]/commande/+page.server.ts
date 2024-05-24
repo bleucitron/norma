@@ -4,9 +4,8 @@ import { get } from 'svelte/store';
 import { fail, redirect } from '@sveltejs/kit';
 import { supabase } from '$lib/supabase';
 export async function load({ params, fetch, url }) {
-	const email = url.searchParams.get('email')
-		? decodeURIComponent(url.searchParams.get('email'))
-		: '';
+	const emailParam = url.searchParams.get('email');
+	const email = emailParam ? decodeURIComponent(emailParam) : '';
 	const payForPartner = url.searchParams.get('partner');
 	const event = await fetch(
 		helloassoBaseUrl + assoSlug + '/forms/event/' + params.slug + '/public',
@@ -32,7 +31,7 @@ interface PaymentFormData {
 	payForPartner: any;
 }
 
-function formDataToPayment(formData: FormData, url): PaymentFormData {
+function formDataToPayment(formData: FormData, url: URL): PaymentFormData {
 	const tiers = formData.get('tiers');
 	if (!tiers) {
 		throw new Error('Billet non choisi');
@@ -53,10 +52,8 @@ function formDataToPayment(formData: FormData, url): PaymentFormData {
 export const actions = {
 	default: async ({ params, request, url }) => {
 		const formData = await request.formData();
-		console.log(url.searchParams.get('email'));
-		const email = url.searchParams.get('email')
-			? decodeURIComponent(url.searchParams.get('email'))
-			: '';
+		const emailParam = url.searchParams.get('email');
+		const email = emailParam ? decodeURIComponent(emailParam) : '';
 
 		let paymentData;
 		try {
