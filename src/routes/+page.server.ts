@@ -1,7 +1,7 @@
 import { access_token } from '$lib/server/accessToken';
 import { get } from 'svelte/store';
 import { assoSlug, helloassoBaseUrl } from '$lib';
-export async function load({ fetch }) {
+export async function load({ fetch }: { fetch: typeof window.fetch }) {
 	const eventsResponse = await fetch(
 		helloassoBaseUrl + assoSlug + '/forms?pageIndex=1&pageSize=20&formTypes=event',
 		{
