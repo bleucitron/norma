@@ -41,7 +41,19 @@ Créez un fichier .env à la racine du projet et ajoutez les clés nécessaires 
      ```
      npm run dev
      ```
-
+## Structure du projet
+```mermaid
+flowchart TD
+    CLIENT["`Client
+(.svelte-kit/output/client)`"] <--> SERVER["`Server
+(.svelte-kit/output/server)`"]
+    SERVER <--> SUPABASE[(Supabase)]
+    SERVER <--> HELLO_ASSO[Hello Asso]
+    SERVER --> EMAIL_JS1[Email JS1]
+    SERVER --> EMAIL_JS2[Email JS2]
+    ENV[Env] --> SERVER
+```
+    
 ## Fonctionnalités
 
 - **Gestion des Inscriptions** : Interface pour visualiser et administrer les inscriptions au festival.
