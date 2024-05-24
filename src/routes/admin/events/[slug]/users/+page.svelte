@@ -404,15 +404,15 @@
 			{:else}
 				{#each filteredUsers as user}
 					<tr>
-						<td>{user.lastname}</td>
-						<td>{user.firstname}</td>
+						<td>{user.lastname ? user.lastname : '-'}</td>
+						<td>{user.firstname ? user.firstname : '-'}</td>
 						<td>{user.email}</td>
 						<td>{mapRole(user.role)}</td>
 						<td>{mapLevel(user.level)}</td>
 						<td>{mapState(user.state)}</td>
 						<td>{formatToFrenchDate(user.created_at)}</td>
-						<td>{user.pass_name ? user.pass_name : ''}</td>
-						<td>{user.updated_at ? formatToFrenchDate(user.updated_at) : ''}</td>
+						<td>{user.pass_name ? user.pass_name : '-'}</td>
+						<td>{user.updated_at ? formatToFrenchDate(user.updated_at) : '-'}</td>
 						<td class="updateBtn">
 							<button class="btn" on:click={() => openUpdate(user)}>Modifier</button>
 							<button class="btn" on:click={() => openDelete(user)}>Supprimer</button>
