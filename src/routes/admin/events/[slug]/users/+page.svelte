@@ -79,8 +79,8 @@
 			});
 		} else if (column === 'pass') {
 			sortedUsers = filteredUsers.slice().sort((a, b) => {
-				const valueA = a.pass ? a.pass.toLowerCase() : '';
-				const valueB = b.pass ? b.pass.toLowerCase() : '';
+				const valueA = a.pass_name ? a.pass_name.toLowerCase() : '';
+				const valueB = b.pass_name ? b.pass_name.toLowerCase() : '';
 				return sortOrder * valueA.localeCompare(valueB);
 			});
 		} else if (column === 'level') {
@@ -383,9 +383,10 @@
 					<span class:desc={sortOrder === -1 && sortColumn === 'created_at'} class="sort-icon"
 					></span>
 				</th>
-				<th on:click={() => toggleSort('pass')}>
+				<th on:click={() => toggleSort('pass_name')}>
 					Pass
-					<span class:desc={sortOrder === -1 && sortColumn === 'pass'} class="sort-icon"></span>
+					<span class:desc={sortOrder === -1 && sortColumn === 'pass_name'} class="sort-icon"
+					></span>
 				</th>
 				<th on:click={() => toggleSort('updated_at')}>
 					Dernière modification
@@ -410,7 +411,7 @@
 						<td>{mapLevel(user.level)}</td>
 						<td>{mapState(user.state)}</td>
 						<td>{formatToFrenchDate(user.created_at)}</td>
-						<td>{user.pass ? user.pass : 'pass non disponible'}</td>
+						<td>{user.pass_name ? user.pass_name : ''}</td>
 						<td>{formatToFrenchDate(user.updated_at)}</td>
 						<td class="updateBtn">
 							<button class="btn" on:click={() => openUpdate(user)}>Modifier</button>
