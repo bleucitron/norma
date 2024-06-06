@@ -1,11 +1,11 @@
 <script lang="ts">
-	import { Role, State, Level, Dancer, Order } from '$lib/types/norma.js';
+	import { Role, State, Level } from '$lib/types/norma.js';
+	import type { Dancer } from '$lib/types/norma.js';
 	import { Circle } from 'svelte-loading-spinners';
 	import { navigating } from '$app/stores';
 
 	export let data;
 	$: event = data.event;
-	$: orders = data.orders;
 	let dancers = data.dancers ?? [];
 
 	$: event.totalInscrit = dancers.filter(
@@ -28,9 +28,7 @@
 	);
 	$: event.Expert = event.totalInscrit.filter((dancer: Dancer) => dancer.level === Level.Expert);
 
-	$: event.totalTicket = orders.filter((order: Order) => order.order.formSlug === event.formSlug);
-
-	$: event.typeOfTicketByEvent = event.totalTicket.map((order: Order) => order.name);
+	$: event.typeOfTicketByEvent = event.totalInscrit.map((order: any) => order.pass_name);
 
 	$: event.typeOfTicketByEvent = event.typeOfTicketByEvent.filter(
 		(value: string, index: number, self: string[]) => {

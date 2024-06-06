@@ -6,7 +6,7 @@ export async function load({ params, fetch, locals }) {
 	try {
 		const slug = params.slug;
 
-		const [events, event, orders] = await Promise.all([
+		const [events, event] = await Promise.all([
 			fetch(helloassoBaseUrl + assoSlug + '/forms?pageIndex=1&pageSize=20&formTypes=event', {
 				method: 'GET',
 				headers: {
@@ -21,16 +21,7 @@ export async function load({ params, fetch, locals }) {
 				headers: {
 					authorization: 'Bearer ' + get(access_token)
 				}
-			}).then((response) => response.json()),
-
-			fetch(helloassoBaseUrl + assoSlug + '/items', {
-				method: 'GET',
-				headers: {
-					authorization: 'Bearer ' + get(access_token)
-				}
-			})
-				.then((response) => response.json())
-				.then((result) => result.data)
+			}).then((response) => response.json())
 		]);
 
 		const { data: dancers, error } = await locals.supabase.from('dancers').select('*');
@@ -43,8 +34,7 @@ export async function load({ params, fetch, locals }) {
 		return {
 			event,
 			events,
-			dancers,
-			orders
+			dancers
 		};
 	} catch (error) {
 		console.error('Error in load function', error);
